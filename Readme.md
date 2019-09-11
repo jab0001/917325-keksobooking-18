@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Лотонин](https://up.htmlacademy.ru/javascript/18/user/917325).
-* Наставник: `Неизвестно`.
+* Наставник: [Артем Макаров](https://up.htmlacademy.ru/adaptive/17/user/429879).
 
 ---
 
