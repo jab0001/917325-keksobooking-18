@@ -23,7 +23,7 @@ var getRandomElement = function (min, max) {
 };
 
 var PHOTOS = [];
-for (var k = 0; k < 3; k++) {
+for (var k = 0; k < 8; k++) {
   PHOTOS.push(getRandomArrayElement(OFFER_PHOTOS));
 }
 
@@ -58,8 +58,6 @@ var objects = [];
 for (var i = 0; i < OFFER_AMOUNTS; i++) {
   objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_FEATURES, PHOTOS, OFFER_TIME));
 }
-
-console.log(objects);
 
 var renderPinFromTemplate = function (offers) {
   var pin = pinTemplate.cloneNode(true);
