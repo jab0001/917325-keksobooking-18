@@ -22,10 +22,12 @@ var getRandomElement = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var getObjMock = function (author, title, type, rooms, guests, features, photos, time) {
-  photos.forEach(function (PhotNumbs) {
-    return PhotNumbs;
-  });
+var photos = [];
+for (var i = 0; i < OFFER_PHOTOS.length; i++) {
+  photos.push(getRandomArrayElement(OFFER_PHOTOS));
+}
+
+var getObjMock = function (author, title, type, rooms, guests, features, photo, time) {
   var offerAdress = [getRandomElement(20, 80), getRandomElement(130, 630)];
   var object = ({
     author: {
@@ -42,7 +44,7 @@ var getObjMock = function (author, title, type, rooms, guests, features, photos,
       checkout: getRandomArrayElement(time),
       features: getRandomArrayElement(features),
       description: title,
-      photos: photos
+      photos: photo
     },
     location: {
       x: offerAdress[0],
@@ -53,8 +55,8 @@ var getObjMock = function (author, title, type, rooms, guests, features, photos,
 };
 
 var objects = [];
-for (var i = 0; i < OFFER_AMOUNTS; i++) {
-  objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_FEATURES, OFFER_PHOTOS, OFFER_TIME));
+for (var k = 0; k < OFFER_AMOUNTS; k++) {
+  objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_FEATURES, photos, OFFER_TIME));
 }
 
 var renderPinFromTemplate = function (offers) {
