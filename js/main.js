@@ -44,7 +44,7 @@ var getObjMock = function (author, title, type, rooms, guests, features, photos,
       checkout: getRandomArrayElement(time),
       features: getRandomArrayElement(features),
       description: title,
-      photos: PHOTOS
+      photos: photos
     },
     location: {
       x: offerAdress[0],
