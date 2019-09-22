@@ -6,7 +6,6 @@ var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var OFFER_ROOMS = [1, 2, 3, 100];
 var OFFER_GUESTS = [1, 2, 3, 0];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var OFFER_TIME = ['12:00', '13:00', '14:00'];
 var pinTemplate = document.querySelector('#pin')
   .content
@@ -23,10 +22,14 @@ var getRandomElement = function (min, max) {
 };
 
 var randomPhot = function (offerPhoto) {
-  var randomPhotosLength = getRandomElement(1, offerPhoto.length);
-  var randomPhotos = [];
+  var randomPhotosLength = getRandomElement(1, offerPhoto);
+  var arrayPhots = [];
   for (var i = 0; i < randomPhotosLength; i++) {
-    randomPhotos.push(getRandomArrayElement(offerPhoto));
+    arrayPhots.push('http://o0.github.io/assets/images/tokyo/hotel' + (i + 1) + '.jpg');
+  }
+  var randomPhotos = [];
+  for (var j = 0; j < randomPhotosLength; j++) {
+    randomPhotos.push(getRandomArrayElement(arrayPhots));
   }
   return randomPhotos;
 };
@@ -60,9 +63,8 @@ var getObjMock = function (author, title, type, rooms, guests, phot, features, t
 
 var objects = [];
 for (var i = 0; i < OFFER_AMOUNTS; i++) {
-  objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_PHOTOS, OFFER_FEATURES, OFFER_TIME));
+  objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, 4, OFFER_FEATURES, OFFER_TIME));
 }
-
 
 var renderPinFromTemplate = function (offers) {
   var pin = pinTemplate.cloneNode(true);
