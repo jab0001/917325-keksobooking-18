@@ -24,11 +24,9 @@ var getRandomElement = function (min, max) {
 var randomPhot = function (offerPhoto) {
   var randomPhotosLength = getRandomElement(1, offerPhoto);
   var arrayPhots = [];
-  for (var i = 0; i < randomPhotosLength; i++) {
-    arrayPhots.push('http://o0.github.io/assets/images/tokyo/hotel' + (i + 1) + '.jpg');
-  }
   var randomPhotos = [];
   for (var j = 0; j < randomPhotosLength; j++) {
+    arrayPhots.push('http://o0.github.io/assets/images/tokyo/hotel' + (j + 1) + '.jpg');
     randomPhotos.push(getRandomArrayElement(arrayPhots));
   }
   return randomPhotos;
