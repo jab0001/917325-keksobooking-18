@@ -48,7 +48,7 @@ var getObjMock = function (author, title, types, rooms, guests, pictures, featur
     },
     offer: {
       title: title,
-      address: offerAdress[0] + ', ' + offerAdress[1],
+      address: offerAdress.join(','),
       price: getRandomElement(1000, 10000),
       type: getRandomArrayElement(types),
       rooms: getRandomArrayElement(rooms),
