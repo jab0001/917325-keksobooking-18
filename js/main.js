@@ -23,11 +23,12 @@ var getRandomElement = function (min, max) {
 };
 
 var randomPhot = function (offer) {
-  var photos = [];
-  for (var j = getRandomElement(0, 2); j < offer.length; j++) {
-    photos.push(getRandomArrayElement(offer));
+  var randomPhotosLength = getRandomElement(1, offer.length);
+  var randomPhotos = [];
+  for (var i = 0; i < randomPhotosLength; i++) {
+    randomPhotos.push(getRandomArrayElement(offer));
   }
-  return photos;
+  return randomPhotos;
 };
 
 var getObjMock = function (author, title, type, rooms, guests, phot, features, time) {
@@ -61,6 +62,8 @@ var objects = [];
 for (var i = 0; i < OFFER_AMOUNTS; i++) {
   objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_PHOTOS, OFFER_FEATURES, OFFER_TIME));
 }
+
+console.log(objects);
 
 var renderPinFromTemplate = function (offers) {
   var pin = pinTemplate.cloneNode(true);
