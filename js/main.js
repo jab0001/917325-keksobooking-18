@@ -22,11 +22,11 @@ var getRandomElement = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var randomPhot = function (offer) {
-  var randomPhotosLength = getRandomElement(1, offer.length);
+var randomPhot = function (offerPhoto) {
+  var randomPhotosLength = getRandomElement(1, offerPhoto.length);
   var randomPhotos = [];
   for (var i = 0; i < randomPhotosLength; i++) {
-    randomPhotos.push(getRandomArrayElement(offer));
+    randomPhotos.push(getRandomArrayElement(offerPhoto));
   }
   return randomPhotos;
 };
@@ -63,7 +63,6 @@ for (var i = 0; i < OFFER_AMOUNTS; i++) {
   objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_PHOTOS, OFFER_FEATURES, OFFER_TIME));
 }
 
-console.log(objects);
 
 var renderPinFromTemplate = function (offers) {
   var pin = pinTemplate.cloneNode(true);
