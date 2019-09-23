@@ -63,7 +63,7 @@ var getObjMock = function (author, title, types, rooms, guests, pictures, featur
     },
     offer: {
       title: title,
-      address: offerAdress[0] + ', ' + offerAdress[1],
+      address: offerAdress.join(' ,'),
       price: getRandomElement(1000, 10000),
       type: getRandomArrayElement(Object.values(types)),
       rooms: getRandomArrayElement(rooms),
@@ -120,9 +120,9 @@ var getOfferWindow = function (completedCards) {
   offerValue.querySelector('.popup__type').textContent = completedCards.offer.type;
   offerValue.querySelector('.popup__text--capacity').textContent = completedCards.offer.rooms + ' комнаты для ' + completedCards.offer.guests + ' гостей';
   offerValue.querySelector('.popup__text--time').textContent = 'Заезд после ' + completedCards.offer.checkin + ' , выезд до ' + completedCards.offer.checkout;
-  offerValue.querySelector('.popup__features').innerHTML = completedCards.offer.features;
+  offerValue.querySelector('.popup__features').innerHTML = (completedCards.offer.features).join('');
   offerValue.querySelector('.popup__description').textContent = completedCards.offer.description;
-  offerValue.querySelector('.popup__photos').innerHTML = completedCards.offer.photos;
+  offerValue.querySelector('.popup__photos').innerHTML = (completedCards.offer.photos).join('');
   offerValue.querySelector('.popup__avatar').src = completedCards.author.avatar;
 
   return offerValue;
