@@ -52,7 +52,8 @@ var getRandomFeatures = function (offerFeatures) {
   for (var i = 0; i < randomFeaturesLength; i++) {
     randomFeatures.push('<li class="popup__feature popup__feature--' + getRandomArrayElement(offerFeatures) + '"></li>');
   }
-  return randomFeatures;
+  var uniq = Array.from(new Set(randomFeatures));
+  return uniq;
 };
 
 var getObjMock = function (author, title, types, rooms, guests, pictures, features, times) {
