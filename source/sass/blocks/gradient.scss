@@ -1,0 +1,31 @@
+@media (min-width: $tablet-width) {
+  .gradient {
+    &--index {
+      background: linear-gradient(white 0%, white 88px, #ececec 88px, #ececec 89px, #f9f9f9 89px, #f9f9f9 746px, white 746px, white 100%);
+    }
+
+    &--catalog {
+      background: linear-gradient(white 0%, white 88px, #ececec 88px, #ececec 89px, #f1f1f1 89px, #f1f1f1 312px, white 312px, white 100%);
+    }
+
+    &--form {
+      background: linear-gradient(white 0%, white 88px, #ececec 88px, #ececec 89px, #f1f1f1 89px, #f1f1f1 312px, white 312px, white 681px, #f1f1f1 681px, #f1f1f1 987px, white 987px, white 1290px, #f1f1f1 1290px, #f1f1f1 1518px, white 1518px, white 100%);
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .gradient {
+    &--index {
+      background: linear-gradient(white 0%, white 88px, #ececec 88px, #ececec 89px, #f9f9f9 89px, #f9f9f9 832px, white 832px, white 100%);
+    }
+
+    &--catalog {
+      background: linear-gradient(white 0%, white 88px, #ececec 88px, #ececec 89px, #f1f1f1 89px, #f1f1f1 338px, white 338px, white 100%);
+    }
+
+    &--form {
+      background: linear-gradient(white 0%, white 88px, #ececec 88px, #ececec 89px, #f1f1f1 89px, #f1f1f1 338px, white 338px, white 754px, #f1f1f1 754px, #f1f1f1 986px, white 986px, white 1290px, #f1f1f1 1290px, #f1f1f1 1518px, white 1518px, white 100%);
+    }
+  }
+}

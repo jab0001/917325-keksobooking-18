@@ -1,0 +1,405 @@
+.main-nav {
+  position: relative;
+
+  width: 320px;
+  margin: 0 auto;
+}
+
+.main-nav__list {
+  margin: 0;
+  padding: 0;
+
+
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.41;
+  text-align: left;
+
+
+  list-style: none;
+}
+
+.main-nav__link {
+  color: $color-dark;
+  fill: rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  &:focus,
+  &:active {
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  &--buy:hover,
+  &--search:hover {
+    fill: $btn-color;
+  }
+
+  &--buy:focus,
+  &--search:focus,
+  &--buy:active,
+  &--search:active {
+    fill: $btn-color;
+    opacity: 0.3;
+  }
+}
+
+.main-nav__item {
+  position: relative;
+}
+
+.main-nav__img {
+  position: absolute;
+  top: 31px;
+  left: 33px;
+}
+
+.main-nav--closed .main-nav__toggle {
+  position: absolute;
+  top: -46px;
+  right: 31px;
+  z-index: 2;
+  width: 20px;
+  height: 14px;
+
+  border: none;
+  background-color: #ffffff;
+  background-image: url("../img/icon-menu-open.svg");
+
+  cursor: pointer;
+}
+
+.main-nav--opened .main-nav__toggle {
+  position: absolute;
+  top: -49px;
+  right: 33px;
+  z-index: 2;
+  width: 21px;
+  height: 21px;
+
+  border: none;
+  background-color: #ffffff;
+  background-image: url("../img/icon-menu-close.svg");
+
+  cursor: pointer;
+}
+
+@media (max-width: $mobile-width) {
+  .main-nav--no-js .main-nav__list {
+    display: block;
+  }
+
+  .main-nav--no-js .main-nav__toggle {
+    display: none;
+  }
+
+  .main-nav--closed .main-nav__list {
+    display: none;
+  }
+
+  .main-nav--opened .main-nav__list {
+    display: block;
+  }
+
+  .main-nav__link {
+    display: block;
+
+    padding-top: 26px;
+    padding-bottom: 28px;
+    padding-left: 76px;
+
+    box-shadow: 0 1px 0 0 #ececec, inset 0 1px 0 0 #ececec;
+
+    &--new {
+      display: none;
+    }
+
+    &--sale {
+      display: none;
+    }
+
+    &--delivery {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .main-nav__img {
+    top: 36px;
+    left: 32px;
+  }
+
+  .main-nav {
+    width: 768px;
+  }
+
+  .main-nav__toggle {
+    display: none;
+  }
+
+  .main-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+
+  .main-nav__item {
+    &--search {
+      order: 1;
+
+      width: 82px;
+      height: 88px;
+      margin-left: 370px;
+
+      border-left: 1px solid #ececec;
+    }
+
+    &--buy {
+      order: 2;
+      width: 312px;
+      height: 88px;
+
+      border-left: 1px solid #ececec;
+    }
+
+    &--catalog {
+      order: 3;
+
+      padding-left: 15px;
+
+      border-top: 1px solid #ececec;
+    }
+
+    &--knitting {
+      order: 4;
+
+      border-top: 1px solid #ececec;
+    }
+
+    &--delivery {
+      width: 410px;
+
+      border-top: 1px solid #ececec;
+
+      order: 7;
+    }
+
+    &--new {
+      display: none;
+    }
+
+    &--sale {
+      display: none;
+    }
+  }
+
+  .main-nav__link {
+    display: block;
+    padding-left: 35px;
+    padding-top: 16px;
+
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.6;
+    text-align: left;
+    color: $color-dark;
+
+    &--delivery {
+      margin-left: 100px;
+
+      font-weight: normal;
+      color: $color-bright;
+    }
+
+    &--buy {
+      width: 282px;
+      height: 57px;
+      padding-top: 31px;
+      padding-left: 32px;
+
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.41;
+      text-align: center;
+      color: $color-dark;
+    }
+
+    &--search {
+      margin: 0;
+      padding: 0;
+
+      width: 82px;
+      height: 88px;
+    }
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    &:focus,
+    &:active {
+      color: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .main-nav__text {
+    display: none;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main-nav {
+    width: 1150px;
+  }
+
+  .main-nav__toggle {
+    display: none;
+  }
+
+  .main-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+
+  .main-nav__item {
+    margin-right: 36px;
+
+    &--search {
+      order: 3;
+
+      width: 82px;
+      height: 88px;
+      margin: 0;
+      margin-left: 290px;
+    }
+
+    &--buy {
+      width: 279px;
+      height: 88px;
+
+      order: 4;
+    }
+
+    &--catalog {
+      background: none;
+
+      order: 1;
+    }
+
+    &--knitting {
+      background: none;
+
+      border-left: 1px solid #ececec;
+
+      order: 2;
+    }
+
+    &--delivery {
+      margin: 0;
+
+      order: 7;
+
+      flex-grow: 1;
+    }
+
+    &--new {
+      display: block;
+      margin: 0;
+
+      border-top: 1px solid #ececec;
+
+      order: 5;
+    }
+
+    &--sale {
+      display: block;
+      margin: 0;
+
+      border-top: 1px solid #ececec;
+
+      order: 6;
+    }
+  }
+
+  .main-nav__link {
+    display: block;
+    padding-top: 30px;
+    padding-left: 34px;
+    padding-bottom: 32px;
+
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.41;
+    text-align: left;
+
+    &--delivery {
+      width: 235px;
+      padding-top: 17px;
+      padding-bottom: 20px;
+      padding-right: 50px;
+      margin-left: auto;
+
+      font-size: 15px;
+      font-weight: normal;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    &--buy {
+      width: 279px;
+      height: 57px;
+      padding-bottom: 0;
+
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.41;
+      text-align: center;
+      color: $color-dark;
+    }
+
+    &--new {
+      padding-top: 17px;
+      padding-bottom: 20px;
+      padding-left: 50px;
+
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    &--sale {
+      padding-top: 17px;
+      padding-bottom: 20px;
+      padding-left: 25px;
+      margin-left: 36px;
+
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    &--search {
+      margin: 0;
+      padding: 0;
+    }
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    &:focus,
+    &:active {
+      color: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .main-nav__text {
+    display: none;
+  }
+}

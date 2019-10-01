@@ -1,0 +1,38 @@
+body {
+  min-width: 320px;
+  margin: 0;
+  padding: 0;
+
+  font-family: "OpenSans", "Arial", sans-serif;
+  font-style: normal;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 2;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.vissually-hidden:not(:focus):not(:active),
+input[type="checkbox"].vissually-hidden,
+input[type="radio"].vissually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+
+  white-space: nowrap;
+
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
