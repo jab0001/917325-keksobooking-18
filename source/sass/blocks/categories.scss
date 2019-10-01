@@ -1,0 +1,183 @@
+.categories {
+  width: 320px;
+  margin: 0 auto;
+  margin-top: 124px;
+}
+
+.categories__item {
+  list-style: none;
+
+  &--interior {
+    background-color: $hvr-btn-color;
+  }
+
+  &--toys {
+    background-color: $hvr-scnd-btn-color;
+  }
+}
+
+.categories__list {
+  margin: 0;
+  padding: 0;
+}
+
+.categories__link--interior {
+  background-color: $btn-color;
+
+  &:hover {
+    padding-top: 20px;
+    height: 83px;
+
+    top: -5px;
+
+    background-color: $hvr-btn-color;
+  }
+
+  &:focus,
+  &:active {
+    background-color: $hvr-btn-color;
+  }
+}
+
+.categories__link--toys {
+  background-color: $scnd-btn-color;
+
+  &:hover {
+    padding-top: 20px;
+    height: 83px;
+
+    top: -5px;
+
+    background-color: $hvr-scnd-btn-color;
+  }
+
+  &:focus,
+  &:active {
+    background-color: $hvr-scnd-btn-color;
+  }
+}
+
+.categories__link {
+  display: block;
+  position: relative;
+  height: 75px;
+  box-sizing: content-box;
+  padding-left: 29px;
+  padding-top: 27px;
+  padding-right: 185px;
+
+  font-size: 19px;
+  font-weight: bold;
+  line-height: 1.26;
+  text-align: left;
+  color: #ffffff;
+
+  &:hover svg {
+    opacity: 0.7;
+  }
+
+  &:focus svg,
+  &:active svg {
+    opacity: 0.3;
+  }
+
+  &:focus,
+  &:active {
+    color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.categories__img {
+  &--interior {
+    position: absolute;
+    width: 40px;
+    height: 62px;
+    top: 23px;
+    right: 36px;
+
+    fill: #149080;
+  }
+
+  &--toys {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    top: 21px;
+    right: 27px;
+
+    fill: #149080;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .categories {
+    width: 768px;
+  }
+
+  .categories__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 374px;
+    margin-left: 50px;
+  }
+
+  .categories__item {
+    width: 334px;
+    height: 119px;
+  }
+
+  .categories__link {
+    padding-left: 36px;
+    padding-top: 27px;
+    padding-bottom: 16px;
+
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+
+  .categories__img {
+    &--interior {
+      top: 29px;
+      right: 36px;
+    }
+
+    &--toys {
+      top: 31px;
+      right: 34px;
+    }
+  }
+
+  .categories__link--interior {
+    &:hover {
+      top: -5px;
+      padding-bottom: 21px;
+    }
+  }
+
+  .categories__link--toys {
+    &:hover {
+      top: -5px;
+      padding-bottom: 21px;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .categories {
+    width: 1150px;
+  }
+
+  .categories__list {
+    margin-top: 359px;
+    margin-left: 50px;
+  }
+
+  .categories__item {
+    width: 525px;
+  }
+
+  .categories__link {
+    padding-right: 395px;
+  }
+}

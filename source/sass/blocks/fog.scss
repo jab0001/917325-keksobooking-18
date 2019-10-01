@@ -1,0 +1,18 @@
+.fog {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  top: 0;
+  right: 0;
+
+  opacity: 0.9;
+  background: #ffffff;
+
+  z-index: 6;
+}
+
+.fog--active {
+  display: block;
+}

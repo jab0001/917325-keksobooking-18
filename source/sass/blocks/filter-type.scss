@@ -1,0 +1,170 @@
+.filter-type {
+  margin: 0;
+  padding: 0;
+
+  border: none;
+}
+
+.filter-type__name {
+  position: relative;
+
+  font-size: 19px;
+  font-weight: bold;
+  line-height: 0.94;
+  text-align: left;
+
+  color: $btn-color;
+
+  &::after {
+    content: "";
+
+    position: absolute;
+    width: 198px;
+    height: 1px;
+
+    top: 10px;
+    left: 62px;
+
+    background-color: $btn-color;
+  }
+}
+
+.filter-type__toggles {
+  margin: 0;
+  padding: 0;
+  margin-top: 36px;
+
+  list-style: none;
+}
+
+.filter-type__option {
+  position: relative;
+  width: 155px;
+  margin-top: 24px;
+  margin-left: 62px;
+
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.06;
+  text-align: left;
+
+  color: $color-dark;
+}
+
+.filter-type__label {
+  position: relative;
+
+  &::after {
+    content: "";
+
+    position: absolute;
+    width: 36px;
+    height: 36px;
+
+    top: -7px;
+    left: -62px;
+
+    border-radius: 50%;
+    border: solid 2px $color-dark;
+
+    cursor: pointer;
+  }
+
+  &:hover::after {
+    border: solid 2px $btn-color;
+  }
+
+  &:active::after {
+    border: solid 2px #c8c8c8;
+  }
+}
+
+.filter-type__input:checked + .filter-type__label {
+  &::before {
+    content: "";
+
+    position: absolute;
+    width: 16px;
+    height: 16px;
+
+    top: 5px;
+    left: -50px;
+
+    border-radius: 50%;
+    background-color: $btn-color;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .filter-type {
+    position: relative;
+    width: 665px;
+    margin: 0 auto;
+  }
+
+  .filter-type__name {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .filter-type__toggles {
+    margin: 0;
+    padding: 0;
+  }
+
+  .filter-type__option {
+    margin: 0;
+    padding: 0;
+    width: 255px;
+    margin-left: 246px;
+    margin-bottom: 58px;
+
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 0.95;
+    text-align: left;
+    color: $color-dark;
+  }
+
+  .filter-type__label {
+    &::after {
+      width: 49px;
+      height: 49px;
+
+      top: -12px;
+      left: -82px;
+    }
+  }
+
+  .filter-type__input:checked + .filter-type__label {
+    &::before {
+      content: "";
+
+      position: absolute;
+      width: 20px;
+      height: 20px;
+
+      top: 5px;
+      left: -65px;
+
+      border-radius: 50%;
+      background-color: $btn-color;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .filter-type {
+    margin-left: 113px;
+  }
+
+  .filter-type__option {
+    margin-left: 193px;
+  }
+}
