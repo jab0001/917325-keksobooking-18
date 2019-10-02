@@ -33,7 +33,7 @@ var getRandomElement = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var getRandomPhot = function (offerPhoto) {
+var getRandomPhoto = function (offerPhoto) {
   var randomPhotosLength = getRandomElement(1, offerPhoto);
   var randomPhotos = [];
   for (var i = 0; i < randomPhotosLength; i++) {
@@ -78,7 +78,7 @@ var getObjMock = function (author, title, types, rooms, guests, pictures, featur
       checkout: getRandomArrayElement(times),
       features: getFeaturesSingleElem(getRandomFeatures(features)),
       description: title,
-      photos: getRandomPhot(pictures)
+      photos: getRandomPhoto(pictures)
     },
     location: {
       x: offerAdress[0],
@@ -117,7 +117,7 @@ var renderPins = function (arr) {
 var pinContainerElem = mapItem.querySelector('.map__pins');
 pinContainerElem.appendChild(renderPins(objects));
 
-var getOfferWindow = function (completedCards) {
+var getOfferPopup = function (completedCards) {
   var offerValue = cardTemplate.cloneNode(true);
 
   offerValue.querySelector('.popup__title').textContent = completedCards.offer.title;
@@ -135,52 +135,60 @@ var getOfferWindow = function (completedCards) {
 };
 
 var filtersContainerValues = mapItem.querySelector('.map__filters-container');
-mapItem.insertBefore(getOfferWindow(objects[0]), filtersContainerValues);
+mapItem.insertBefore(getOfferPopup(objects[0]), filtersContainerValues);
 
-var pageActivated = mapItem.querySelector('.map__pin--main');
+var mapPin = mapItem.querySelector('.map__pin--main');
 var formItem = document.querySelector('.ad-form');
-var mapFormActivated = document.getElementsByTagName('select');
-var pageFormActivated = document.getElementsByTagName('fieldset');
+var mapSelects = document.getElementsByTagName('select');
+var mapFieldsets = document.getElementsByTagName('fieldset');
 var addressCoordinate = document.querySelector('input[name="address"]');
-var addressOfMark = [pageActivated.style.left, pageActivated.style.top];
+var addressOfMark = [mapPin.style.left, mapPin.style.top];
 var roomsNumber = document.querySelector('select[name="rooms"]');
 var capacityNumber = document.querySelector('select[name="capacity"]');
 
-var getSelectActivated = function (select) {
+var activateSelects = function (select) {
   for (var k = 0; k < select.length; k++) {
     select[k].removeAttribute('disabled');
   }
 };
 
-var getFieldsetActivated = function (fieldset) {
+var activateFieldsets = function (fieldset) {
   for (var k = 0; k < fieldset.length; k++) {
     fieldset[k].removeAttribute('disabled');
   }
 };
 
-var makeActivePage = function () {
+var makePageActive = function () {
   mapItem.classList.remove('map--faded');
   formItem.classList.remove('ad-form--disabled');
-  getSelectActivated(mapFormActivated);
-  getFieldsetActivated(pageFormActivated);
+  activateFieldsets(mapSelects);
+  activateSelects(mapFieldsets);
 };
 
-pageActivated.addEventListener('mousedown', function (evt) {
+mapPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
-  makeActivePage();
+  makePageActive();
   addressCoordinate.placeholder = addressOfMark.join(' ,');
 
 });
 
-pageActivated.addEventListener('keydown', function (evt) {
+mapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEY) {
-    makeActivePage();
+    makePageActive();
   }
 });
 
 var checkCapacityAndRooms = function () {
-  if (roomsNumber.value !== capacityNumber.value) {
-    roomsNumber.setCustomValidity('для 2 гостей нужно 2 комнаты');
+  var rooms = roomsNumber.value;
+  var capacity = capacityNumber.value;
+  if (rooms < capacity) {
+    roomsNumber.setCustomValidity('для гостей нужно больше комнат');
+  } else if (rooms === 100 && capacity !== 0) {
+    roomsNumber.setCustomValidity('для комерческого помещения нужно выбрать 0 гостей');
+  } else if (rooms !== 100 && capacity === 0) {
+    roomsNumber.setCustomValidity('для 0 гостей нужно выбрать комерческое помещение');
+  } else if (rooms === 100 && capacity === 0) {
+    roomsNumber.setCustomValidity('');
   } else {
     roomsNumber.setCustomValidity('');
   }
