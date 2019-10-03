@@ -171,12 +171,14 @@ var makePageActive = function () {
   activateFieldsets(mapSelects);
   activateSelects(mapFieldsets);
   pinContainerElem.appendChild(renderPins(objects));
+  console.log(mapPinOffer);
   mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
   mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
   for (var k = 0; k < mapPinOffer.length; k++) {
     mapPinOffer[k].addEventListener('mousedown', function (evt) {
+      var pinNumber = +(evt.target.src.substring(46, evt.target.src.length - 4));
       evt.preventDefault();
-      mapItem.insertBefore(getOfferPopup(objects[k]), filtersContainerValues);
+      mapItem.insertBefore(getOfferPopup(objects[pinNumber - 1]), filtersContainerValues);
     });
   };
 };
