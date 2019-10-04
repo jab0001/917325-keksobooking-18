@@ -51,7 +51,7 @@ var getRandomFeatures = function (offerFeatures) {
   return randomFeatures;
 };
 
-var getFeaturesSingleElem = function (randomFeaturesArray) {
+var getFeaturesSingleElement = function (randomFeaturesArray) {
   var singleFeatArray = [];
   for (var i = 0; i < randomFeaturesArray.length; i++) {
     if (singleFeatArray.indexOf(randomFeaturesArray[i]) < 0) {
@@ -76,7 +76,7 @@ var getObjMock = function (author, title, types, rooms, guests, pictures, featur
       guests: getRandomArrayElement(guests),
       checkin: getRandomArrayElement(times),
       checkout: getRandomArrayElement(times),
-      features: getFeaturesSingleElem(getRandomFeatures(features)),
+      features: getFeaturesSingleElement(getRandomFeatures(features)),
       description: title,
       photos: getRandomPhoto(pictures)
     },
@@ -146,11 +146,17 @@ var mapPinOffer = pinContainerElem.getElementsByTagName('button');
 var PIN_HEIGHT = 22;
 
 var getAdressOfMark = function () {
-  var mapPinLeft = +(mapPin.style.left.substring(0, mapPin.style.left.length - 2));
-  var mapPinTop = +(mapPin.style.top.substring(0, mapPin.style.top.length - 2));
+  var mapPinLeft = +(mapPin.style.left.replace('px', ''));
+  var mapPinTop = +(mapPin.style.top.replace('px', ''));
   var mapPinX = Math.round(mapPinLeft + mapPin.offsetWidth / 2);
   var mapPinY = Math.round(mapPinTop + (mapPin.offsetHeight + PIN_HEIGHT));
-  addressCoordinate.value = mapPinX + ', ' + mapPinY;
+  addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
+  addressCoordinate.setAttribute('disabled', true);
+}
+
+var getPhotoName = function (photo) {
+  var result = photo.replace(/^.*[\\\/]/, '');
+  return result;
 }
 
 var activateSelects = function (select) {
@@ -165,34 +171,68 @@ var activateFieldsets = function (fieldset) {
   }
 };
 
+var mapOfferActiveOnMousedown = function () {
+  for (var k = 1; k < mapPinOffer.length; k++) {
+    mapPinOffer[k].addEventListener('mousedown', function (evt) {
+      var pinNumber = evt.target;
+      if (pinNumber.classList.contains('map__pin')) {
+        var img = pinNumber.querySelector('img');
+        pinNumber = img;
+      }
+      var card = objects.find(function (object) {
+        if (getPhotoName(object.author.avatar) === getPhotoName(pinNumber.src)) {
+          return true;
+        };
+      });
+      evt.preventDefault();
+      mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+    });
+  };
+};
+
+var mapOfferActiveOnKeydown = function () {
+  for (var z = 1; z < mapPinOffer.length; z++) {
+    mapPinOffer[z].addEventListener('keydown', function (evt) {
+      var pinNumber = evt.target;
+      if (evt.keyCode === ENTER_KEY) {
+        if (pinNumber.classList.contains('map__pin')) {
+          var img = pinNumber.querySelector('img');
+          pinNumber = getPhotoName(img.src);
+        }
+        var card = objects.find(function (object) {
+          if (getPhotoName(object.author.avatar) === pinNumber) {
+            return true;
+          };
+        });
+        evt.preventDefault();
+        mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+      };
+    });
+  };
+};
+
 var makePageActive = function () {
   mapItem.classList.remove('map--faded');
   formItem.classList.remove('ad-form--disabled');
   activateFieldsets(mapSelects);
   activateSelects(mapFieldsets);
   pinContainerElem.appendChild(renderPins(objects));
-  console.log(mapPinOffer);
   mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
   mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
-  for (var k = 0; k < mapPinOffer.length; k++) {
-    mapPinOffer[k].addEventListener('mousedown', function (evt) {
-      var pinNumber = +(evt.target.src.substring(46, evt.target.src.length - 4));
-      evt.preventDefault();
-      mapItem.insertBefore(getOfferPopup(objects[pinNumber - 1]), filtersContainerValues);
-    });
-  };
 };
 
 var mapPinActiveOnMousedown = function (evt) {
   evt.preventDefault();
   makePageActive();
   getAdressOfMark();
+  mapOfferActiveOnMousedown();
 };
 
 var mapPinActiveOnKeydown = function (evt) {
   if (evt.keyCode === ENTER_KEY) {
     makePageActive();
     getAdressOfMark();
+    mapOfferActiveOnKeydown();
   }
 };
 
@@ -200,8 +240,8 @@ mapPin.addEventListener('mousedown', mapPinActiveOnMousedown);
 mapPin.addEventListener('keydown', mapPinActiveOnKeydown);
 
 var checkCapacityAndRooms = function () {
-  var rooms = roomsNumber.value;
-  var capacity = capacityNumber.value;
+  var rooms = +roomsNumber.value;
+  var capacity = +capacityNumber.value;
   if (rooms < capacity) {
     roomsNumber.setCustomValidity('для гостей нужно больше комнат');
   } else if (rooms === 100 && capacity !== 0) {
@@ -214,6 +254,8 @@ var checkCapacityAndRooms = function () {
     roomsNumber.setCustomValidity('');
   }
 };
+
+checkCapacityAndRooms();
 
 capacityNumber.addEventListener('change', function () {
   checkCapacityAndRooms();
