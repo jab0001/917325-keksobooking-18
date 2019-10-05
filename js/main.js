@@ -153,12 +153,12 @@ var getAdressOfMark = function () {
   var mapPinY = Math.round(mapPinTop + (mapPin.offsetHeight + PIN_HEIGHT));
   addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
   addressCoordinate.setAttribute('disabled', true);
-}
+};
 
 var getPhotoName = function (photo) {
   var result = photo.replace(/^.*[\\\/]/, '');
   return result;
-}
+};
 
 var activateSelects = function (select) {
   for (var k = 0; k < select.length; k++) {
@@ -184,11 +184,14 @@ var mapOfferSearchForMousedown = function (evt) {
       return true;
     };
   });
-  mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+  if (removeDuped.length < 1) {
+    mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+  } else {
+    removeDuped[0].replaceWith(getOfferPopup(card));
+  }
 };
 
 var mapOfferSearchForKeydown = function (evt) {
-  evt.preventDefault();
   var pinNumber = evt.target;
   if (evt.keyCode === ENTER_KEY) {
     if (pinNumber.classList.contains('map__pin')) {
@@ -200,7 +203,11 @@ var mapOfferSearchForKeydown = function (evt) {
         return true;
       };
     });
-    mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+    if (removeDuped.length < 1) {
+      mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+    } else {
+      removeDuped[0].replaceWith(getOfferPopup(card));
+    }
   };
 };
 
@@ -222,6 +229,8 @@ var makePageActive = function () {
   activateFieldsets(mapSelects);
   activateSelects(mapFieldsets);
   pinContainerElem.appendChild(renderPins(objects));
+  mapOfferActiveOnMousedown();
+  mapOfferActiveOnKeydown();
   mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
   mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
 };
@@ -230,14 +239,12 @@ var mapPinActiveOnMousedown = function (evt) {
   evt.preventDefault();
   makePageActive();
   getAdressOfMark();
-  mapOfferActiveOnMousedown();
 };
 
 var mapPinActiveOnKeydown = function (evt) {
   if (evt.keyCode === ENTER_KEY) {
     makePageActive();
     getAdressOfMark();
-    mapOfferActiveOnKeydown();
   }
 };
 
