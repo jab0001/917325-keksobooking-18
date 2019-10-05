@@ -18,6 +18,7 @@ var pinTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var mapItem = document.querySelector('.map');
 var ENTER_KEY = 13;
+var ESC_KEY = 27;
 
 var cardTemplate = document.querySelector('#card')
   .content
@@ -118,6 +119,7 @@ var pinContainerElem = mapItem.querySelector('.map__pins');
 
 var getOfferPopup = function (completedCards) {
   var offerValue = cardTemplate.cloneNode(true);
+  var closePopup = offerValue.querySelector('.popup__close');
 
   offerValue.querySelector('.popup__title').textContent = completedCards.offer.title;
   offerValue.querySelector('.popup__text--address').textContent = completedCards.offer.address;
@@ -129,6 +131,10 @@ var getOfferPopup = function (completedCards) {
   offerValue.querySelector('.popup__description').textContent = completedCards.offer.description;
   offerValue.querySelector('.popup__photos').innerHTML = completedCards.offer.photos.join(' ');
   offerValue.querySelector('.popup__avatar').src = completedCards.author.avatar;
+
+  closePopup.addEventListener('click', function () {
+    closeOffer();
+  });
 
   return offerValue;
 };
@@ -143,7 +149,8 @@ var addressCoordinate = document.querySelector('input[name="address"]');
 var roomsNumber = document.querySelector('select[name="rooms"]');
 var capacityNumber = document.querySelector('select[name="capacity"]');
 var mapPinOffer = pinContainerElem.getElementsByTagName('button');
-var removeDuped = mapItem.getElementsByTagName('article');
+var removeDupedOffer = mapItem.getElementsByTagName('article');
+
 var PIN_HEIGHT = 22;
 
 var getAdressOfMark = function () {
@@ -172,54 +179,31 @@ var activateFieldsets = function (fieldset) {
   }
 };
 
-var mapOfferSearchForMousedown = function (evt) {
-  evt.preventDefault();
-  var pinNumber = evt.target;
+var getOfferToPin = function (pinNumber) {
   if (pinNumber.classList.contains('map__pin')) {
     var img = pinNumber.querySelector('img');
     pinNumber = img;
   }
   var card = objects.find(function (object) {
-    if (getPhotoName(object.author.avatar) === getPhotoName(pinNumber.src)) {
-      return true;
-    };
+    return getPhotoName(object.author.avatar) === getPhotoName(pinNumber.src);
   });
-  if (removeDuped.length < 1) {
+  if (removeDupedOffer.length < 1) {
     mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
   } else {
-    removeDuped[0].replaceWith(getOfferPopup(card));
+    removeDupedOffer[0].replaceWith(getOfferPopup(card));
   }
+};
+
+var mapOfferSearchForMousedown = function (evt) {
+  evt.preventDefault();
+  var pinNumber = evt.target;
+  getOfferToPin(pinNumber);
 };
 
 var mapOfferSearchForKeydown = function (evt) {
   var pinNumber = evt.target;
   if (evt.keyCode === ENTER_KEY) {
-    if (pinNumber.classList.contains('map__pin')) {
-      var img = pinNumber.querySelector('img');
-      pinNumber = getPhotoName(img.src);
-    }
-    var card = objects.find(function (object) {
-      if (getPhotoName(object.author.avatar) === pinNumber) {
-        return true;
-      };
-    });
-    if (removeDuped.length < 1) {
-      mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
-    } else {
-      removeDuped[0].replaceWith(getOfferPopup(card));
-    }
-  };
-};
-
-var mapOfferActiveOnMousedown = function () {
-  for (var i = 1; i < mapPinOffer.length; i++) {
-    mapPinOffer[i].addEventListener('mousedown', mapOfferSearchForMousedown);
-  };
-};
-
-var mapOfferActiveOnKeydown = function () {
-  for (var i = 1; i < mapPinOffer.length; i++) {
-    mapPinOffer[i].addEventListener('keydown', mapOfferSearchForKeydown);
+    getOfferToPin(pinNumber);
   };
 };
 
@@ -229,8 +213,10 @@ var makePageActive = function () {
   activateFieldsets(mapSelects);
   activateSelects(mapFieldsets);
   pinContainerElem.appendChild(renderPins(objects));
-  mapOfferActiveOnMousedown();
-  mapOfferActiveOnKeydown();
+  for (var i = 1; i < mapPinOffer.length; i++) {
+    mapPinOffer[i].addEventListener('mousedown', mapOfferSearchForMousedown);
+    mapPinOffer[i].addEventListener('keydown', mapOfferSearchForKeydown);
+  };
   mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
   mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
 };
@@ -276,3 +262,16 @@ capacityNumber.addEventListener('change', function () {
 roomsNumber.addEventListener('change', function () {
   checkCapacityAndRooms();
 });
+
+var closeOffer = function() {
+  var card = document.querySelector('.popup');
+    if (card) {
+      card.remove();
+    };
+};
+
+var closeOfferOnKeydown = function (evt) {
+  if (evt.keyCode === ESC_KEY) {
+    closeOffer();
+  }
+};
