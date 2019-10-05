@@ -143,6 +143,7 @@ var addressCoordinate = document.querySelector('input[name="address"]');
 var roomsNumber = document.querySelector('select[name="rooms"]');
 var capacityNumber = document.querySelector('select[name="capacity"]');
 var mapPinOffer = pinContainerElem.getElementsByTagName('button');
+var removeDuped = mapItem.getElementsByTagName('article');
 var PIN_HEIGHT = 22;
 
 var getAdressOfMark = function () {
@@ -171,43 +172,47 @@ var activateFieldsets = function (fieldset) {
   }
 };
 
-var mapOfferActiveOnMousedown = function () {
-  for (var k = 1; k < mapPinOffer.length; k++) {
-    mapPinOffer[k].addEventListener('mousedown', function (evt) {
-      var pinNumber = evt.target;
-      if (pinNumber.classList.contains('map__pin')) {
-        var img = pinNumber.querySelector('img');
-        pinNumber = img;
-      }
-      var card = objects.find(function (object) {
-        if (getPhotoName(object.author.avatar) === getPhotoName(pinNumber.src)) {
-          return true;
-        };
-      });
-      evt.preventDefault();
-      mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+var mapOfferSearchForMousedown = function (evt) {
+  evt.preventDefault();
+  var pinNumber = evt.target;
+  if (pinNumber.classList.contains('map__pin')) {
+    var img = pinNumber.querySelector('img');
+    pinNumber = img;
+  }
+  var card = objects.find(function (object) {
+    if (getPhotoName(object.author.avatar) === getPhotoName(pinNumber.src)) {
+      return true;
+    };
+  });
+  mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+};
+
+var mapOfferSearchForKeydown = function (evt) {
+  evt.preventDefault();
+  var pinNumber = evt.target;
+  if (evt.keyCode === ENTER_KEY) {
+    if (pinNumber.classList.contains('map__pin')) {
+      var img = pinNumber.querySelector('img');
+      pinNumber = getPhotoName(img.src);
+    }
+    var card = objects.find(function (object) {
+      if (getPhotoName(object.author.avatar) === pinNumber) {
+        return true;
+      };
     });
+    mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+  };
+};
+
+var mapOfferActiveOnMousedown = function () {
+  for (var i = 1; i < mapPinOffer.length; i++) {
+    mapPinOffer[i].addEventListener('mousedown', mapOfferSearchForMousedown);
   };
 };
 
 var mapOfferActiveOnKeydown = function () {
-  for (var z = 1; z < mapPinOffer.length; z++) {
-    mapPinOffer[z].addEventListener('keydown', function (evt) {
-      var pinNumber = evt.target;
-      if (evt.keyCode === ENTER_KEY) {
-        if (pinNumber.classList.contains('map__pin')) {
-          var img = pinNumber.querySelector('img');
-          pinNumber = getPhotoName(img.src);
-        }
-        var card = objects.find(function (object) {
-          if (getPhotoName(object.author.avatar) === pinNumber) {
-            return true;
-          };
-        });
-        evt.preventDefault();
-        mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
-      };
-    });
+  for (var i = 1; i < mapPinOffer.length; i++) {
+    mapPinOffer[i].addEventListener('keydown', mapOfferSearchForKeydown);
   };
 };
 
