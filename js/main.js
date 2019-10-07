@@ -150,8 +150,14 @@ var roomsNumber = document.querySelector('select[name="rooms"]');
 var capacityNumber = document.querySelector('select[name="capacity"]');
 var mapPinOffer = pinContainerElem.getElementsByTagName('button');
 var removeDupedOffer = mapItem.getElementsByTagName('article');
-
+var placeType = document.querySelector('select[name="type"]');
+var inputPrice = document.querySelector('input[name="price"]');
+var timeIn = document.querySelector('select[name="timein"]');
+var timeOut =document.querySelector('select[name="timeout"]');
 var PIN_HEIGHT = 22;
+
+console.log(timeIn.value);
+console.log(timeOut.value);
 
 var getAdressOfMark = function () {
   var mapPinLeft = +(mapPin.style.left.replace('px', ''));
@@ -253,6 +259,53 @@ var checkCapacityAndRooms = function () {
   }
 };
 
+var checkPriceForPlaces = function () {
+  if (placeType.value === 'bungalo') {
+    inputPrice.placeholder = '0';
+    inputPrice.min = 0;
+  } else if (placeType.value === 'flat') {
+    inputPrice.placeholder = '1000';
+    inputPrice.min = 1000;
+  } else if (placeType.value === 'house') {
+    inputPrice.placeholder = '5000';
+    inputPrice.min = 5000;
+  } else if (placeType.value === 'palace') {
+    inputPrice.placeholder = '10000';
+    inputPrice.min = 10000;
+  }
+};
+
+var checkInTime = function() {
+  if (timeIn.value === '14:00') {
+    timeOut.value = timeIn.value;
+  } else if (timeIn.value === '12:00') {
+    timeOut.value = timeIn.value;
+  } else if (timeIn.value === '13:00') {
+    timeOut.value = timeIn.value;
+  }
+};
+
+var checkOutTime = function () {
+  if (timeOut.value === '14:00') {
+    timeIn.value = timeOut.value;
+  } else if (timeOut.value === '12:00') {
+    timeIn.value = timeOut.value;
+  } else if (timeOut.value === '13:00') {
+    timeIn.value = timeOut.value;
+  }
+};
+
+checkInTime();
+checkOutTime();
+
+timeIn.addEventListener('change', function () {
+  checkInTime();
+});
+
+timeOut.addEventListener('change', function () {
+  checkOutTime();
+});
+
 checkCapacityAndRooms();
 
 capacityNumber.addEventListener('change', function () {
@@ -263,11 +316,11 @@ roomsNumber.addEventListener('change', function () {
   checkCapacityAndRooms();
 });
 
-var closeOffer = function() {
+var closeOffer = function () {
   var card = document.querySelector('.popup');
-    if (card) {
-      card.remove();
-    };
+  if (card) {
+    card.remove();
+  };
 };
 
 var closeOfferOnKeydown = function (evt) {
@@ -275,3 +328,8 @@ var closeOfferOnKeydown = function (evt) {
     closeOffer();
   }
 };
+
+checkPriceForPlaces();
+placeType.addEventListener('change', function () {
+  checkPriceForPlaces();
+});
