@@ -18,7 +18,6 @@ var pinTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var mapItem = document.querySelector('.map');
 var ENTER_KEY = 13;
-var ESC_KEY = 27;
 
 var cardTemplate = document.querySelector('#card')
   .content
@@ -153,11 +152,8 @@ var removeDupedOffer = mapItem.getElementsByTagName('article');
 var placeType = document.querySelector('select[name="type"]');
 var inputPrice = document.querySelector('input[name="price"]');
 var timeIn = document.querySelector('select[name="timein"]');
-var timeOut =document.querySelector('select[name="timeout"]');
+var timeOut = document.querySelector('select[name="timeout"]');
 var PIN_HEIGHT = 22;
-
-console.log(timeIn.value);
-console.log(timeOut.value);
 
 var getAdressOfMark = function () {
   var mapPinLeft = +(mapPin.style.left.replace('px', ''));
@@ -210,7 +206,7 @@ var mapOfferSearchForKeydown = function (evt) {
   var pinNumber = evt.target;
   if (evt.keyCode === ENTER_KEY) {
     getOfferToPin(pinNumber);
-  };
+  }
 };
 
 var makePageActive = function () {
@@ -219,10 +215,10 @@ var makePageActive = function () {
   activateFieldsets(mapSelects);
   activateSelects(mapFieldsets);
   pinContainerElem.appendChild(renderPins(objects));
-  for (var i = 1; i < mapPinOffer.length; i++) {
-    mapPinOffer[i].addEventListener('mousedown', mapOfferSearchForMousedown);
-    mapPinOffer[i].addEventListener('keydown', mapOfferSearchForKeydown);
-  };
+  for (var k = 1; k < mapPinOffer.length; k++) {
+    mapPinOffer[k].addEventListener('mousedown', mapOfferSearchForMousedown);
+    mapPinOffer[k].addEventListener('keydown', mapOfferSearchForKeydown);
+  }
   mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
   mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
 };
@@ -275,7 +271,7 @@ var checkPriceForPlaces = function () {
   }
 };
 
-var checkInTime = function() {
+var checkInTime = function () {
   if (timeIn.value === '14:00') {
     timeOut.value = timeIn.value;
   } else if (timeIn.value === '12:00') {
@@ -320,12 +316,6 @@ var closeOffer = function () {
   var card = document.querySelector('.popup');
   if (card) {
     card.remove();
-  };
-};
-
-var closeOfferOnKeydown = function (evt) {
-  if (evt.keyCode === ESC_KEY) {
-    closeOffer();
   }
 };
 
