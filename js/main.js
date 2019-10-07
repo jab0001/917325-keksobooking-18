@@ -17,7 +17,10 @@ var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 var mapItem = document.querySelector('.map');
-var ENTER_KEY = 13;
+var KEY = {
+  enter: 13,
+  esc: 27
+};
 
 var cardTemplate = document.querySelector('#card')
   .content
@@ -194,6 +197,7 @@ var getOfferToPin = function (pinNumber) {
   } else {
     removeDupedOffer[0].replaceWith(getOfferPopup(card));
   }
+  document.addEventListener('keydown', closeOfferOnKeydown);
 };
 
 var mapOfferSearchForMousedown = function (evt) {
@@ -204,7 +208,7 @@ var mapOfferSearchForMousedown = function (evt) {
 
 var mapOfferSearchForKeydown = function (evt) {
   var pinNumber = evt.target;
-  if (evt.keyCode === ENTER_KEY) {
+  if (evt.keyCode === KEY.enter) {
     getOfferToPin(pinNumber);
   }
 };
@@ -230,7 +234,7 @@ var mapPinActiveOnMousedown = function (evt) {
 };
 
 var mapPinActiveOnKeydown = function (evt) {
-  if (evt.keyCode === ENTER_KEY) {
+  if (evt.keyCode === KEY.enter) {
     makePageActive();
     getAdressOfMark();
   }
@@ -316,6 +320,12 @@ var closeOffer = function () {
   var card = document.querySelector('.popup');
   if (card) {
     card.remove();
+  }
+};
+
+var closeOfferOnKeydown = function (evt) {
+  if (evt.keyCode === KEY.esc) {
+    closeOffer();
   }
 };
 
