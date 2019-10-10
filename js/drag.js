@@ -33,11 +33,16 @@
         y: moveEvt.clientY
       };
 
-      if ((window.mapPin.offsetLeft - shift.x) >= limit.Xmin && (window.mapPin.offsetLeft - shift.x) <= limit.Xmax - window.mapPin.offsetWidth) {
-        window.mapPin.style.left = (window.mapPin.offsetLeft - shift.x) + 'px';
+      var mark = {
+        coordinateX: window.mapPin.offsetLeft - shift.x,
+        coordinateY: window.mapPin.offsetTop - shift.y
+      };
+
+      if (mark.coordinateX >= limit.Xmin && mark.coordinateX <= limit.Xmax - window.mapPin.offsetWidth) {
+        window.mapPin.style.left = mark.coordinateX + 'px';
       }
-      if ((window.mapPin.offsetTop - shift.y) >= limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && (window.mapPin.offsetTop - shift.y) <= limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
-        window.mapPin.style.top = (window.mapPin.offsetTop - shift.y) + 'px';
+      if (mark.coordinateY >= limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && mark.coordinateY <= limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
+        window.mapPin.style.top = mark.coordinateY + 'px';
       }
 
       window.getAdressOfMark();
