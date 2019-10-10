@@ -26,7 +26,7 @@ var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
 
-
+// utils
 var getRandomArrayElement = function (array) {
   var random = array[Math.floor(Math.random() * array.length)];
   return random;
@@ -35,7 +35,7 @@ var getRandomArrayElement = function (array) {
 var getRandomElement = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
+// offer
 var getRandomPhoto = function (offerPhoto) {
   var randomPhotosLength = getRandomElement(1, offerPhoto);
   var randomPhotos = [];
@@ -95,7 +95,7 @@ var objects = [];
 for (var i = 0; i < OFFER_AMOUNTS; i++) {
   objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_PHOTOS, OFFER_FEATURES, OFFER_TIMES));
 }
-
+// pin
 var renderPinFromTemplate = function (offers) {
   var pin = pinTemplate.cloneNode(true);
 
@@ -140,7 +140,7 @@ var getOfferPopup = function (completedCards) {
 
   return offerValue;
 };
-
+// form
 var filtersContainerValues = mapItem.querySelector('.map__filters-container');
 
 var mapPin = mapItem.querySelector('.map__pin--main');
@@ -166,7 +166,7 @@ var getAdressOfMark = function () {
   addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
   addressCoordinate.setAttribute('disabled', true);
 };
-
+// popup
 var getPhotoName = function (photo) {
   var result = photo.replace(/^.*[\\\/]/, '');
   return result;
@@ -242,7 +242,7 @@ var mapPinActiveOnKeydown = function (evt) {
 
 mapPin.addEventListener('mousedown', mapPinActiveOnMousedown);
 mapPin.addEventListener('keydown', mapPinActiveOnKeydown);
-
+// form
 var checkCapacityAndRooms = function () {
   var rooms = +roomsNumber.value;
   var capacity = +capacityNumber.value;
