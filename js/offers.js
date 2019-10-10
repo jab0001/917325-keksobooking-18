@@ -1,19 +1,7 @@
 'use strict';
 
 (function () {
-  var OFFER_TITLE = 'Напишите функцию для создания массива из 8 сгенерированных JS объектов.';
   var OFFER_AMOUNTS = 8;
-  var OFFER_TYPE = {
-    palace: 'дворец',
-    flat: 'квартира',
-    house: 'дом',
-    bungalo: 'бунгало'
-  };
-  var OFFER_ROOMS = [1, 2, 3, 100];
-  var OFFER_GUESTS = [1, 2, 3, 0];
-  var OFFER_PHOTOS = 3;
-  var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var OFFER_TIMES = ['12:00', '13:00', '14:00'];
 
   var getRandomPhoto = function (offerPhoto) {
     var randomPhotosLength = window.getRandomElement(1, offerPhoto);
@@ -72,6 +60,6 @@
 
   window.objects = [];
   for (var i = 0; i < OFFER_AMOUNTS; i++) {
-    window.objects.push(getObjMock(i, OFFER_TITLE, OFFER_TYPE, OFFER_ROOMS, OFFER_GUESTS, OFFER_PHOTOS, OFFER_FEATURES, OFFER_TIMES));
+    window.objects.push(getObjMock(i, window.offer.TITLE, window.offer.TYPE, window.offer.ROOMS, window.offer.GUESTS, window.offer.PHOTOS, window.offer.FEATURES, window.offer.TIMES));
   }
 })();
