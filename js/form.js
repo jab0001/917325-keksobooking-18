@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  window.mapPin = document.querySelector('.map__pin--main');
   var addressCoordinate = document.querySelector('input[name="address"]');
   var roomsNumber = document.querySelector('select[name="rooms"]');
   var capacityNumber = document.querySelector('select[name="capacity"]');
@@ -9,13 +8,13 @@
   var inputPrice = document.querySelector('input[name="price"]');
   var timeIn = document.querySelector('select[name="timein"]');
   var timeOut = document.querySelector('select[name="timeout"]');
-  var PIN_HEIGHT = 22;
+  window.PIN_HEIGHT = 22;
 
   window.getAdressOfMark = function () {
     var mapPinLeft = +(window.mapPin.style.left.replace('px', ''));
     var mapPinTop = +(window.mapPin.style.top.replace('px', ''));
     var mapPinX = Math.round(mapPinLeft + window.mapPin.offsetWidth / 2);
-    var mapPinY = Math.round(mapPinTop + (window.mapPin.offsetHeight + PIN_HEIGHT));
+    var mapPinY = Math.round(mapPinTop + (window.mapPin.offsetHeight + window.PIN_HEIGHT));
     addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
     addressCoordinate.setAttribute('disabled', true);
   };

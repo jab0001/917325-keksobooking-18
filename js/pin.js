@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  window.mapPin = document.querySelector('.map__pin--main');
   var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
