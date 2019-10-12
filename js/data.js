@@ -5,6 +5,10 @@
   var cardTemplateError = document.querySelector('#error')
     .content
     .querySelector('.error');
+  window.key = {
+    ENTER: 13,
+    ESC: 27
+  };
 
   window.getRenamedPhotos = function (offerPhoto) {
     var result = [];

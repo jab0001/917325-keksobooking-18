@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var addressCoordinate = document.querySelector('input[name="address"]');
   var roomsNumber = document.querySelector('select[name="rooms"]');
   var capacityNumber = document.querySelector('select[name="capacity"]');
   var placeType = document.querySelector('select[name="type"]');
@@ -10,13 +9,16 @@
   var timeOut = document.querySelector('select[name="timeout"]');
   window.PIN_HEIGHT = 22;
 
-  window.getAdressOfMark = function () {
-    var mapPinLeft = +(window.mapPin.style.left.replace('px', ''));
-    var mapPinTop = +(window.mapPin.style.top.replace('px', ''));
-    var mapPinX = Math.round(mapPinLeft + window.mapPin.offsetWidth / 2);
-    var mapPinY = Math.round(mapPinTop + (window.mapPin.offsetHeight + window.PIN_HEIGHT));
-    addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
-    addressCoordinate.setAttribute('disabled', true);
+  window.activateSelects = function (select) {
+    for (var k = 0; k < select.length; k++) {
+      select[k].removeAttribute('disabled');
+    }
+  };
+
+  window.activateFieldsets = function (fieldset) {
+    for (var k = 0; k < fieldset.length; k++) {
+      fieldset[k].removeAttribute('disabled');
+    }
   };
 
   var checkCapacityAndRooms = function () {
