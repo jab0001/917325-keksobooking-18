@@ -9,7 +9,7 @@
   var renderPinFromTemplate = function (offers) {
     var pin = pinTemplate.cloneNode(true);
 
-    pin.style.left = offers.location.x + '%';
+    pin.style.left = offers.location.x + 'px';
     pin.style.top = offers.location.y + 'px';
 
     var pinImg = pin.querySelector('img');
