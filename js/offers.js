@@ -6,35 +6,25 @@
     .content
     .querySelector('.error');
 
-  window.getRandomPhoto = function (offerPhoto) {
-    var randomPhotos = [];
+  window.getRenamedPhotos = function (offerPhoto) {
+    var result = [];
     for (var i = 0; i < offerPhoto.length; i++) {
-      randomPhotos.push('<img src="' + offerPhoto[i] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+      result.push('<img src="' + offerPhoto[i] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
     }
-    return randomPhotos;
+    return result;
   };
 
-  window.getRandomFeatures = function (offerFeatures) {
-    var randomFeatures = [];
+  window.getRenamedFeatures = function (offerFeatures) {
+    var result = [];
     for (var i = 0; i < offerFeatures.length; i++) {
-      randomFeatures.push('<li class="popup__feature popup__feature--' + window.getRandomArrayElement(offerFeatures) + '"></li>');
+      result.push('<li class="popup__feature popup__feature--' + offerFeatures[i] + '"></li>');
     }
-    return randomFeatures;
+    return result;
   };
 
-  window.getFeaturesSingleElement = function (randomFeaturesArray) {
-    var singleFeatArray = [];
-    for (var i = 0; i < randomFeaturesArray.length; i++) {
-      if (singleFeatArray.indexOf(randomFeaturesArray[i]) < 0) {
-        singleFeatArray.push(randomFeaturesArray[i]);
-      }
-    }
-    return singleFeatArray;
-  };
-
-
-  var onError = function () {
+  var onError = function (message) {
     var error = cardTemplateError.cloneNode(true);
+    error.querySelector('.error__message').textContent = message;
     document.body.insertAdjacentElement('afterbegin', error);
   };
 

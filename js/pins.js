@@ -6,15 +6,15 @@
     .content
     .querySelector('.map__pin');
 
-  var renderPinFromTemplate = function (offers) {
+  var renderPinFromTemplate = function (offer) {
     var pin = pinTemplate.cloneNode(true);
 
-    pin.style.left = offers.location.x + 'px';
-    pin.style.top = offers.location.y + 'px';
+    pin.style.left = offer.location.x + 'px';
+    pin.style.top = offer.location.y + 'px';
 
     var pinImg = pin.querySelector('img');
-    pinImg.src = offers.author.avatar;
-    pinImg.alt = offers.offer.title;
+    pinImg.src = offer.author.avatar;
+    pinImg.alt = offer.offer.title;
 
     return pin;
   };
