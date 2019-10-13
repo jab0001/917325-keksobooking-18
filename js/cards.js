@@ -12,6 +12,9 @@
   };
   var removeDupedOffer = window.mapItem.getElementsByTagName('article');
   var filtersContainerValues = window.mapItem.querySelector('.map__filters-container');
+  var offerPhoto = document.querySelector('template')
+    .content
+    .querySelector('.popup__photo');
 
   var closeOffer = function () {
     var card = document.querySelector('.popup');
@@ -26,6 +29,26 @@
     }
   };
 
+  var getPhotos = function (photoArray) {
+    var result = document.createDocumentFragment();
+    for (var i = 0; i < photoArray.length; i++) {
+      var photo = offerPhoto.cloneNode(true);
+      photo.src = photoArray[i];
+      result.appendChild(photo);
+    }
+    return result;
+  };
+
+  var getFeatures = function (featuresArray) {
+    var result = document.createDocumentFragment();
+    for (var i = 0; i < featuresArray.length; i++) {
+      var feature = document.createElement('li');
+      feature.className = 'popup__feature popup__feature--' + featuresArray[i];
+      result.appendChild(feature);
+    }
+    return result;
+  };
+
   var getOfferPopup = function (completedCard) {
     var offerValue = cardTemplate.cloneNode(true);
     var closePopup = offerValue.querySelector('.popup__close');
@@ -36,9 +59,11 @@
     offerValue.querySelector('.popup__type').textContent = TYPE[completedCard.offer.type];
     offerValue.querySelector('.popup__text--capacity').textContent = completedCard.offer.rooms + ' комнаты для ' + completedCard.offer.guests + ' гостей';
     offerValue.querySelector('.popup__text--time').textContent = 'Заезд после ' + completedCard.offer.checkin + ' , выезд до ' + completedCard.offer.checkout;
-    offerValue.querySelector('.popup__features').innerHTML = window.getRenamedFeatures(completedCard.offer.features).join(' ');
+    offerValue.querySelector('.popup__features').innerText = '';
+    offerValue.querySelector('.popup__features').appendChild(getFeatures(completedCard.offer.features));
     offerValue.querySelector('.popup__description').textContent = completedCard.offer.description;
-    offerValue.querySelector('.popup__photos').innerHTML = window.getRenamedPhotos(completedCard.offer.photos);
+    offerValue.querySelector('.popup__photos').removeChild(offerValue.querySelector('.popup__photo'));
+    offerValue.querySelector('.popup__photos').appendChild(getPhotos(completedCard.offer.photos));
     offerValue.querySelector('.popup__avatar').src = completedCard.author.avatar;
 
     closePopup.addEventListener('click', function () {
