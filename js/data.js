@@ -2,7 +2,7 @@
 
 (function () {
   var OFFER_AMOUNTS = 8;
-  var cardTemplateError = document.querySelector('#error')
+  window.cardTemplateError = document.querySelector('#error')
     .content
     .querySelector('.error');
   window.key = {
@@ -11,7 +11,7 @@
   };
 
   var onError = function (message) {
-    var error = cardTemplateError.cloneNode(true);
+    var error = window.cardTemplateError.cloneNode(true);
     error.querySelector('.error__message').textContent = message;
     document.body.insertAdjacentElement('afterbegin', error);
   };

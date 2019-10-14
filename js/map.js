@@ -5,7 +5,7 @@
   var mapSelects = document.getElementsByTagName('select');
   var mapFieldsets = document.getElementsByTagName('fieldset');
   window.mapItem = document.querySelector('.map');
-  var formItem = document.querySelector('.ad-form');
+  window.formItem = document.querySelector('.ad-form');
   window.pinContainerElem = window.mapItem.querySelector('.map__pins');
   var addressCoordinate = document.querySelector('input[name="address"]');
 
@@ -20,7 +20,7 @@
 
   var makePageActive = function () {
     window.mapItem.classList.remove('map--faded');
-    formItem.classList.remove('ad-form--disabled');
+    window.formItem.classList.remove('ad-form--disabled');
     window.activateFieldsets(mapSelects);
     window.activateSelects(mapFieldsets);
     window.pinContainerElem.appendChild(window.renderPins(window.objects));
@@ -30,6 +30,13 @@
     }
     window.mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
     window.mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
+  };
+
+  window.makePageDeactiveted = function () {
+    window.mapItem.classList.add('map--faded');
+    window.formItem.classList.add('ad-form--disabled');
+    window.deactivateFieldsets(mapSelects);
+    window.deactivateSelects(mapFieldsets);
   };
 
   var mapPinActiveOnMousedown = function (evt) {

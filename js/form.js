@@ -21,6 +21,18 @@
     }
   };
 
+  window.deactivateSelects = function (select) {
+    for (var k = 0; k < select.length; k++) {
+      select[k].setAttribute('disabled', true);
+    }
+  };
+
+  window.deactivateFieldsets = function (fieldset) {
+    for (var k = 0; k < fieldset.length; k++) {
+      fieldset[k].setAttribute('disabled', true);
+    }
+  };
+
   var checkCapacityAndRooms = function () {
     var rooms = +roomsNumber.value;
     var capacity = +capacityNumber.value;
@@ -98,5 +110,23 @@
   placeType.addEventListener('change', function () {
     checkPriceForPlaces();
   });
+  //
+  var onSubmitSuccess = function () {
+    window.makePageDeactiveted();
+  };
+
+  var onSubmitError = function (errorMessage) {
+    var error = window.cardTemplateError.cloneNode(true);
+    error.querySelector('.error__message').textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', error);
+  };
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    var formData = new FormData(window.formItem);
+    window.save(formData, onSubmitSuccess, onSubmitError);
+  };
+
+  window.formItem.addEventListener('submit', onFormSubmit);
 
 })();
