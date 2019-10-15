@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  window.mapPin = document.querySelector('.map__pin--main');
+  window.mapPinOffer = window.pinContainerElem.getElementsByTagName('button');
+
   var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
@@ -25,5 +26,11 @@
       result.appendChild(renderPinFromTemplate(arr[j]));
     }
     return result;
+  };
+
+  window.removePins = function (arr) {
+    for (var i = 1; i < arr.length; i++) {
+      arr[i].remove();
+    }
   };
 })();
