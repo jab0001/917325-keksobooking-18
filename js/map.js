@@ -44,26 +44,26 @@
       window.mapPinOffer[k].addEventListener('mousedown', window.mapOfferSearchForMousedown);
       window.mapPinOffer[k].addEventListener('keydown', window.mapOfferSearchForKeydown);
     }
-    window.mapPin.removeEventListener('mousedown', mapPinActiveOnMousedown);
-    window.mapPin.removeEventListener('keydown', mapPinActiveOnKeydown);
+    window.mapPin.removeEventListener('mousedown', window.mapPinActiveOnMousedown);
+    window.mapPin.removeEventListener('keydown', window.mapPinActiveOnKeydown);
     window.startValidityListeners();
   };
 
-  var mapPinActiveOnMousedown = function (evt) {
+  window.mapPinActiveOnMousedown = function (evt) {
     evt.preventDefault();
     makePageActive();
     window.getAdressOfMark();
   };
 
-  var mapPinActiveOnKeydown = function (evt) {
+  window.mapPinActiveOnKeydown = function (evt) {
     if (evt.keyCode === window.key.ENTER) {
       makePageActive();
       window.getAdressOfMark();
     }
   };
 
-  window.mapPin.addEventListener('mousedown', mapPinActiveOnMousedown);
-  window.mapPin.addEventListener('keydown', mapPinActiveOnKeydown);
+  window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
+  window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
 
   var onError = function (message) {
     var error = window.cardTemplateError.cloneNode(true);
