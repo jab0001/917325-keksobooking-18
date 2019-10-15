@@ -7,31 +7,9 @@
   var inputPrice = document.querySelector('input[name="price"]');
   var timeIn = document.querySelector('select[name="timein"]');
   var timeOut = document.querySelector('select[name="timeout"]');
-  window.PIN_HEIGHT = 22;
-
-  window.activateSelects = function (select) {
-    for (var k = 0; k < select.length; k++) {
-      select[k].removeAttribute('disabled');
-    }
-  };
-
-  window.activateFieldsets = function (fieldset) {
-    for (var k = 0; k < fieldset.length; k++) {
-      fieldset[k].removeAttribute('disabled');
-    }
-  };
-
-  window.deactivateSelects = function (select) {
-    for (var k = 0; k < select.length; k++) {
-      select[k].setAttribute('disabled', true);
-    }
-  };
-
-  window.deactivateFieldsets = function (fieldset) {
-    for (var k = 0; k < fieldset.length; k++) {
-      fieldset[k].setAttribute('disabled', true);
-    }
-  };
+  var cardTemplateSuccess = document.querySelector('#success')
+    .content
+    .querySelector('.success');
 
   var checkCapacityAndRooms = function () {
     var rooms = +roomsNumber.value;
@@ -87,42 +65,116 @@
 
   checkInTime();
   checkOutTime();
-
-  timeIn.addEventListener('change', function () {
-    checkInTime();
-  });
-
-  timeOut.addEventListener('change', function () {
-    checkOutTime();
-  });
-
   checkCapacityAndRooms();
-
-  capacityNumber.addEventListener('change', function () {
-    checkCapacityAndRooms();
-  });
-
-  roomsNumber.addEventListener('change', function () {
-    checkCapacityAndRooms();
-  });
-
   checkPriceForPlaces();
-  placeType.addEventListener('change', function () {
-    checkPriceForPlaces();
-  });
-  //
+
+  window.startValidityListeners = function () {
+    timeIn.addEventListener('change', checkInTime);
+    timeOut.addEventListener('change', checkOutTime);
+    capacityNumber.addEventListener('change', checkCapacityAndRooms);
+    roomsNumber.addEventListener('change', checkCapacityAndRooms);
+    placeType.addEventListener('change', checkPriceForPlaces);
+  };
+
+  var endValidityListeners = function () {
+    timeIn.removeEventListener('change', checkInTime);
+    timeOut.removeEventListener('change', checkOutTime);
+    capacityNumber.removeEventListener('change', checkCapacityAndRooms);
+    roomsNumber.removeEventListener('change', checkCapacityAndRooms);
+    placeType.removeEventListener('change', checkPriceForPlaces);
+  };
+
+  var deactivateSelects = function (select) {
+    for (var k = 0; k < select.length; k++) {
+      select[k].setAttribute('disabled', true);
+    }
+  };
+
+  var deactivateFieldsets = function (fieldset) {
+    for (var k = 0; k < fieldset.length; k++) {
+      fieldset[k].setAttribute('disabled', true);
+    }
+  };
+
+  var makePageDeactiveted = function () {
+    window.mapItem.classList.add('map--faded');
+    window.formItem.classList.add('ad-form--disabled');
+    deactivateFieldsets(window.mapSelects);
+    deactivateSelects(window.mapFieldsets);
+    window.formItem.reset();
+    window.removePins(window.pinContainerElem.querySelectorAll('.map__pin'));
+    if (document.querySelector('.popup')) {
+      document.querySelector('.popup').remove();
+    }
+    endValidityListeners();
+    window.mapPin.style.left = window.coordinate.x + 'px';
+    window.mapPin.style.top = window.coordinate.y = 'px';
+  };
+
+  var openSuccessMessage = function () {
+    var result = cardTemplateSuccess.cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', result);
+  };
+
+  var openErrorMessage = function (message) {
+    var error = window.cardTemplateError.cloneNode(true);
+    error.querySelector('.error__message').textContent = message;
+    document.body.insertAdjacentElement('afterbegin', error);
+  };
+
   var onSubmitSuccess = function () {
-    window.makePageDeactiveted();
+    openSuccessMessage();
+    makePageDeactiveted();
+    document.addEventListener('keydown', onSuccessEscDown);
+    document.addEventListener('click', onSuccessClick);
   };
 
   var onSubmitError = function (errorMessage) {
-    var error = window.cardTemplateError.cloneNode(true);
-    error.querySelector('.error__message').textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', error);
+    openErrorMessage(errorMessage);
+    document.addEventListener('keydown', onErrorEscDown);
+    document.addEventListener('click', onErrorClick);
+  };
+
+
+  var onSuccessClick = function (evt) {
+    evt.preventDefault();
+    closeSuccessMessage();
+  };
+
+  var onSuccessEscDown = function (evt) {
+    evt.preventDefault();
+    if (evt.keyCode === window.key.ESC) {
+      closeSuccessMessage();
+    }
+  };
+
+  var onErrorClick = function (evt) {
+    evt.preventDefault();
+    closeErrorMessage();
+  };
+
+  var onErrorEscDown = function (evt) {
+    evt.preventDefault();
+    if (evt.keyCode === window.key.ESC) {
+      closeErrorMessage();
+    }
+  };
+
+  var closeSuccessMessage = function () {
+    document.querySelector('.success').remove();
+    document.removeEventListener('keydown', onSuccessEscDown);
+    document.removeEventListener('click', onSuccessClick);
+  };
+
+  var closeErrorMessage = function () {
+    document.querySelector('.error').remove();
+    document.removeEventListener('keydown', onErrorEscDown);
+    document.removeEventListener('click', onSuccessClick);
   };
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
+    window.addressCoordinate.removeAttribute('disabled');
     var formData = new FormData(window.formItem);
     window.save(formData, onSubmitSuccess, onSubmitError);
   };

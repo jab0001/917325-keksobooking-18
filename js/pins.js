@@ -27,4 +27,10 @@
     }
     return result;
   };
+
+  window.removePins = function (arr) {
+    for (var i = 1; i < arr.length; i++) {
+      arr[i].remove();
+    }
+  };
 })();
