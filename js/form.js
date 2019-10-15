@@ -108,7 +108,7 @@
     }
     endValidityListeners();
     window.mapPin.style.left = window.coordinate.x + 'px';
-    window.mapPin.style.top = window.coordinate.y = 'px';
+    window.mapPin.style.top = window.coordinate.y + 'px';
     window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
     window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
   };
