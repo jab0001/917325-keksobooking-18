@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.OFFER_AMOUNTS = 8;
+  window.OFFER_AMOUNTS = 5;
   window.key = {
     ENTER: 13,
     ESC: 27

@@ -34,16 +34,29 @@
     }
   };
 
+  window.renderOffers = function (data) {
+    window.objects = [];
+    for (var i = 0; i < data.length; i++) {
+      window.objects.push(data[i]);
+    }
+    return window.objects;
+  };
+
+  window.makePinsActive = function () {
+    window.pinContainerElem.appendChild(window.renderPins(window.objects));
+    var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pinButtons.forEach(function (elem) {
+      elem.addEventListener('mousedown', window.mapOfferSearchForMousedown);
+      elem.addEventListener('keydown', window.mapOfferSearchForKeydown);
+    });
+  };
+
   var makePageActive = function () {
     window.mapItem.classList.remove('map--faded');
     window.formItem.classList.remove('ad-form--disabled');
     activateFieldsets(window.mapSelects);
     activateSelects(window.mapFieldsets);
-    window.pinContainerElem.appendChild(window.renderPins(window.objects));
-    for (var k = 1; k < window.mapPinOffer.length; k++) {
-      window.mapPinOffer[k].addEventListener('mousedown', window.mapOfferSearchForMousedown);
-      window.mapPinOffer[k].addEventListener('keydown', window.mapOfferSearchForKeydown);
-    }
+    window.makePinsActive();
     window.mapPin.removeEventListener('mousedown', window.mapPinActiveOnMousedown);
     window.mapPin.removeEventListener('keydown', window.mapPinActiveOnKeydown);
     window.startValidityListeners();
@@ -65,18 +78,4 @@
   window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
   window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
 
-  var onError = function (message) {
-    var error = window.cardTemplateError.cloneNode(true);
-    error.querySelector('.error__message').textContent = message;
-    document.body.insertAdjacentElement('afterbegin', error);
-  };
-
-  var onSuccess = function (data) {
-    window.objects = [];
-    for (var i = 0; i < window.OFFER_AMOUNTS; i++) {
-      window.objects.push(data[i]);
-    }
-  };
-
-  window.load(onSuccess, onError);
 })();

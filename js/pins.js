@@ -21,8 +21,9 @@
   };
 
   window.renderPins = function (arr) {
+    var dataLength = arr.length > 5 ? 5 : arr.length;
     var result = document.createDocumentFragment();
-    for (var j = 0; j < arr.length; j++) {
+    for (var j = 0; j < dataLength; j++) {
       result.appendChild(renderPinFromTemplate(arr[j]));
     }
     return result;
