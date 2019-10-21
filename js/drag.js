@@ -2,13 +2,6 @@
 
 
 (function () {
-  var limit = {
-    Xmin: 0,
-    Ymin: 130,
-    Xmax: 1200,
-    Ymax: 630
-  };
-
   window.mapPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -38,10 +31,10 @@
         coordinateY: window.mapPin.offsetTop - shift.y
       };
 
-      if (mark.coordinateX >= limit.Xmin && mark.coordinateX <= limit.Xmax - window.mapPin.offsetWidth) {
+      if (mark.coordinateX >= window.limit.Xmin && mark.coordinateX <= window.limit.Xmax - window.mapPin.offsetWidth) {
         window.mapPin.style.left = mark.coordinateX + 'px';
       }
-      if (mark.coordinateY >= limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && mark.coordinateY <= limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
+      if (mark.coordinateY >= window.limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && mark.coordinateY <= window.limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
         window.mapPin.style.top = mark.coordinateY + 'px';
       }
 
