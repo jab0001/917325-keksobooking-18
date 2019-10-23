@@ -11,25 +11,30 @@
 
   var offerInputs = {
     types: function (data) {
-      return inputFilterType.value === window.DEFAULT_INPUT_VALUE ? data : inputFilterType.value === data.offer.type;
+      return filtrationOffer(inputFilterType, data.offer, 'type');
     },
     rooms: function (data) {
-      return inputFilterRoom.value === window.DEFAULT_INPUT_VALUE ? data : +inputFilterRoom.value === +data.offer.rooms;
+      return filtrationOffer(inputFilterRoom, data.offer, 'rooms');
     },
     guests: function (data) {
-      return inputFilterGuest.value === window.DEFAULT_INPUT_VALUE ? data : +inputFilterGuest.value === +data.offer.guests;
+      return filtrationOffer(inputFilterGuest, data.offer, 'guests');
     }
   };
+
+  var filtrationOffer = function (input, data, key) {
+    return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data[key].toString();
+  };
+
 
   var offersRange = {
     low: function (data) {
       return +data.offer.price < window.price.MIN;
     },
     middle: function (data) {
-      return +data.offer.price >= window.price.MIN && +data.offer.price <= window.price.MAX;
+      return +data.offer.price >= window.price.MIN && data.offer.price <= window.price.MAX;
     },
     high: function (data) {
-      return +data.offer.price >= window.price.MAX;
+      return +data.offer.price > window.price.MAX;
     },
     any: function (data) {
       return data;
