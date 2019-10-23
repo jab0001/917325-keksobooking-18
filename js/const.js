@@ -28,4 +28,5 @@
     MAX: 50000,
   };
   window.DEBOUNCE_INTERVAL = 500;
+  window.DEFAULT_INPUT_VALUE = 'any';
 })();

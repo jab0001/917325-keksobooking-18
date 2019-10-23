@@ -9,39 +9,31 @@
   var inputFilterPrice = document.querySelector('select[name="housing-price"]');
   var filterElement = document.querySelector('.map__filters');
 
-  var filterOfferTypes = function (arr) {
-    return inputFilterType.value === 'any' ? arr : inputFilterType.value === arr.offer.type;
-  };
-
-  var filterOfferRooms = function (arr) {
-    return inputFilterRoom.value === 'any' ? arr : +inputFilterRoom.value === +arr.offer.rooms;
-  };
-
-  var filterOfferGuests = function (data) {
-    return inputFilterGuest.value === 'any' ? data : +inputFilterGuest.value === +data.offer.guests;
-  };
-
-  var getOffersMinPrices = function (data) {
-    return +data.offer.price <= window.price.MIN;
-  };
-
-  var getOffersMidPrices = function (data) {
-    return +data.offer.price >= window.price.MIN && +data.offer.price <= window.price.MAX;
-  };
-
-  var getOffersHightPrices = function (data) {
-    return +data.offer.price >= window.price.MAX;
-  };
-
-  var getOffersAllPrice = function (data) {
-    return data;
+  var offerInputs = {
+    types: function (data) {
+      return inputFilterType.value === window.DEFAULT_INPUT_VALUE ? data : inputFilterType.value === data.offer.type;
+    },
+    rooms: function (data) {
+      return inputFilterRoom.value === window.DEFAULT_INPUT_VALUE ? data : +inputFilterRoom.value === +data.offer.rooms;
+    },
+    guests: function (data) {
+      return inputFilterGuest.value === window.DEFAULT_INPUT_VALUE ? data : +inputFilterGuest.value === +data.offer.guests;
+    }
   };
 
   var offersRange = {
-    low: getOffersMinPrices,
-    middle: getOffersMidPrices,
-    high: getOffersHightPrices,
-    any: getOffersAllPrice
+    low: function (data) {
+      return +data.offer.price < window.price.MIN;
+    },
+    middle: function (data) {
+      return +data.offer.price >= window.price.MIN && +data.offer.price <= window.price.MAX;
+    },
+    high: function (data) {
+      return +data.offer.price >= window.price.MAX;
+    },
+    any: function (data) {
+      return data;
+    }
   };
 
   var filterOffersPrice = function (data) {
@@ -59,10 +51,10 @@
 
   var getFilteringData = function () {
     window.removePins(window.pinContainerElem.querySelectorAll('.map__pin'));
-    var filteredPins = offers.filter(filterOfferTypes)
+    var filteredPins = offers.filter(offerInputs.types)
       .filter(filterOffersPrice)
-      .filter(filterOfferRooms)
-      .filter(filterOfferGuests)
+      .filter(offerInputs.rooms)
+      .filter(offerInputs.guests)
       .filter(getOffersFeaturesFiltered);
     window.renderOffers(filteredPins);
     window.makePinsActive();
@@ -76,11 +68,11 @@
     document.body.insertAdjacentElement('afterbegin', error);
   };
 
-  var onSuccess = window.debounce(function (data) {
+  var onSuccess = function (data) {
     offers = data;
     getFilteringData();
     window.removePins(window.pinContainerElem.querySelectorAll('.map__pin'));
-  });
+  };
 
   window.load(onSuccess, onError);
 })();
