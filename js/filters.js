@@ -25,24 +25,16 @@
     return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data[key].toString();
   };
 
-
-  var offersRange = {
-    low: function (data) {
-      return +data.offer.price < window.price.MIN;
-    },
-    middle: function (data) {
-      return +data.offer.price >= window.price.MIN && data.offer.price <= window.price.MAX;
-    },
-    high: function (data) {
-      return +data.offer.price > window.price.MAX;
-    },
-    any: function (data) {
-      return data;
-    }
-  };
-
   var filterOffersPrice = function (data) {
-    return offersRange[inputFilterPrice.value](data);
+    if (inputFilterPrice.value === 'any') {
+      return true;
+    } else if (inputFilterPrice.value === 'middle') {
+      return data.offer.price >= window.price.MIN && data.offer.price <= window.price.MAX;
+    } else if (inputFilterPrice.value === 'low') {
+      return data.offer.price < window.price.MIN;
+    } else {
+      return data.offer.price > window.price.MAX;
+    }
   };
 
   var getOffersFeaturesFiltered = function (item) {
