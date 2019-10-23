@@ -26,15 +26,7 @@
   };
 
   var filterOffersPrice = function (data) {
-    if (inputFilterPrice.value === 'any') {
-      return true;
-    } else if (inputFilterPrice.value === 'middle') {
-      return data.offer.price >= window.price.MIN && data.offer.price <= window.price.MAX;
-    } else if (inputFilterPrice.value === 'low') {
-      return data.offer.price < window.price.MIN;
-    } else {
-      return data.offer.price > window.price.MAX;
-    }
+    return inputFilterPrice.value === window.DEFAULT_INPUT_VALUE ? true : data.offer.price >= window.price[inputFilterPrice.value].MIN && data.offer.price <= window.price[inputFilterPrice.value].MAX;
   };
 
   var getOffersFeaturesFiltered = function (item) {

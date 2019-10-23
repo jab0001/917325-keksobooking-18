@@ -24,8 +24,18 @@
     Ymax: 630
   };
   window.price = {
-    MIN: 10000,
-    MAX: 50000,
+    low: {
+      MIN: 0,
+      MAX: 10000
+    },
+    middle: {
+      MIN: 10000,
+      MAX: 50000,
+    },
+    hight: {
+      MIN: 50000,
+      MAX: 9999999
+    }
   };
   window.DEBOUNCE_INTERVAL = 500;
   window.DEFAULT_INPUT_VALUE = 'any';
