@@ -11,13 +11,13 @@
 
   var offerInputs = {
     types: function (data) {
-      return filtrationOffer(inputFilterType, data.offer, 'type');
+      return filtrationOffer(inputFilterType, data.offer, window.input.type);
     },
     rooms: function (data) {
-      return filtrationOffer(inputFilterRoom, data.offer, 'rooms');
+      return filtrationOffer(inputFilterRoom, data.offer, window.input.rooms);
     },
     guests: function (data) {
-      return filtrationOffer(inputFilterGuest, data.offer, 'guests');
+      return filtrationOffer(inputFilterGuest, data.offer, window.input.guests);
     }
   };
 
