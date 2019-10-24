@@ -2,28 +2,28 @@
 
 (function () {
   window.OFFER_AMOUNTS = 5;
-  window.key = {
+  window.Key = {
     ENTER: 13,
     ESC: 27
   };
-  window.type = {
-    palace: 'дворец',
-    flat: 'квартира',
-    house: 'дом',
-    bungalo: 'бунгало'
+  window.Type = {
+    PALACE: 'дворец',
+    FLAT: 'квартира',
+    HOUSE: 'дом',
+    BUNGALO: 'бунгало'
   };
   window.PIN_HEIGHT = 22;
-  window.coordinate = {
-    x: 570,
-    y: 375
+  window.Coordinate = {
+    X: 570,
+    Y: 375
   };
-  window.limit = {
+  window.Limit = {
     Xmin: 0,
     Ymin: 130,
     Xmax: 1200,
     Ymax: 630
   };
-  window.price = {
+  window.Price = {
     MIN: 10000,
     MAX: 50000,
   };

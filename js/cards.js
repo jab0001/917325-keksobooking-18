@@ -15,7 +15,7 @@
   };
 
   var closeOfferOnKeydown = function (evt) {
-    if (evt.keyCode === window.key.ESC) {
+    if (evt.keyCode === window.Key.ESC) {
       closeOffer();
     }
   };
@@ -27,7 +27,7 @@
     offerValue.querySelector('.popup__title').textContent = completedCard.offer.title;
     offerValue.querySelector('.popup__text--address').textContent = completedCard.offer.address;
     offerValue.querySelector('.popup__text--price').textContent = completedCard.offer.price + ' ₽/ночь';
-    offerValue.querySelector('.popup__type').textContent = window.type[completedCard.offer.type];
+    offerValue.querySelector('.popup__type').textContent = window.Type[completedCard.offer.type.toUpperCase()];
     offerValue.querySelector('.popup__text--capacity').textContent = completedCard.offer.rooms + ' комнаты для ' + completedCard.offer.guests + ' гостей';
     offerValue.querySelector('.popup__text--time').textContent = 'Заезд после ' + completedCard.offer.checkin + ' , выезд до ' + completedCard.offer.checkout;
     offerValue.querySelector('.popup__features').innerText = '';
@@ -68,7 +68,7 @@
 
   window.mapOfferSearchForKeydown = function (evt) {
     var pinNumber = evt.target;
-    if (evt.keyCode === window.key.ENTER) {
+    if (evt.keyCode === window.Key.ENTER) {
       getOfferToPin(pinNumber);
     }
   };

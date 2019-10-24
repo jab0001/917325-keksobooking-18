@@ -107,8 +107,8 @@
       document.querySelector('.popup').remove();
     }
     endValidityListeners();
-    window.mapPin.style.left = window.coordinate.x + 'px';
-    window.mapPin.style.top = window.coordinate.y + 'px';
+    window.mapPin.style.left = window.Coordinate.X + 'px';
+    window.mapPin.style.top = window.Coordinate.Y + 'px';
     window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
     window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
   };

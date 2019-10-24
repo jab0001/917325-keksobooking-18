@@ -27,13 +27,13 @@
 
   var offersRange = {
     low: function (data) {
-      return +data < window.price.MIN;
+      return +data < window.Price.MIN;
     },
     middle: function (data) {
-      return +data >= window.price.MIN && +data <= window.price.MAX;
+      return +data >= window.Price.MIN && +data <= window.Price.MAX;
     },
     high: function (data) {
-      return +data > window.price.MAX;
+      return +data > window.Price.MAX;
     },
     any: function (data) {
       return data;

@@ -5,9 +5,9 @@
   window.mapPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+    var StartCoord = {
+      X: evt.clientX,
+      Y: evt.clientY
     };
 
     var dragged = false;
@@ -16,25 +16,25 @@
       moveEvt.preventDefault();
       dragged = true;
 
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      var Shift = {
+        X: StartCoord.X - moveEvt.clientX,
+        Y: StartCoord.Y - moveEvt.clientY
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      StartCoord = {
+        X: moveEvt.clientX,
+        Y: moveEvt.clientY
       };
 
       var mark = {
-        coordinateX: window.mapPin.offsetLeft - shift.x,
-        coordinateY: window.mapPin.offsetTop - shift.y
+        coordinateX: window.mapPin.offsetLeft - Shift.X,
+        coordinateY: window.mapPin.offsetTop - Shift.Y
       };
 
-      if (mark.coordinateX >= window.limit.Xmin && mark.coordinateX <= window.limit.Xmax - window.mapPin.offsetWidth) {
+      if (mark.coordinateX >= window.Limit.Xmin && mark.coordinateX <= window.Limit.Xmax - window.mapPin.offsetWidth) {
         window.mapPin.style.left = mark.coordinateX + 'px';
       }
-      if (mark.coordinateY >= window.limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && mark.coordinateY <= window.limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
+      if (mark.coordinateY >= window.Limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && mark.coordinateY <= window.Limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
         window.mapPin.style.top = mark.coordinateY + 'px';
       }
 
