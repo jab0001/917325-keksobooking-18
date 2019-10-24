@@ -69,7 +69,7 @@
   };
 
   window.mapPinActiveOnKeydown = function (evt) {
-    if (evt.keyCode === window.key.ENTER) {
+    if (evt.keyCode === window.Key.ENTER) {
       makePageActive();
       window.getAdressOfMark();
     }
