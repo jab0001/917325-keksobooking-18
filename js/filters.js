@@ -11,17 +11,17 @@
 
   var offerInputs = {
     types: function (data) {
-      return filtrationOffer(inputFilterType, data.offer.type);
+      return getFilteringOffer(inputFilterType, data.offer.type);
     },
     rooms: function (data) {
-      return filtrationOffer(inputFilterRoom, data.offer.rooms);
+      return getFilteringOffer(inputFilterRoom, data.offer.rooms);
     },
     guests: function (data) {
-      return filtrationOffer(inputFilterGuest, data.offer.guests);
+      return getFilteringOffer(inputFilterGuest, data.offer.guests);
     }
   };
 
-  var filtrationOffer = function (input, data) {
+  var getFilteringOffer = function (input, data) {
     return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data.toString();
   };
 
@@ -40,7 +40,7 @@
     }
   };
 
-  var filterOffersPrice = function (data) {
+  var getFilterOffersPrice = function (data) {
     return offersRange[inputFilterPrice.value](data.offer.price);
   };
 
@@ -56,7 +56,7 @@
   var getFilteringData = function () {
     window.removePins(window.pinContainerElem.querySelectorAll('.map__pin'));
     var filteredPins = offers.filter(offerInputs.types)
-      .filter(filterOffersPrice)
+      .filter(getFilterOffersPrice)
       .filter(offerInputs.rooms)
       .filter(offerInputs.guests)
       .filter(getOffersFeaturesFiltered);
