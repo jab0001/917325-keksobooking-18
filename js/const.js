@@ -39,9 +39,4 @@
   };
   window.DEBOUNCE_INTERVAL = 500;
   window.DEFAULT_INPUT_VALUE = 'any';
-  window.input = {
-    type: 'type',
-    rooms: 'rooms',
-    guests: 'guests'
-  };
 })();

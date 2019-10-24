@@ -11,22 +11,37 @@
 
   var offerInputs = {
     types: function (data) {
-      return filtrationOffer(inputFilterType, data.offer, window.input.type);
+      return filtrationOffer(inputFilterType, data.offer.type);
     },
     rooms: function (data) {
-      return filtrationOffer(inputFilterRoom, data.offer, window.input.rooms);
+      return filtrationOffer(inputFilterRoom, data.offer.rooms);
     },
     guests: function (data) {
-      return filtrationOffer(inputFilterGuest, data.offer, window.input.guests);
+      return filtrationOffer(inputFilterGuest, data.offer.guests);
     }
   };
 
-  var filtrationOffer = function (input, data, key) {
-    return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data[key].toString();
+  var filtrationOffer = function (input, data) {
+    return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data.toString();
+  };
+
+  var offersRange = {
+    low: function (data) {
+      return +data < window.price.MIN;
+    },
+    middle: function (data) {
+      return +data >= window.price.MIN && +data <= window.price.MAX;
+    },
+    high: function (data) {
+      return +data > window.price.MAX;
+    },
+    any: function (data) {
+      return data;
+    }
   };
 
   var filterOffersPrice = function (data) {
-    return inputFilterPrice.value === window.DEFAULT_INPUT_VALUE ? true : data.offer.price >= window.price[inputFilterPrice.value].MIN && data.offer.price <= window.price[inputFilterPrice.value].MAX;
+    return offersRange[inputFilterPrice.value](data.offer.price);
   };
 
   var getOffersFeaturesFiltered = function (item) {
