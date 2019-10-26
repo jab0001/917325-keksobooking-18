@@ -29,4 +29,5 @@
   };
   window.DEBOUNCE_INTERVAL = 500;
   window.DEFAULT_INPUT_VALUE = 'any';
+  window.FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 })();
