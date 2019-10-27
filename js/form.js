@@ -109,6 +109,8 @@
     endValidityListeners();
     window.mapPin.style.left = window.Coordinate.X + 'px';
     window.mapPin.style.top = window.Coordinate.Y + 'px';
+    window.avatarPreview.src = window.DEFAULT_PHOTO;
+    window.photoPreview.style = '';
     window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
     window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
   };
