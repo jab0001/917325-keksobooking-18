@@ -2,7 +2,7 @@
 
 
 (function () {
-  window.mapPin.addEventListener('mousedown', function (evt) {
+  window.mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var StartCoord = {
@@ -27,15 +27,15 @@
       };
 
       var Mark = {
-        coordinateX: window.mapPin.offsetLeft - Shift.X,
-        coordinateY: window.mapPin.offsetTop - Shift.Y
+        coordinateX: window.mapPinMain.offsetLeft - Shift.X,
+        coordinateY: window.mapPinMain.offsetTop - Shift.Y
       };
 
-      if (Mark.coordinateX >= window.Limit.Xmin && Mark.coordinateX <= window.Limit.Xmax - window.mapPin.offsetWidth) {
-        window.mapPin.style.left = Mark.coordinateX + 'px';
+      if (Mark.coordinateX >= window.Limit.Xmin && Mark.coordinateX <= window.Limit.Xmax - window.mapPinMain.offsetWidth) {
+        window.mapPinMain.style.left = Mark.coordinateX + 'px';
       }
-      if (Mark.coordinateY >= window.Limit.Ymin - (window.mapPin.offsetHeight + window.PIN_HEIGHT) && Mark.coordinateY <= window.Limit.Ymax - (window.mapPin.offsetHeight + window.PIN_HEIGHT)) {
-        window.mapPin.style.top = Mark.coordinateY + 'px';
+      if (Mark.coordinateY >= window.Limit.Ymin - (window.mapPinMain.offsetHeight + window.PIN_HEIGHT) && Mark.coordinateY <= window.Limit.Ymax - (window.mapPinMain.offsetHeight + window.PIN_HEIGHT)) {
+        window.mapPinMain.style.top = Mark.coordinateY + 'px';
       }
 
       window.getAdressOfMark();
@@ -50,9 +50,9 @@
       if (dragged) {
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
-          window.mapPin.removeEventListener('click', onClickPreventDefault);
+          window.mapPinMain.removeEventListener('click', onClickPreventDefault);
         };
-        window.mapPin.addEventListener('click', onClickPreventDefault);
+        window.mapPinMain.addEventListener('click', onClickPreventDefault);
       }
     };
 

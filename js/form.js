@@ -4,9 +4,9 @@
   var roomsNumber = document.querySelector('select[name="rooms"]');
   var capacityNumber = document.querySelector('select[name="capacity"]');
   var placeType = document.querySelector('select[name="type"]');
-  var inputPrice = document.querySelector('input[name="price"]');
-  var timeIn = document.querySelector('select[name="timein"]');
-  var timeOut = document.querySelector('select[name="timeout"]');
+  var placePrice = document.querySelector('input[name="price"]');
+  var placeTimeIn = document.querySelector('select[name="timein"]');
+  var placeTimeOut = document.querySelector('select[name="timeout"]');
   var cardTemplateSuccess = document.querySelector('#success')
     .content
     .querySelector('.success');
@@ -29,90 +29,85 @@
 
   var checkPriceForPlaces = function () {
     if (placeType.value === 'bungalo') {
-      inputPrice.placeholder = '0';
-      inputPrice.min = 0;
+      placePrice.placeholder = '0';
+      placePrice.min = 0;
     } else if (placeType.value === 'flat') {
-      inputPrice.placeholder = '1000';
-      inputPrice.min = 1000;
+      placePrice.placeholder = '1000';
+      placePrice.min = 1000;
     } else if (placeType.value === 'house') {
-      inputPrice.placeholder = '5000';
-      inputPrice.min = 5000;
+      placePrice.placeholder = '5000';
+      placePrice.min = 5000;
     } else if (placeType.value === 'palace') {
-      inputPrice.placeholder = '10000';
-      inputPrice.min = 10000;
+      placePrice.placeholder = '10000';
+      placePrice.min = 10000;
     }
   };
 
-  var checkInTime = function () {
-    if (timeIn.value === '14:00') {
-      timeOut.value = timeIn.value;
-    } else if (timeIn.value === '12:00') {
-      timeOut.value = timeIn.value;
-    } else if (timeIn.value === '13:00') {
-      timeOut.value = timeIn.value;
+  var checkTimeIn = function () {
+    if (placeTimeIn.value === '14:00') {
+      placeTimeOut.value = placeTimeIn.value;
+    } else if (placeTimeIn.value === '12:00') {
+      placeTimeOut.value = placeTimeIn.value;
+    } else if (placeTimeIn.value === '13:00') {
+      placeTimeOut.value = placeTimeIn.value;
     }
   };
 
-  var checkOutTime = function () {
-    if (timeOut.value === '14:00') {
-      timeIn.value = timeOut.value;
-    } else if (timeOut.value === '12:00') {
-      timeIn.value = timeOut.value;
-    } else if (timeOut.value === '13:00') {
-      timeIn.value = timeOut.value;
+  var checkTimeOut = function () {
+    if (placeTimeOut.value === '14:00') {
+      placeTimeIn.value = placeTimeOut.value;
+    } else if (placeTimeOut.value === '12:00') {
+      placeTimeIn.value = placeTimeOut.value;
+    } else if (placeTimeOut.value === '13:00') {
+      placeTimeIn.value = placeTimeOut.value;
     }
   };
 
-  checkInTime();
-  checkOutTime();
+  checkTimeIn();
+  checkTimeOut();
   checkCapacityAndRooms();
   checkPriceForPlaces();
 
   window.startValidityListeners = function () {
-    timeIn.addEventListener('change', checkInTime);
-    timeOut.addEventListener('change', checkOutTime);
+    placeTimeIn.addEventListener('change', checkTimeIn);
+    placeTimeOut.addEventListener('change', checkTimeOut);
     capacityNumber.addEventListener('change', checkCapacityAndRooms);
     roomsNumber.addEventListener('change', checkCapacityAndRooms);
     placeType.addEventListener('change', checkPriceForPlaces);
   };
 
   var endValidityListeners = function () {
-    timeIn.removeEventListener('change', checkInTime);
-    timeOut.removeEventListener('change', checkOutTime);
+    placeTimeIn.removeEventListener('change', checkTimeIn);
+    placeTimeOut.removeEventListener('change', checkTimeOut);
     capacityNumber.removeEventListener('change', checkCapacityAndRooms);
     roomsNumber.removeEventListener('change', checkCapacityAndRooms);
     placeType.removeEventListener('change', checkPriceForPlaces);
   };
 
-  var deactivateSelects = function (select) {
+  var deactivateFields = function (select) {
     for (var k = 0; k < select.length; k++) {
       select[k].setAttribute('disabled', true);
     }
   };
 
-  var deactivateFieldsets = function (fieldset) {
-    for (var k = 0; k < fieldset.length; k++) {
-      fieldset[k].setAttribute('disabled', true);
-    }
-  };
-
   var makePageDeactiveted = function () {
-    window.mapItem.classList.add('map--faded');
-    window.formItem.classList.add('ad-form--disabled');
-    deactivateFieldsets(window.mapSelects);
-    deactivateSelects(window.mapFieldsets);
-    window.formItem.reset();
-    window.removePins(window.pinContainerElem.querySelectorAll('.map__pin'));
+    window.map.classList.add('map--faded');
+    window.form.classList.add('ad-form--disabled');
+    window.mapFormAvatarUpload.setAttribute('disabled', true);
+    deactivateFields(window.mapFilters);
+    deactivateFields(window.mapFormInputs);
+    window.form.reset();
+    window.removePins(window.mapPins.querySelectorAll('.map__pin'));
     if (document.querySelector('.popup')) {
       document.querySelector('.popup').remove();
     }
     endValidityListeners();
-    window.mapPin.style.left = window.Coordinate.X + 'px';
-    window.mapPin.style.top = window.Coordinate.Y + 'px';
+    window.mapPinMain.style.left = window.Coordinate.X + 'px';
+    window.mapPinMain.style.top = window.Coordinate.Y + 'px';
     window.avatarPreview.src = window.DEFAULT_PHOTO;
     window.photoPreview.style = '';
-    window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
-    window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
+    window.mapPinMain.addEventListener('mousedown', window.mapPinActiveOnMousedown);
+    window.mapPinMain.addEventListener('keydown', window.mapPinActiveOnKeydown);
   };
 
   var openSuccessMessage = function () {
@@ -179,10 +174,10 @@
   var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.addressCoordinate.removeAttribute('disabled');
-    var formData = new FormData(window.formItem);
+    var formData = new FormData(window.form);
     window.save(formData, onSubmitSuccess, onSubmitError);
   };
 
-  window.formItem.addEventListener('submit', onFormSubmit);
+  window.form.addEventListener('submit', onFormSubmit);
 
 })();

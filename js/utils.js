@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var offerPhoto = document.querySelector('template')
+  var photoTemplateOffer = document.querySelector('template')
     .content
     .querySelector('.popup__photo');
 
@@ -22,7 +22,7 @@
   window.getPhotos = function (photosArray) {
     var result = document.createDocumentFragment();
     for (var i = 0; i < photosArray.length; i++) {
-      var photo = offerPhoto.cloneNode(true);
+      var photo = photoTemplateOffer.cloneNode(true);
       photo.src = photosArray[i];
       result.appendChild(photo);
     }

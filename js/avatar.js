@@ -6,7 +6,7 @@
   var photoFileChooser = document.querySelector('.ad-form__upload input[type=file]');
   window.photoPreview = document.querySelector('.ad-form__photo');
 
-  var changePhoto = function (evt) {
+  var photoChanger = function (evt) {
     var fileChooser = evt.target;
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
@@ -23,8 +23,7 @@
           window.avatarPreview.src = reader.result;
         }
         if (evt.target === photoFileChooser) {
-          window.photoPreview.style.backgroundImage = 'url(' + reader.result + ')';
-          window.photoPreview.style.backgroundRepeat = 'no-repeat';
+          window.photoPreview.style.background = 'url(' + reader.result + ') no-repeat';
           window.photoPreview.style.backgroundSize = 'cover';
         }
       });
@@ -33,6 +32,6 @@
     }
   };
 
-  avatarFileChooser.addEventListener('change', changePhoto);
-  photoFileChooser.addEventListener('change', changePhoto);
+  avatarFileChooser.addEventListener('change', photoChanger);
+  photoFileChooser.addEventListener('change', photoChanger);
 })();

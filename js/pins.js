@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  window.mapPinOffer = window.pinContainerElem.getElementsByTagName('button');
-
   var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');

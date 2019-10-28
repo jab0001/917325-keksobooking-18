@@ -4,8 +4,7 @@
   var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
-  var removeDupedOffer = window.mapItem.getElementsByTagName('article');
-  var filtersContainerValues = window.mapItem.querySelector('.map__filters-container');
+  var filtersContainerValues = window.map.querySelector('.map__filters-container');
 
   var closeOffer = function () {
     var card = document.querySelector('.popup');
@@ -44,16 +43,17 @@
     return offerValue;
   };
 
-  var getOfferToPin = function (pinNumber) {
-    if (pinNumber.classList.contains('map__pin')) {
-      var img = pinNumber.querySelector('img');
-      pinNumber = img;
+  var getOfferToPin = function (target) {
+    var removeDupedOffer = window.map.querySelectorAll('.popup');
+    if (target.classList.contains('map__pin')) {
+      var img = target.querySelector('img');
+      target = img;
     }
     var card = window.objects.find(function (object) {
-      return window.getPhotoName(object.author.avatar) === window.getPhotoName(pinNumber.src);
+      return window.getPhotoName(object.author.avatar) === window.getPhotoName(target.src);
     });
     if (removeDupedOffer.length < 1) {
-      window.mapItem.insertBefore(getOfferPopup(card), filtersContainerValues);
+      window.map.insertBefore(getOfferPopup(card), filtersContainerValues);
     } else {
       removeDupedOffer[0].replaceWith(getOfferPopup(card));
     }
