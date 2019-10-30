@@ -2,6 +2,7 @@
 
 (function () {
   window.mapFilters = document.querySelectorAll('.map__filter');
+  window.mapFeatures = document.querySelector('.map__features');
   window.mapFormInputs = document.querySelectorAll('.ad-form__element');
   window.mapFormAvatarUpload = document.querySelector('.ad-form-header');
   window.map = document.querySelector('.map');
@@ -45,27 +46,29 @@
     });
   };
 
-  var makePageActive = function () {
+  window.makePageActive = function () {
+    window.renderOffers(window.NonFilteredOffers);
     window.map.classList.remove('map--faded');
     window.form.classList.remove('ad-form--disabled');
     window.mapFormAvatarUpload.removeAttribute('disabled');
     activateFields(window.mapFilters);
     activateFields(window.mapFormInputs);
+    window.mapFeatures.removeAttribute('disabled');
     window.makePinsActive();
     window.mapPinMain.removeEventListener('mousedown', window.mapPinActiveOnMousedown);
     window.mapPinMain.removeEventListener('keydown', window.mapPinActiveOnKeydown);
-    window.startValidityListeners();
+    window.startListeners();
   };
 
   window.mapPinActiveOnMousedown = function (evt) {
     evt.preventDefault();
-    makePageActive();
+    window.makePageActive();
     window.getAdressOfMark();
   };
 
   window.mapPinActiveOnKeydown = function (evt) {
     if (evt.keyCode === window.Key.ENTER) {
-      makePageActive();
+      window.makePageActive();
       window.getAdressOfMark();
     }
   };

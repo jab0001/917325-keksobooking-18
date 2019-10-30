@@ -6,7 +6,7 @@
     .querySelector('.map__card');
   var filtersContainerValues = window.map.querySelector('.map__filters-container');
 
-  var closeOffer = function () {
+  window.closeOffer = function () {
     var card = document.querySelector('.popup');
     if (card) {
       card.remove();
@@ -15,7 +15,7 @@
 
   var closeOfferOnKeydown = function (evt) {
     if (evt.keyCode === window.Key.ESC) {
-      closeOffer();
+      window.closeOffer();
     }
   };
 
@@ -29,17 +29,27 @@
     offerValue.querySelector('.popup__type').textContent = window.Type[completedCard.offer.type.toUpperCase()];
     offerValue.querySelector('.popup__text--capacity').textContent = completedCard.offer.rooms + ' комнаты для ' + completedCard.offer.guests + ' гостей';
     offerValue.querySelector('.popup__text--time').textContent = 'Заезд после ' + completedCard.offer.checkin + ' , выезд до ' + completedCard.offer.checkout;
-    offerValue.querySelector('.popup__features').innerText = '';
-    offerValue.querySelector('.popup__features').appendChild(window.getFeatures(completedCard.offer.features));
     offerValue.querySelector('.popup__description').textContent = completedCard.offer.description;
-    offerValue.querySelector('.popup__photos').removeChild(offerValue.querySelector('.popup__photo'));
-    offerValue.querySelector('.popup__photos').appendChild(window.getPhotos(completedCard.offer.photos));
     offerValue.querySelector('.popup__avatar').src = completedCard.author.avatar;
 
-    closePopup.addEventListener('click', function () {
-      closeOffer();
-    });
+    offerValue.querySelector('.popup__features').innerText = '';
+    if (completedCard.offer.features.length) {
+      offerValue.querySelector('.popup__features').appendChild(window.getFeatures(completedCard.offer.features));
+    } else {
+      offerValue.querySelector('.popup__features').classList.add('hidden');
+    }
 
+    if (completedCard.offer.photos.length) {
+      offerValue.querySelector('.popup__photos').removeChild(offerValue.querySelector('.popup__photo'));
+      offerValue.querySelector('.popup__photos').appendChild(window.getPhotos(completedCard.offer.photos));
+    } else {
+      offerValue.querySelector('.popup__photos').innerText = '';
+      offerValue.querySelector('.popup__photos').classList.add('hidden');
+    }
+
+    closePopup.addEventListener('click', function () {
+      window.closeOffer();
+    });
     return offerValue;
   };
 

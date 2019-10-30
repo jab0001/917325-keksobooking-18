@@ -7,7 +7,18 @@
   var filterRoom = document.querySelector('select[name="housing-rooms"]');
   var filterGuest = document.querySelector('select[name="housing-guests"]');
   var filterPrice = document.querySelector('select[name="housing-price"]');
-  var filters = document.querySelector('.map__filters');
+  window.filters = document.querySelector('.map__filters');
+
+  window.resetFilters = function () {
+    filterType.value = window.DEFAULT_INPUT_VALUE;
+    filterRoom.value = window.DEFAULT_INPUT_VALUE;
+    filterGuest.value = window.DEFAULT_INPUT_VALUE;
+    filterPrice.value = window.DEFAULT_INPUT_VALUE;
+    var checkedFeatures = document.querySelectorAll('.map__checkbox:checked');
+    checkedFeatures.forEach(function (elem) {
+      elem.checked = false;
+    });
+  };
 
   var offerFilter = {
     types: function (data) {
@@ -55,6 +66,7 @@
 
   var getFilteringData = function () {
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
+    window.offers = [];
     var filteredPins = offers.filter(offerFilter.types)
       .filter(getFilterOffersPrice)
       .filter(offerFilter.rooms)
@@ -62,9 +74,10 @@
       .filter(getOffersFeaturesFiltered);
     window.renderOffers(filteredPins);
     window.makePinsActive();
+    window.closeOffer();
   };
 
-  filters.addEventListener('change', window.debounce(getFilteringData));
+  window.filters.addEventListener('change', window.debounce(getFilteringData));
 
   var onError = function (message) {
     var error = window.cardTemplateError.cloneNode(true);
@@ -74,6 +87,7 @@
 
   var onSuccess = function (data) {
     offers = data;
+    window.NonFilteredOffers = data;
     getFilteringData();
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
   };

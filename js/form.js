@@ -68,20 +68,23 @@
   checkCapacityAndRooms();
   checkPriceForPlaces();
 
-  window.startValidityListeners = function () {
+  window.startListeners = function () {
     placeTimeIn.addEventListener('change', checkTimeIn);
     placeTimeOut.addEventListener('change', checkTimeOut);
     capacityNumber.addEventListener('change', checkCapacityAndRooms);
     roomsNumber.addEventListener('change', checkCapacityAndRooms);
     placeType.addEventListener('change', checkPriceForPlaces);
+    window.form.addEventListener('reset', makePageDeactiveted);
   };
 
-  var endValidityListeners = function () {
+  var endListeners = function () {
     placeTimeIn.removeEventListener('change', checkTimeIn);
     placeTimeOut.removeEventListener('change', checkTimeOut);
     capacityNumber.removeEventListener('change', checkCapacityAndRooms);
     roomsNumber.removeEventListener('change', checkCapacityAndRooms);
     placeType.removeEventListener('change', checkPriceForPlaces);
+    checkPriceForPlaces();
+    window.form.removeEventListener('reset', makePageDeactiveted);
   };
 
   var deactivateFields = function (select) {
@@ -96,18 +99,29 @@
     window.mapFormAvatarUpload.setAttribute('disabled', true);
     deactivateFields(window.mapFilters);
     deactivateFields(window.mapFormInputs);
-    window.form.reset();
+    window.mapFeatures.setAttribute('disabled', true);
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
     if (document.querySelector('.popup')) {
       document.querySelector('.popup').remove();
     }
-    endValidityListeners();
-    window.mapPinMain.style.left = window.Coordinate.X + 'px';
-    window.mapPinMain.style.top = window.Coordinate.Y + 'px';
-    window.avatarPreview.src = window.DEFAULT_PHOTO;
-    window.photoPreview.style = '';
+    window.form.reset();
+    window.resetFilters();
+    resetMainPin();
+    resetPhotoPreview();
+    endListeners();
+
     window.mapPinMain.addEventListener('mousedown', window.mapPinActiveOnMousedown);
     window.mapPinMain.addEventListener('keydown', window.mapPinActiveOnKeydown);
+  };
+
+  var resetMainPin = function () {
+    window.mapPinMain.style.left = window.Coordinate.X + 'px';
+    window.mapPinMain.style.top = window.Coordinate.Y + 'px';
+  };
+
+  var resetPhotoPreview = function () {
+    window.avatarPreview.src = window.DEFAULT_PHOTO;
+    window.photoPreview.style = '';
   };
 
   var openSuccessMessage = function () {
@@ -142,7 +156,7 @@
 
   var onSuccessEscDown = function (evt) {
     evt.preventDefault();
-    if (evt.keyCode === window.key.ESC) {
+    if (evt.keyCode === window.Key.ESC) {
       closeSuccessMessage();
     }
   };
@@ -154,7 +168,7 @@
 
   var onErrorEscDown = function (evt) {
     evt.preventDefault();
-    if (evt.keyCode === window.key.ESC) {
+    if (evt.keyCode === window.Key.ESC) {
       closeErrorMessage();
     }
   };
@@ -168,7 +182,7 @@
   var closeErrorMessage = function () {
     document.querySelector('.error').remove();
     document.removeEventListener('keydown', onErrorEscDown);
-    document.removeEventListener('click', onSuccessClick);
+    document.removeEventListener('click', onErrorClick);
   };
 
   var onFormSubmit = function (evt) {
