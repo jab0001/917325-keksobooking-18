@@ -7,14 +7,21 @@
   var placePrice = document.querySelector('input[name="price"]');
   var placeTimeIn = document.querySelector('select[name="timein"]');
   var placeTimeOut = document.querySelector('select[name="timeout"]');
+  var offerTitle = document.querySelector('input[name="title"]');
   var cardTemplateSuccess = document.querySelector('#success')
     .content
     .querySelector('.success');
 
-  var checkCapacityAndRooms = function () {
+  var checkValidityForTitle = function () {
+    if (offerTitle.value.length > window.TITLE_LENGTH) {
+      offerTitle.style = '';
+    }
+  };
+
+  var checkValidityCapacityAndRooms = function () {
     var rooms = +roomsNumber.value;
     var capacity = +capacityNumber.value;
-    if (rooms < capacity) {
+    if (rooms < capacity || rooms > capacity) {
       roomsNumber.setCustomValidity('для гостей нужно больше комнат');
     } else if (rooms === 100 && capacity !== 0) {
       roomsNumber.setCustomValidity('для комерческого помещения нужно выбрать 0 гостей');
@@ -22,24 +29,47 @@
       roomsNumber.setCustomValidity('для 0 гостей нужно выбрать комерческое помещение');
     } else if (rooms === 100 && capacity === 0) {
       roomsNumber.setCustomValidity('');
+      roomsNumber.style = '';
+      capacityNumber.style = '';
     } else {
       roomsNumber.setCustomValidity('');
+      roomsNumber.style = '';
+      capacityNumber.style = '';
     }
   };
 
-  var checkPriceForPlaces = function () {
+  var invalidCapacityAndRooms = function () {
+    roomsNumber.style = 'border-color: red';
+    capacityNumber.style = 'border-color: red';
+  };
+
+  var getConformityPriceForPlaces = function () {
     if (placeType.value === 'bungalo') {
       placePrice.placeholder = '0';
-      placePrice.min = 0;
+      placePrice.min = window. MinPriceForPlace.BUNGALO;
     } else if (placeType.value === 'flat') {
       placePrice.placeholder = '1000';
-      placePrice.min = 1000;
+      placePrice.min = window. MinPriceForPlace.FLAT;
     } else if (placeType.value === 'house') {
       placePrice.placeholder = '5000';
-      placePrice.min = 5000;
+      placePrice.min = window. MinPriceForPlace.HOUSE;
     } else if (placeType.value === 'palace') {
       placePrice.placeholder = '10000';
-      placePrice.min = 10000;
+      placePrice.min = window. MinPriceForPlace.PALACE;
+    }
+  };
+
+  var getValidityPrice = function () {
+    if (placeType.value === 'bungalo' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+      placePrice.style = 'border-color: red';
+    } else if (placeType.value === 'flat' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+      placePrice.style = 'border-color: red';
+    } else if (placeType.value === 'house' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+      placePrice.style = 'border-color: red';
+    } else if (placeType.value === 'palace' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+      placePrice.style = 'border-color: red';
+    } else {
+      placePrice.style = '';
     }
   };
 
@@ -65,26 +95,42 @@
 
   checkTimeIn();
   checkTimeOut();
-  checkCapacityAndRooms();
-  checkPriceForPlaces();
+  checkValidityCapacityAndRooms();
+  getConformityPriceForPlaces();
 
   window.startListeners = function () {
     placeTimeIn.addEventListener('change', checkTimeIn);
     placeTimeOut.addEventListener('change', checkTimeOut);
-    capacityNumber.addEventListener('change', checkCapacityAndRooms);
-    roomsNumber.addEventListener('change', checkCapacityAndRooms);
-    placeType.addEventListener('change', checkPriceForPlaces);
+    capacityNumber.addEventListener('change', checkValidityCapacityAndRooms);
+    roomsNumber.addEventListener('change', checkValidityCapacityAndRooms);
+    capacityNumber.addEventListener('invalid', invalidCapacityAndRooms);
+    roomsNumber.addEventListener('invalid', invalidCapacityAndRooms);
+    placeType.addEventListener('change', getConformityPriceForPlaces);
+    placePrice.addEventListener('input', getValidityPrice);
     window.form.addEventListener('reset', makePageDeactiveted);
+    window.form.addEventListener('submit', onFormSubmit);
+    offerTitle.addEventListener('input', checkValidityForTitle);
+    getConformityPriceForPlaces();
+    window.form.addEventListener('invalid', function (evt) {
+      evt.target.style = 'border-color: red';
+    }, true);
   };
 
   var endListeners = function () {
     placeTimeIn.removeEventListener('change', checkTimeIn);
     placeTimeOut.removeEventListener('change', checkTimeOut);
-    capacityNumber.removeEventListener('change', checkCapacityAndRooms);
-    roomsNumber.removeEventListener('change', checkCapacityAndRooms);
-    placeType.removeEventListener('change', checkPriceForPlaces);
-    checkPriceForPlaces();
+    capacityNumber.removeEventListener('change', checkValidityCapacityAndRooms);
+    roomsNumber.removeEventListener('change', checkValidityCapacityAndRooms);
+    capacityNumber.removeEventListener('invalid', invalidCapacityAndRooms);
+    roomsNumber.removeEventListener('invalid', invalidCapacityAndRooms);
+    placeType.removeEventListener('change', getConformityPriceForPlaces);
+    placePrice.removeEventListener('input', getValidityPrice);
     window.form.removeEventListener('reset', makePageDeactiveted);
+    window.form.removeEventListener('submit', onFormSubmit);
+    offerTitle.removeEventListener('input', checkValidityForTitle);
+    window.form.removeEventListener('invalid', function (evt) {
+      evt.target.style = 'border-color: red';
+    }, true);
   };
 
   var deactivateFields = function (select) {
@@ -191,7 +237,4 @@
     var formData = new FormData(window.form);
     window.save(formData, onSubmitSuccess, onSubmitError);
   };
-
-  window.form.addEventListener('submit', onFormSubmit);
-
 })();

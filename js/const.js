@@ -31,4 +31,13 @@
   window.DEFAULT_INPUT_VALUE = 'any';
   window.FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   window.DEFAULT_PHOTO = 'img/muffin-grey.svg';
+  window.INVALID_FIELD = '5px solid green';
+  window.TITLE_LENGTH = 30;
+  window. maxPlacePrice = 100000;
+  window. MinPriceForPlace = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
+  };
 })();
