@@ -11,6 +11,7 @@
   var cardTemplateSuccess = document.querySelector('#success')
     .content
     .querySelector('.success');
+  var formInputs = document.querySelectorAll('.ad-form input');
 
   var checkValidityForTitle = function () {
     if (offerTitle.value.length > window.TITLE_LENGTH) {
@@ -145,6 +146,11 @@
     window.mapFormAvatarUpload.setAttribute('disabled', true);
     deactivateFields(window.mapFilters);
     deactivateFields(window.mapFormInputs);
+    formInputs.forEach(function (elem) {
+      elem.style = '';
+    });
+    roomsNumber.style = '';
+    capacityNumber.style = '';
     window.mapFeatures.setAttribute('disabled', true);
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
     if (document.querySelector('.popup')) {
