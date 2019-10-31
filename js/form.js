@@ -47,27 +47,27 @@
   var getConformityPriceForPlaces = function () {
     if (placeType.value === 'bungalo') {
       placePrice.placeholder = '0';
-      placePrice.min = window. MinPriceForPlace.BUNGALO;
+      placePrice.min = window.MinPriceForPlace.BUNGALO;
     } else if (placeType.value === 'flat') {
       placePrice.placeholder = '1000';
-      placePrice.min = window. MinPriceForPlace.FLAT;
+      placePrice.min = window.MinPriceForPlace.FLAT;
     } else if (placeType.value === 'house') {
       placePrice.placeholder = '5000';
-      placePrice.min = window. MinPriceForPlace.HOUSE;
+      placePrice.min = window.MinPriceForPlace.HOUSE;
     } else if (placeType.value === 'palace') {
       placePrice.placeholder = '10000';
-      placePrice.min = window. MinPriceForPlace.PALACE;
+      placePrice.min = window.MinPriceForPlace.PALACE;
     }
   };
 
   var getValidityPrice = function () {
-    if (placeType.value === 'bungalo' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+    if (placeType.value === 'bungalo' && placePrice.value < window.MinPriceForPlace.BUNGALO || placePrice.value > window. maxPlacePrice) {
       placePrice.style = window.ERROR_BORDER;
-    } else if (placeType.value === 'flat' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+    } else if (placeType.value === 'flat' && placePrice.value < window.MinPriceForPlace.FLAT || placePrice.value > window. maxPlacePrice) {
       placePrice.style = window.ERROR_BORDER;
-    } else if (placeType.value === 'house' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+    } else if (placeType.value === 'house' && placePrice.value < window.MinPriceForPlace.HOUSE || placePrice.value > window. maxPlacePrice) {
       placePrice.style = window.ERROR_BORDER;
-    } else if (placeType.value === 'palace' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
+    } else if (placeType.value === 'palace' && placePrice.value < window.MinPriceForPlace.PALACE || placePrice.value > window. maxPlacePrice) {
       placePrice.style = window.ERROR_BORDER;
     } else {
       placePrice.style = '';
