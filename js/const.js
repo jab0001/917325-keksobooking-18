@@ -40,4 +40,5 @@
     HOUSE: 5000,
     PALACE: 10000
   };
+  window.ERROR_BORDER = 'border-color: red';
 })();

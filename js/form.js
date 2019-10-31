@@ -39,8 +39,8 @@
   };
 
   var invalidCapacityAndRooms = function () {
-    roomsNumber.style = 'border-color: red';
-    capacityNumber.style = 'border-color: red';
+    roomsNumber.style = window.ERROR_BORDER;
+    capacityNumber.style = window.ERROR_BORDER;
   };
 
   var getConformityPriceForPlaces = function () {
@@ -61,13 +61,13 @@
 
   var getValidityPrice = function () {
     if (placeType.value === 'bungalo' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
-      placePrice.style = 'border-color: red';
+      placePrice.style = window.ERROR_BORDER;
     } else if (placeType.value === 'flat' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
-      placePrice.style = 'border-color: red';
+      placePrice.style = window.ERROR_BORDER;
     } else if (placeType.value === 'house' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
-      placePrice.style = 'border-color: red';
+      placePrice.style = window.ERROR_BORDER;
     } else if (placeType.value === 'palace' && placePrice.value < placePrice.min || placePrice.value > window. maxPlacePrice) {
-      placePrice.style = 'border-color: red';
+      placePrice.style = window.ERROR_BORDER;
     } else {
       placePrice.style = '';
     }
@@ -112,7 +112,7 @@
     offerTitle.addEventListener('input', checkValidityForTitle);
     getConformityPriceForPlaces();
     window.form.addEventListener('invalid', function (evt) {
-      evt.target.style = 'border-color: red';
+      evt.target.style = window.ERROR_BORDER;
     }, true);
   };
 
@@ -129,7 +129,7 @@
     window.form.removeEventListener('submit', onFormSubmit);
     offerTitle.removeEventListener('input', checkValidityForTitle);
     window.form.removeEventListener('invalid', function (evt) {
-      evt.target.style = 'border-color: red';
+      evt.target.style = window.ERROR_BORDER;
     }, true);
   };
 
