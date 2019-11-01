@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  window.pinTemplate = document.querySelector('#pin')
+  var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
   var renderPinFromTemplate = function (offer) {
-    var pin = window.pinTemplate.cloneNode(true);
+    var pin = pinTemplate.cloneNode(true);
 
     pin.style.left = offer.location.x + 'px';
     pin.style.top = offer.location.y + 'px';
@@ -28,8 +28,8 @@
     });
   };
 
-  window.renderPins = function (arr) {
-    var dataLength = arr.length > 5 ? 5 : arr.length;
+  var renderPins = function (arr) {
+    var dataLength = arr.length > window.const.offerAmounts ? window.const.offerAmounts : arr.length;
     var result = document.createDocumentFragment();
     for (var j = 0; j < dataLength; j++) {
       result.appendChild(renderPinFromTemplate(arr[j]));
@@ -37,9 +37,14 @@
     return result;
   };
 
-  window.removePins = function (arr) {
+  var removePins = function (arr) {
     for (var i = 1; i < arr.length; i++) {
       arr[i].remove();
     }
+  };
+
+  window.pins = {
+    renderPins: renderPins,
+    removePins: removePins
   };
 })();

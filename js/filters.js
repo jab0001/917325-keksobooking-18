@@ -5,13 +5,13 @@
   var filterRoom = document.querySelector('select[name="housing-rooms"]');
   var filterGuest = document.querySelector('select[name="housing-guests"]');
   var filterPrice = document.querySelector('select[name="housing-price"]');
-  window.filters = document.querySelector('.map__filters');
+  var filters = document.querySelector('.map__filters');
 
-  window.resetFilters = function () {
-    filterType.value = window.DEFAULT_INPUT_VALUE;
-    filterRoom.value = window.DEFAULT_INPUT_VALUE;
-    filterGuest.value = window.DEFAULT_INPUT_VALUE;
-    filterPrice.value = window.DEFAULT_INPUT_VALUE;
+  var resetFilters = function () {
+    filterType.value = window.const.defaultInputValue;
+    filterRoom.value = window.const.defaultInputValue;
+    filterGuest.value = window.const.defaultInputValue;
+    filterPrice.value = window.const.defaultInputValue;
     var checkedFeatures = document.querySelectorAll('.map__checkbox:checked');
     checkedFeatures.forEach(function (elem) {
       elem.checked = false;
@@ -31,18 +31,18 @@
   };
 
   var getOffersForFilters = function (input, data) {
-    return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data.toString();
+    return input.value === window.const.defaultInputValue ? true : input.value === data.toString();
   };
 
   var offerPriceRange = {
     low: function (price) {
-      return +price < window.Price.MIN;
+      return +price < window.const.price.MIN;
     },
     middle: function (price) {
-      return +price >= window.Price.MIN && +price <= window.Price.MAX;
+      return +price >= window.const.price.MIN && +price <= window.const.price.MAX;
     },
     high: function (price) {
-      return +price > window.Price.MAX;
+      return +price > window.const.price.MAX;
     },
     any: function (price) {
       return price;
@@ -62,17 +62,23 @@
     });
   };
 
-  window.getFilteringOffers = function () {
-    window.removePins(window.mapPins.querySelectorAll('.map__pin'));
+  var getFilteringOffers = function () {
+    window.pins.removePins(window.map.mapPins.querySelectorAll('.map__pin'));
     var filteredPins = window.offers.filter(offerFilter.types)
       .filter(getOffersForPrice)
       .filter(offerFilter.rooms)
       .filter(offerFilter.guests)
       .filter(getOffersForFeatures);
-    window.renderOffers(filteredPins);
-    window.makePinsActive();
-    window.closeCardOffer();
+    window.map.renderOffers(filteredPins);
+    window.map.makePinsActive();
+    window.cards.closeCardOffer();
   };
 
-  window.filters.addEventListener('change', window.debounce(window.getFilteringOffers));
+  filters.addEventListener('change', window.debounce(getFilteringOffers));
+
+  window.filters = {
+    resetFilters: resetFilters,
+    filters: filters,
+    filteringOffers: getFilteringOffers
+  };
 })();

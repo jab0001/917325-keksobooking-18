@@ -2,7 +2,7 @@
 
 
 (function () {
-  window.mapPinMain.addEventListener('mousedown', function (evt) {
+  window.map.mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var StartCoord = {
@@ -27,18 +27,18 @@
       };
 
       var Mark = {
-        coordinateX: window.mapPinMain.offsetLeft - Shift.X,
-        coordinateY: window.mapPinMain.offsetTop - Shift.Y
+        coordinateX: window.map.mapPinMain.offsetLeft - Shift.X,
+        coordinateY: window.map.mapPinMain.offsetTop - Shift.Y
       };
 
-      if (Mark.coordinateX >= window.Limit.Xmin && Mark.coordinateX <= window.Limit.Xmax - window.mapPinMain.offsetWidth) {
-        window.mapPinMain.style.left = Mark.coordinateX + 'px';
+      if (Mark.coordinateX >= window.const.limit.Xmin && Mark.coordinateX <= window.const.limit.Xmax - window.map.mapPinMain.offsetWidth) {
+        window.map.mapPinMain.style.left = Mark.coordinateX + 'px';
       }
-      if (Mark.coordinateY >= window.Limit.Ymin - (window.mapPinMain.offsetHeight + window.PIN_HEIGHT) && Mark.coordinateY <= window.Limit.Ymax - (window.mapPinMain.offsetHeight + window.PIN_HEIGHT)) {
-        window.mapPinMain.style.top = Mark.coordinateY + 'px';
+      if (Mark.coordinateY >= window.const.limit.Ymin - (window.map.mapPinMain.offsetHeight + window.const.pinHeight) && Mark.coordinateY <= window.const.limit.Ymax - (window.map.mapPinMain.offsetHeight + window.const.pinHeight)) {
+        window.map.mapPinMain.style.top = Mark.coordinateY + 'px';
       }
 
-      window.getAdressOfMark();
+      window.map.adressOfMark();
     };
 
     var onMouseUp = function (upEvt) {
@@ -50,9 +50,9 @@
       if (dragged) {
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
-          window.mapPinMain.removeEventListener('click', onClickPreventDefault);
+          window.map.mapPinMain.removeEventListener('click', onClickPreventDefault);
         };
-        window.mapPinMain.addEventListener('click', onClickPreventDefault);
+        window.map.mapPinMain.addEventListener('click', onClickPreventDefault);
       }
     };
 
