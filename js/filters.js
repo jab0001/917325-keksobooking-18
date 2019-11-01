@@ -63,9 +63,9 @@
   };
 
   var getFilteringOffers = function () {
-    var filteredArray = window.offers.slice();
+    var arrayForFilters = window.offers.slice();
     window.pins.removePins(window.map.mapPins.querySelectorAll('.map__pin'));
-    var filteredPins = filteredArray.filter(offerFilter.types)
+    var filteredPins = arrayForFilters.filter(offerFilter.types)
       .filter(getOffersForPrice)
       .filter(offerFilter.rooms)
       .filter(offerFilter.guests)
