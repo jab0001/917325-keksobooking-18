@@ -14,7 +14,6 @@
   var cardTemplateError = document.querySelector('#error')
     .content
     .querySelector('.error');
-  window.offers = [];
 
   var getAdressOfMark = function () {
     var mapPinLeft = +(mapPinMain.style.left.replace('px', ''));
@@ -49,7 +48,7 @@
   };
 
   var makePageActive = function () {
-    renderOffers(window.NonFilteredOffers);
+    renderOffers(window.offers);
     map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     filters.classList.remove('map__filters--disabled');
@@ -87,7 +86,6 @@
 
   var onSuccess = function (data) {
     window.offers = data;
-    window.NonFilteredOffers = data;
     window.filters.filteringOffers();
     window.pins.removePins(mapPins.querySelectorAll('.map__pin'));
   };
