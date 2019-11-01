@@ -22,40 +22,40 @@
 
   var offerFilter = {
     types: function (data) {
-      return getFilteringOffers(filterType, data.offer.type);
+      return getOffersForFilters(filterType, data.offer.type);
     },
     rooms: function (data) {
-      return getFilteringOffers(filterRoom, data.offer.rooms);
+      return getOffersForFilters(filterRoom, data.offer.rooms);
     },
     guests: function (data) {
-      return getFilteringOffers(filterGuest, data.offer.guests);
+      return getOffersForFilters(filterGuest, data.offer.guests);
     }
   };
 
-  var getFilteringOffers = function (input, data) {
+  var getOffersForFilters = function (input, data) {
     return input.value === window.DEFAULT_INPUT_VALUE ? true : input.value === data.toString();
   };
 
   var offerPriceRange = {
-    low: function (data) {
-      return +data < window.Price.MIN;
+    low: function (price) {
+      return +price < window.Price.MIN;
     },
-    middle: function (data) {
-      return +data >= window.Price.MIN && +data <= window.Price.MAX;
+    middle: function (price) {
+      return +price >= window.Price.MIN && +price <= window.Price.MAX;
     },
-    high: function (data) {
-      return +data > window.Price.MAX;
+    high: function (price) {
+      return +price > window.Price.MAX;
     },
-    any: function (data) {
-      return data;
+    any: function (price) {
+      return price;
     }
   };
 
-  var getFilterOffersPrice = function (data) {
+  var getOffersForPrice = function (data) {
     return offerPriceRange[filterPrice.value](data.offer.price);
   };
 
-  var getOffersFeaturesFiltered = function (item) {
+  var getOffersForFeatures = function (item) {
     var pushedFeatures = Array.from(document.querySelectorAll('.map__checkbox:checked')).map(function (features) {
       return features.value;
     });
@@ -64,20 +64,19 @@
     });
   };
 
-  var getFilteringData = function () {
+  var getFilteringOffers = function () {
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
-    window.offers = [];
     var filteredPins = offers.filter(offerFilter.types)
-      .filter(getFilterOffersPrice)
+      .filter(getOffersForPrice)
       .filter(offerFilter.rooms)
       .filter(offerFilter.guests)
-      .filter(getOffersFeaturesFiltered);
+      .filter(getOffersForFeatures);
     window.renderOffers(filteredPins);
     window.makePinsActive();
-    window.closeOffer();
+    window.closeCardOffer();
   };
 
-  window.filters.addEventListener('change', window.debounce(getFilteringData));
+  window.filters.addEventListener('change', window.debounce(getFilteringOffers));
 
   var onError = function (message) {
     var error = window.cardTemplateError.cloneNode(true);
@@ -88,7 +87,7 @@
   var onSuccess = function (data) {
     offers = data;
     window.NonFilteredOffers = data;
-    getFilteringData();
+    getFilteringOffers();
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
   };
 

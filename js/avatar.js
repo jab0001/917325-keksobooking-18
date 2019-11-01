@@ -6,7 +6,7 @@
   var photoFileChooser = document.querySelector('.ad-form__upload input[type=file]');
   window.photoPreview = document.querySelector('.ad-form__photo');
 
-  var photoChanger = function (evt) {
+  var onPhotoChange = function (evt) {
     var fileChooser = evt.target;
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
@@ -32,6 +32,6 @@
     }
   };
 
-  avatarFileChooser.addEventListener('change', photoChanger);
-  photoFileChooser.addEventListener('change', photoChanger);
+  avatarFileChooser.addEventListener('change', onPhotoChange);
+  photoFileChooser.addEventListener('change', onPhotoChange);
 })();

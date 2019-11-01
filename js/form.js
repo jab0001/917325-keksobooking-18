@@ -13,13 +13,13 @@
     .querySelector('.success');
   var formInputs = document.querySelectorAll('.ad-form input');
 
-  var checkValidityForTitle = function () {
+  var validateTitle = function () {
     if (offerTitle.value.length > window.TITLE_LENGTH) {
       offerTitle.style = '';
     }
   };
 
-  var checkValidityCapacityAndRooms = function () {
+  var validateCapacityAndRooms = function () {
     var rooms = +roomsNumber.value;
     var capacity = +capacityNumber.value;
     if (rooms < capacity || rooms > capacity) {
@@ -29,106 +29,77 @@
     } else if (rooms !== 100 && capacity === 0) {
       roomsNumber.setCustomValidity('для 0 гостей нужно выбрать комерческое помещение');
     } else if (rooms === 100 && capacity === 0) {
-      roomsNumber.setCustomValidity('');
-      roomsNumber.style = '';
-      capacityNumber.style = '';
+      validateCapacityAndRoomsSuccess();
     } else {
-      roomsNumber.setCustomValidity('');
-      roomsNumber.style = '';
-      capacityNumber.style = '';
+      validateCapacityAndRoomsSuccess();
     }
   };
 
-  var invalidCapacityAndRooms = function () {
+  var validateCapacityAndRoomsSuccess = function () {
+    roomsNumber.setCustomValidity('');
+    roomsNumber.style = '';
+    capacityNumber.style = '';
+  };
+
+  var validateCapacityAndRoomsError = function () {
     roomsNumber.style = window.ERROR_BORDER;
     capacityNumber.style = window.ERROR_BORDER;
   };
 
-  var getConformityPriceForPlaces = function () {
-    if (placeType.value === 'bungalo') {
-      placePrice.placeholder = '0';
-      placePrice.min = window.MinPriceForPlace.BUNGALO;
-    } else if (placeType.value === 'flat') {
-      placePrice.placeholder = '1000';
-      placePrice.min = window.MinPriceForPlace.FLAT;
-    } else if (placeType.value === 'house') {
-      placePrice.placeholder = '5000';
-      placePrice.min = window.MinPriceForPlace.HOUSE;
-    } else if (placeType.value === 'palace') {
-      placePrice.placeholder = '10000';
-      placePrice.min = window.MinPriceForPlace.PALACE;
-    }
+  var synchronizePriceForPlaces = function () {
+    placePrice.setAttribute('min', window.MinPriceForPlace[placeType.value.toUpperCase()]);
+    placePrice.setAttribute('placeholder', window.MinPriceForPlace[placeType.value.toUpperCase()]);
   };
 
-  var getValidityPrice = function () {
-    if (placeType.value === 'bungalo' && placePrice.value < window.MinPriceForPlace.BUNGALO || placePrice.value > window. maxPlacePrice) {
+  var validatePrice = function () {
+    if (placePrice.value < window.minPlacePrice) {
       placePrice.style = window.ERROR_BORDER;
-    } else if (placeType.value === 'flat' && placePrice.value < window.MinPriceForPlace.FLAT || placePrice.value > window. maxPlacePrice) {
-      placePrice.style = window.ERROR_BORDER;
-    } else if (placeType.value === 'house' && placePrice.value < window.MinPriceForPlace.HOUSE || placePrice.value > window. maxPlacePrice) {
-      placePrice.style = window.ERROR_BORDER;
-    } else if (placeType.value === 'palace' && placePrice.value < window.MinPriceForPlace.PALACE || placePrice.value > window. maxPlacePrice) {
+    } else if (placePrice.value > window.maxPlacePrice) {
       placePrice.style = window.ERROR_BORDER;
     } else {
       placePrice.style = '';
     }
   };
 
-  var checkTimeIn = function () {
-    if (placeTimeIn.value === '14:00') {
-      placeTimeOut.value = placeTimeIn.value;
-    } else if (placeTimeIn.value === '12:00') {
-      placeTimeOut.value = placeTimeIn.value;
-    } else if (placeTimeIn.value === '13:00') {
-      placeTimeOut.value = placeTimeIn.value;
-    }
+  var synchronizeTimeIn = function () {
+    placeTimeOut.value = placeTimeIn.value;
   };
 
-  var checkTimeOut = function () {
-    if (placeTimeOut.value === '14:00') {
-      placeTimeIn.value = placeTimeOut.value;
-    } else if (placeTimeOut.value === '12:00') {
-      placeTimeIn.value = placeTimeOut.value;
-    } else if (placeTimeOut.value === '13:00') {
-      placeTimeIn.value = placeTimeOut.value;
-    }
+  var synchronizeTimeOut = function () {
+    placeTimeIn.value = placeTimeOut.value;
   };
 
-  checkTimeIn();
-  checkTimeOut();
-  checkValidityCapacityAndRooms();
-  getConformityPriceForPlaces();
+  validateCapacityAndRooms();
+  synchronizePriceForPlaces();
 
   window.startListeners = function () {
-    placeTimeIn.addEventListener('change', checkTimeIn);
-    placeTimeOut.addEventListener('change', checkTimeOut);
-    capacityNumber.addEventListener('change', checkValidityCapacityAndRooms);
-    roomsNumber.addEventListener('change', checkValidityCapacityAndRooms);
-    capacityNumber.addEventListener('invalid', invalidCapacityAndRooms);
-    roomsNumber.addEventListener('invalid', invalidCapacityAndRooms);
-    placeType.addEventListener('change', getConformityPriceForPlaces);
-    placePrice.addEventListener('input', getValidityPrice);
+    capacityNumber.addEventListener('change', validateCapacityAndRooms);
+    roomsNumber.addEventListener('change', validateCapacityAndRooms);
+    placeTimeOut.addEventListener('change', synchronizeTimeOut);
+    placeTimeIn.addEventListener('change', synchronizeTimeIn);
+    capacityNumber.addEventListener('invalid', validateCapacityAndRoomsError);
+    roomsNumber.addEventListener('invalid', validateCapacityAndRoomsError);
+    placeType.addEventListener('change', synchronizePriceForPlaces);
+    placePrice.addEventListener('input', validatePrice);
     window.form.addEventListener('reset', makePageDeactiveted);
     window.form.addEventListener('submit', onFormSubmit);
-    offerTitle.addEventListener('input', checkValidityForTitle);
-    getConformityPriceForPlaces();
+    offerTitle.addEventListener('input', validateTitle);
+    synchronizePriceForPlaces();
     window.form.addEventListener('invalid', function (evt) {
       evt.target.style = window.ERROR_BORDER;
     }, true);
   };
 
   var endListeners = function () {
-    placeTimeIn.removeEventListener('change', checkTimeIn);
-    placeTimeOut.removeEventListener('change', checkTimeOut);
-    capacityNumber.removeEventListener('change', checkValidityCapacityAndRooms);
-    roomsNumber.removeEventListener('change', checkValidityCapacityAndRooms);
-    capacityNumber.removeEventListener('invalid', invalidCapacityAndRooms);
-    roomsNumber.removeEventListener('invalid', invalidCapacityAndRooms);
-    placeType.removeEventListener('change', getConformityPriceForPlaces);
-    placePrice.removeEventListener('input', getValidityPrice);
+    capacityNumber.removeEventListener('change', validateCapacityAndRooms);
+    roomsNumber.removeEventListener('change', validateCapacityAndRooms);
+    capacityNumber.removeEventListener('invalid', validateCapacityAndRoomsError);
+    roomsNumber.removeEventListener('invalid', validateCapacityAndRoomsError);
+    placeType.removeEventListener('change', synchronizePriceForPlaces);
+    placePrice.removeEventListener('input', validatePrice);
     window.form.removeEventListener('reset', makePageDeactiveted);
     window.form.removeEventListener('submit', onFormSubmit);
-    offerTitle.removeEventListener('input', checkValidityForTitle);
+    offerTitle.removeEventListener('input', validateTitle);
     window.form.removeEventListener('invalid', function (evt) {
       evt.target.style = window.ERROR_BORDER;
     }, true);
@@ -143,6 +114,7 @@
   var makePageDeactiveted = function () {
     window.map.classList.add('map--faded');
     window.form.classList.add('ad-form--disabled');
+    window.filters.classList.add('map__filters--disabled');
     window.mapFormAvatarUpload.setAttribute('disabled', true);
     deactivateFields(window.mapFilters);
     deactivateFields(window.mapFormInputs);

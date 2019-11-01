@@ -4,57 +4,79 @@
   var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
-  var filtersContainerValues = window.map.querySelector('.map__filters-container');
+  var filtersContainerValue = window.map.querySelector('.map__filters-container');
+  var photoTemplateOffer = document.querySelector('template')
+    .content
+    .querySelector('.popup__photo');
 
-  window.closeOffer = function () {
+  window.closeCardOffer = function () {
     var card = document.querySelector('.popup');
     if (card) {
       card.remove();
     }
   };
 
+  window.getPhotos = function (photosArray) {
+    var result = document.createDocumentFragment();
+    for (var i = 0; i < photosArray.length; i++) {
+      var photo = photoTemplateOffer.cloneNode(true);
+      photo.src = photosArray[i];
+      result.appendChild(photo);
+    }
+    return result;
+  };
+
+  window.getFeatures = function (featuresArray) {
+    var result = document.createDocumentFragment();
+    for (var i = 0; i < featuresArray.length; i++) {
+      var feature = document.createElement('li');
+      feature.className = 'popup__feature popup__feature--' + featuresArray[i];
+      result.appendChild(feature);
+    }
+    return result;
+  };
+
   var closeOfferOnKeydown = function (evt) {
     if (evt.keyCode === window.Key.ESC) {
-      window.closeOffer();
+      window.closeCardOffer();
     }
   };
 
-  var getOfferPopup = function (completedCard) {
-    var offerValue = cardTemplate.cloneNode(true);
-    var closePopup = offerValue.querySelector('.popup__close');
+  var getOfferCardPopup = function (completedCard) {
+    var cardElement = cardTemplate.cloneNode(true);
+    var buttonPopupClose = cardElement.querySelector('.popup__close');
 
-    offerValue.querySelector('.popup__title').textContent = completedCard.offer.title;
-    offerValue.querySelector('.popup__text--address').textContent = completedCard.offer.address;
-    offerValue.querySelector('.popup__text--price').textContent = completedCard.offer.price + ' ₽/ночь';
-    offerValue.querySelector('.popup__type').textContent = window.Type[completedCard.offer.type.toUpperCase()];
-    offerValue.querySelector('.popup__text--capacity').textContent = completedCard.offer.rooms + ' комнаты для ' + completedCard.offer.guests + ' гостей';
-    offerValue.querySelector('.popup__text--time').textContent = 'Заезд после ' + completedCard.offer.checkin + ' , выезд до ' + completedCard.offer.checkout;
-    offerValue.querySelector('.popup__description').textContent = completedCard.offer.description;
-    offerValue.querySelector('.popup__avatar').src = completedCard.author.avatar;
+    cardElement.querySelector('.popup__title').textContent = completedCard.offer.title;
+    cardElement.querySelector('.popup__text--address').textContent = completedCard.offer.address;
+    cardElement.querySelector('.popup__text--price').textContent = completedCard.offer.price + ' ₽/ночь';
+    cardElement.querySelector('.popup__type').textContent = window.TypeHousingMap[completedCard.offer.type.toUpperCase()];
+    cardElement.querySelector('.popup__text--capacity').textContent = completedCard.offer.rooms + ' комнаты для ' + completedCard.offer.guests + ' гостей';
+    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + completedCard.offer.checkin + ' , выезд до ' + completedCard.offer.checkout;
+    cardElement.querySelector('.popup__description').textContent = completedCard.offer.description;
+    cardElement.querySelector('.popup__avatar').src = completedCard.author.avatar;
 
-    offerValue.querySelector('.popup__features').innerText = '';
+    cardElement.querySelector('.popup__features').innerText = '';
     if (completedCard.offer.features.length) {
-      offerValue.querySelector('.popup__features').appendChild(window.getFeatures(completedCard.offer.features));
+      cardElement.querySelector('.popup__features').appendChild(window.getFeatures(completedCard.offer.features));
     } else {
-      offerValue.querySelector('.popup__features').classList.add('hidden');
+      cardElement.querySelector('.popup__features').remove();
     }
 
     if (completedCard.offer.photos.length) {
-      offerValue.querySelector('.popup__photos').removeChild(offerValue.querySelector('.popup__photo'));
-      offerValue.querySelector('.popup__photos').appendChild(window.getPhotos(completedCard.offer.photos));
+      cardElement.querySelector('.popup__photos').removeChild(cardElement.querySelector('.popup__photo'));
+      cardElement.querySelector('.popup__photos').appendChild(window.getPhotos(completedCard.offer.photos));
     } else {
-      offerValue.querySelector('.popup__photos').innerText = '';
-      offerValue.querySelector('.popup__photos').classList.add('hidden');
+      cardElement.querySelector('.popup__photos').remove();
     }
 
-    closePopup.addEventListener('click', function () {
-      window.closeOffer();
+    buttonPopupClose.addEventListener('click', function () {
+      window.closeCardOffer();
     });
-    return offerValue;
+    return cardElement;
   };
 
-  var getOfferToPin = function (target) {
-    var removeDupedOffer = window.map.querySelectorAll('.popup');
+  var getConformityCardToPin = function (target) {
+    var offerCards = window.map.querySelectorAll('.popup');
     if (target.classList.contains('map__pin')) {
       var img = target.querySelector('img');
       target = img;
@@ -62,24 +84,23 @@
     var card = window.objects.find(function (object) {
       return window.getPhotoName(object.author.avatar) === window.getPhotoName(target.src);
     });
-    if (removeDupedOffer.length < 1) {
-      window.map.insertBefore(getOfferPopup(card), filtersContainerValues);
-    } else {
-      removeDupedOffer[0].replaceWith(getOfferPopup(card));
+    window.map.insertBefore(getOfferCardPopup(card), filtersContainerValue);
+    if (offerCards.length) {
+      offerCards[0].remove();
     }
     document.addEventListener('keydown', closeOfferOnKeydown);
   };
 
-  window.mapOfferSearchForMousedown = function (evt) {
+  window.onMousedownMapOfferSearch = function (evt) {
     evt.preventDefault();
     var pinNumber = evt.target;
-    getOfferToPin(pinNumber);
+    getConformityCardToPin(pinNumber);
   };
 
-  window.mapOfferSearchForKeydown = function (evt) {
+  window.OnKeydownMapOfferSearch = function (evt) {
     var pinNumber = evt.target;
     if (evt.keyCode === window.Key.ENTER) {
-      getOfferToPin(pinNumber);
+      getConformityCardToPin(pinNumber);
     }
   };
 })();

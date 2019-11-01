@@ -2,6 +2,7 @@
 
 (function () {
   window.mapFilters = document.querySelectorAll('.map__filter');
+  window.filters = document.querySelector('.map__filters');
   window.mapFeatures = document.querySelector('.map__features');
   window.mapFormInputs = document.querySelectorAll('.ad-form__element');
   window.mapFormAvatarUpload = document.querySelector('.ad-form-header');
@@ -41,8 +42,8 @@
     window.mapPins.appendChild(window.renderPins(window.objects));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinButtons.forEach(function (elem) {
-      elem.addEventListener('mousedown', window.mapOfferSearchForMousedown);
-      elem.addEventListener('keydown', window.mapOfferSearchForKeydown);
+      elem.addEventListener('mousedown', window.onMousedownMapOfferSearch);
+      elem.addEventListener('keydown', window.OnKeydownMapOfferSearch);
     });
   };
 
@@ -50,6 +51,7 @@
     window.renderOffers(window.NonFilteredOffers);
     window.map.classList.remove('map--faded');
     window.form.classList.remove('ad-form--disabled');
+    window.filters.classList.remove('map__filters--disabled');
     window.mapFormAvatarUpload.removeAttribute('disabled');
     activateFields(window.mapFilters);
     activateFields(window.mapFormInputs);

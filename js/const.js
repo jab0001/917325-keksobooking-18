@@ -6,7 +6,7 @@
     ENTER: 13,
     ESC: 27
   };
-  window.Type = {
+  window.TypeHousingMap = {
     PALACE: 'дворец',
     FLAT: 'квартира',
     HOUSE: 'дом',
@@ -33,12 +33,17 @@
   window.DEFAULT_PHOTO = 'img/muffin-grey.svg';
   window.INVALID_FIELD = '5px solid green';
   window.TITLE_LENGTH = 30;
-  window. maxPlacePrice = 100000;
-  window. MinPriceForPlace = {
+  window.minPlacePrice = 0;
+  window.maxPlacePrice = 100000;
+  window.MinPriceForPlace = {
     BUNGALO: 0,
     FLAT: 1000,
     HOUSE: 5000,
     PALACE: 10000
   };
   window.ERROR_BORDER = 'border-color: red';
+  window.Url = {
+    LOAD: 'https://js.dump.academy/keksobooking/data',
+    UPLOAD: 'https://js.dump.academy/keksobooking'
+  };
 })();

@@ -1,12 +1,7 @@
 'use strict';
 
 (function () {
-  var url = {
-    LOAD: 'https://js.dump.academy/keksobooking/data',
-    UPLOAD: 'https://js.dump.academy/keksobooking'
-  };
-
-  var setTimeout = 10000;
+  var timeout = 10000;
   var statusSuccess = 200;
 
   var createXhr = function (method, takeUrl, onLoad, onError) {
@@ -25,18 +20,18 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = setTimeout;
+    xhr.timeout = timeout;
     xhr.open(method, takeUrl);
     return xhr;
   };
 
   window.load = function (onLoad, onError) {
-    createXhr('GET', url.LOAD, onLoad, onError)
+    createXhr('GET', window.Url.LOAD, onLoad, onError)
     .send();
   };
 
   window.save = function (data, onLoad, onError) {
-    createXhr('POST', url.UPLOAD, onLoad, onError)
+    createXhr('POST', window.Url.UPLOAD, onLoad, onError)
     .send(data);
   };
 })();
