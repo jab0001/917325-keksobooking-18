@@ -14,6 +14,7 @@
   window.cardTemplateError = document.querySelector('#error')
     .content
     .querySelector('.error');
+  window.offers = [];
 
   window.getAdressOfMark = function () {
     var mapPinLeft = +(window.mapPinMain.style.left.replace('px', ''));
@@ -77,5 +78,20 @@
 
   window.mapPinMain.addEventListener('mousedown', window.mapPinActiveOnMousedown);
   window.mapPinMain.addEventListener('keydown', window.mapPinActiveOnKeydown);
+
+  var onError = function (message) {
+    var error = window.cardTemplateError.cloneNode(true);
+    error.querySelector('.error__message').textContent = message;
+    document.body.insertAdjacentElement('afterbegin', error);
+  };
+
+  var onSuccess = function (data) {
+    window.offers = data;
+    window.NonFilteredOffers = data;
+    window.getFilteringOffers();
+    window.removePins(window.mapPins.querySelectorAll('.map__pin'));
+  };
+
+  window.load(onSuccess, onError);
 
 })();

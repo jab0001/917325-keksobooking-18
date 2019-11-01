@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var offers = [];
-
   var filterType = document.querySelector('select[name="housing-type"]');
   var filterRoom = document.querySelector('select[name="housing-rooms"]');
   var filterGuest = document.querySelector('select[name="housing-guests"]');
@@ -64,9 +62,9 @@
     });
   };
 
-  var getFilteringOffers = function () {
+  window.getFilteringOffers = function () {
     window.removePins(window.mapPins.querySelectorAll('.map__pin'));
-    var filteredPins = offers.filter(offerFilter.types)
+    var filteredPins = window.offers.filter(offerFilter.types)
       .filter(getOffersForPrice)
       .filter(offerFilter.rooms)
       .filter(offerFilter.guests)
@@ -76,20 +74,5 @@
     window.closeCardOffer();
   };
 
-  window.filters.addEventListener('change', window.debounce(getFilteringOffers));
-
-  var onError = function (message) {
-    var error = window.cardTemplateError.cloneNode(true);
-    error.querySelector('.error__message').textContent = message;
-    document.body.insertAdjacentElement('afterbegin', error);
-  };
-
-  var onSuccess = function (data) {
-    offers = data;
-    window.NonFilteredOffers = data;
-    getFilteringOffers();
-    window.removePins(window.mapPins.querySelectorAll('.map__pin'));
-  };
-
-  window.load(onSuccess, onError);
+  window.filters.addEventListener('change', window.debounce(window.getFilteringOffers));
 })();
