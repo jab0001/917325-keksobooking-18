@@ -9,6 +9,11 @@
     .content
     .querySelector('.popup__photo');
 
+  var getPhotoName = function (photo) {
+    var result = photo.replace(/^.*[\\\/]/, '');
+    return result;
+  };
+
   var closeOfferCard = function () {
     var card = document.querySelector('.popup');
     if (card) {
@@ -82,7 +87,7 @@
       target = img;
     }
     var card = window.objects.find(function (object) {
-      return window.utils.getPhotoName(object.author.avatar) === window.utils.getPhotoName(target.src);
+      return getPhotoName(object.author.avatar) === getPhotoName(target.src);
     });
     window.map.pinsArea.insertBefore(getOfferCardPopup(card), filtersContainer);
     if (offerCards.length) {
