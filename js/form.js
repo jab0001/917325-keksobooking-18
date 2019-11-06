@@ -13,13 +13,13 @@
     .querySelector('.success');
   var formInputs = document.querySelectorAll('.ad-form input');
 
-  var validateTitle = function () {
+  var onTitleIntroduce = function () {
     if (offerTitle.value.length > window.const.titleLength) {
       offerTitle.style = '';
     }
   };
 
-  var validateCapacityAndRooms = function () {
+  var onCapacityAndRoomsChange = function () {
     var rooms = +roomsNumber.value;
     var capacity = +capacityNumber.value;
     if (rooms < capacity || rooms > capacity) {
@@ -29,29 +29,29 @@
     } else if (rooms !== 100 && capacity === 0) {
       roomsNumber.setCustomValidity('для 0 гостей нужно выбрать комерческое помещение');
     } else if (rooms === 100 && capacity === 0) {
-      validateCapacityAndRoomsSuccess();
+      onCapacityAndRoomsSuccess();
     } else {
-      validateCapacityAndRoomsSuccess();
+      onCapacityAndRoomsSuccess();
     }
   };
 
-  var validateCapacityAndRoomsSuccess = function () {
+  var onCapacityAndRoomsSuccess = function () {
     roomsNumber.setCustomValidity('');
     roomsNumber.style = '';
     capacityNumber.style = '';
   };
 
-  var validateCapacityAndRoomsError = function () {
+  var onCapacityAndRoomsError = function () {
     roomsNumber.style = window.const.errorBorder;
     capacityNumber.style = window.const.errorBorder;
   };
 
-  var synchronizePriceForPlaces = function () {
+  var onPriceForPlacesSynchronize = function () {
     placePrice.setAttribute('min', window.const.minPriceForPlace[placeType.value.toUpperCase()]);
     placePrice.setAttribute('placeholder', window.const.minPriceForPlace[placeType.value.toUpperCase()]);
   };
 
-  var validatePrice = function () {
+  var onPriceChange = function () {
     if (placePrice.value < window.const.minPlacePrice) {
       placePrice.style = window.const.errorBorder;
     } else if (placePrice.value > window.const.maxPlacePrice) {
@@ -61,45 +61,47 @@
     }
   };
 
-  var synchronizeTimeIn = function () {
+  var onTimeInChange = function () {
     placeTimeOut.value = placeTimeIn.value;
   };
 
-  var synchronizeTimeOut = function () {
+  var onTimeOutChange = function () {
     placeTimeIn.value = placeTimeOut.value;
   };
 
-  validateCapacityAndRooms();
-  synchronizePriceForPlaces();
+  onCapacityAndRoomsChange();
+  onPriceForPlacesSynchronize();
 
   var startListeners = function () {
-    capacityNumber.addEventListener('change', validateCapacityAndRooms);
-    roomsNumber.addEventListener('change', validateCapacityAndRooms);
-    placeTimeOut.addEventListener('change', synchronizeTimeOut);
-    placeTimeIn.addEventListener('change', synchronizeTimeIn);
-    capacityNumber.addEventListener('invalid', validateCapacityAndRoomsError);
-    roomsNumber.addEventListener('invalid', validateCapacityAndRoomsError);
-    placeType.addEventListener('change', synchronizePriceForPlaces);
-    placePrice.addEventListener('input', validatePrice);
-    window.map.form.addEventListener('reset', makePageDeactiveted);
+    capacityNumber.addEventListener('change', onCapacityAndRoomsChange);
+    roomsNumber.addEventListener('change', onCapacityAndRoomsChange);
+    placeTimeOut.addEventListener('change', onTimeOutChange);
+    placeTimeIn.addEventListener('change', onTimeInChange);
+    capacityNumber.addEventListener('invalid', onCapacityAndRoomsError);
+    roomsNumber.addEventListener('invalid', onCapacityAndRoomsError);
+    placeType.addEventListener('change', onPriceForPlacesSynchronize);
+    placePrice.addEventListener('input', onPriceChange);
+    window.map.form.addEventListener('reset', onPageDeactiveted);
     window.map.form.addEventListener('submit', onFormSubmit);
-    offerTitle.addEventListener('input', validateTitle);
-    synchronizePriceForPlaces();
+    offerTitle.addEventListener('input', onTitleIntroduce);
+    onPriceForPlacesSynchronize();
     window.map.form.addEventListener('invalid', function (evt) {
       evt.target.style = window.const.errorBorder;
     }, true);
   };
 
   var endListeners = function () {
-    capacityNumber.removeEventListener('change', validateCapacityAndRooms);
-    roomsNumber.removeEventListener('change', validateCapacityAndRooms);
-    capacityNumber.removeEventListener('invalid', validateCapacityAndRoomsError);
-    roomsNumber.removeEventListener('invalid', validateCapacityAndRoomsError);
-    placeType.removeEventListener('change', synchronizePriceForPlaces);
-    placePrice.removeEventListener('input', validatePrice);
-    window.map.form.removeEventListener('reset', makePageDeactiveted);
+    capacityNumber.removeEventListener('change', onCapacityAndRoomsChange);
+    roomsNumber.removeEventListener('change', onCapacityAndRoomsChange);
+    placeTimeOut.removeEventListener('change', onTimeOutChange);
+    placeTimeIn.removeEventListener('change', onTimeInChange);
+    capacityNumber.removeEventListener('invalid', onCapacityAndRoomsError);
+    roomsNumber.removeEventListener('invalid', onCapacityAndRoomsError);
+    placeType.removeEventListener('change', onPriceForPlacesSynchronize);
+    placePrice.removeEventListener('input', onPriceChange);
+    window.map.form.removeEventListener('reset', onPageDeactiveted);
     window.map.form.removeEventListener('submit', onFormSubmit);
-    offerTitle.removeEventListener('input', validateTitle);
+    offerTitle.removeEventListener('input', onTitleIntroduce);
     window.map.form.removeEventListener('invalid', function (evt) {
       evt.target.style = window.const.errorBorder;
     }, true);
@@ -111,40 +113,40 @@
     }
   };
 
-  var makePageDeactiveted = function () {
-    window.map.map.classList.add('map--faded');
+  var onPageDeactiveted = function () {
+    window.map.pinsArea.classList.add('map--faded');
     window.map.form.classList.add('ad-form--disabled');
-    window.filters.filters.classList.add('map__filters--disabled');
-    window.map.mapFormAvatarUpload.setAttribute('disabled', true);
-    deactivateFields(window.map.mapFilters);
-    deactivateFields(window.map.mapFormInputs);
+    window.map.filter.classList.add('map__filters--disabled');
+    window.map.formAvatarUpload.setAttribute('disabled', true);
+    deactivateFields(window.map.filterFields);
+    deactivateFields(window.map.formInputs);
     formInputs.forEach(function (elem) {
       elem.style = '';
     });
     roomsNumber.style = '';
     capacityNumber.style = '';
-    window.map.mapFeatures.setAttribute('disabled', true);
-    window.pins.removePins(window.map.mapPins.querySelectorAll('.map__pin'));
+    window.map.features.setAttribute('disabled', true);
+    window.pins.remove(window.map.pins.querySelectorAll('.map__pin'));
     if (document.querySelector('.popup')) {
       document.querySelector('.popup').remove();
     }
     window.map.form.reset();
-    window.filters.resetFilters();
+    window.filters.onReset();
     resetMainPin();
     resetPhotoPreview();
     endListeners();
 
-    window.map. mapPinMain.addEventListener('mousedown', window.map.onMousedownPinActive);
-    window.map.mapPinMain.addEventListener('keydown', window.map.mapPinActiveOnKeydown);
+    window.map.pinMain.addEventListener('mousedown', window.map.onMousedownPinActive);
+    window.map.pinMain.addEventListener('keydown', window.map.onKeydownPinActive);
   };
 
   var resetMainPin = function () {
-    window.map.mapPinMain.style.left = window.const.coordinate.X + 'px';
-    window.map.mapPinMain.style.top = window.const.coordinate.Y + 'px';
+    window.map.pinMain.style.left = window.const.coordinate.X + 'px';
+    window.map.pinMain.style.top = window.const.coordinate.Y + 'px';
   };
 
   var resetPhotoPreview = function () {
-    window.avatar.avatarPreview.src = window.const.defaultPhoto;
+    window.avatar.userPreview.src = window.const.defaultPhoto;
     window.avatar.photoPreview.style = '';
   };
 
@@ -161,7 +163,7 @@
 
   var onSubmitSuccess = function () {
     openSuccessMessage();
-    makePageDeactiveted();
+    onPageDeactiveted();
     document.addEventListener('keydown', onSuccessEscDown);
     document.addEventListener('click', onSuccessClick);
   };
@@ -213,10 +215,10 @@
     evt.preventDefault();
     window.map.addressCoordinate.removeAttribute('disabled');
     var formData = new FormData(window.map.form);
-    window.backend.save(formData, onSubmitSuccess, onSubmitError);
+    window.backend.toServer(formData, onSubmitSuccess, onSubmitError);
   };
 
   window.form = {
-    startListeners: startListeners,
+    startListeners: startListeners
   };
 })();

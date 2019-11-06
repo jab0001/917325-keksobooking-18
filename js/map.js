@@ -39,7 +39,7 @@
   };
 
   var makePinsActive = function () {
-    mapPins.appendChild(window.pins.renderPins(window.objects));
+    mapPins.appendChild(window.pins.render(window.objects));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinButtons.forEach(function (elem) {
       elem.addEventListener('mousedown', window.cards.onMousedownOfferSearch);
@@ -57,26 +57,26 @@
     activateFields(mapFormInputs);
     mapFeatures.removeAttribute('disabled');
     makePinsActive();
-    mapPinMain.removeEventListener('mousedown', mapPinActiveOnMousedown);
-    mapPinMain.removeEventListener('keydown', mapPinActiveOnKeydown);
+    mapPinMain.removeEventListener('mousedown', onMapPinMousedown);
+    mapPinMain.removeEventListener('keydown', onMapPinKeydown);
     window.form.startListeners();
   };
 
-  var mapPinActiveOnMousedown = function (evt) {
+  var onMapPinMousedown = function (evt) {
     evt.preventDefault();
     makePageActive();
     getAdressOfMark();
   };
 
-  var mapPinActiveOnKeydown = function (evt) {
+  var onMapPinKeydown = function (evt) {
     if (evt.keyCode === window.const.key.ENTER) {
       makePageActive();
       getAdressOfMark();
     }
   };
 
-  mapPinMain.addEventListener('mousedown', mapPinActiveOnMousedown);
-  mapPinMain.addEventListener('keydown', mapPinActiveOnKeydown);
+  mapPinMain.addEventListener('mousedown', onMapPinMousedown);
+  mapPinMain.addEventListener('keydown', onMapPinKeydown);
 
   var onError = function (message) {
     var error = cardTemplateError.cloneNode(true);
@@ -86,26 +86,27 @@
 
   var onSuccess = function (data) {
     window.offers = data;
-    window.filters.filteringOffers();
-    window.pins.removePins(mapPins.querySelectorAll('.map__pin'));
+    window.filters.offers();
+    window.pins.remove(mapPins.querySelectorAll('.map__pin'));
   };
 
-  window.backend.load(onSuccess, onError);
+  window.backend.fromServer(onSuccess, onError);
 
   window.map = {
-    map: map,
+    pinsArea: map,
     form: form,
-    onMousedownPinActive: mapPinActiveOnMousedown,
-    onKeydownPinActive: mapPinActiveOnKeydown,
-    mapPinMain: mapPinMain,
+    filter: filters,
+    onMousedownPinActive: onMapPinMousedown,
+    onKeydownPinActive: onMapPinKeydown,
+    pinMain: mapPinMain,
     adressOfMark: getAdressOfMark,
     makePinsActive: makePinsActive,
-    mapPins: mapPins,
+    pins: mapPins,
     renderOffers: renderOffers,
-    mapFormAvatarUpload: mapFormAvatarUpload,
-    mapFilters: mapFilters,
-    mapFormInputs: mapFormInputs,
-    mapFeatures: mapFeatures,
+    formAvatarUpload: mapFormAvatarUpload,
+    filterFields: mapFilters,
+    formInputs: mapFormInputs,
+    features: mapFeatures,
     addressCoordinate: addressCoordinate,
     cardTemplateError: cardTemplateError
   };

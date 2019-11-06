@@ -5,9 +5,8 @@
   var filterRoom = document.querySelector('select[name="housing-rooms"]');
   var filterGuest = document.querySelector('select[name="housing-guests"]');
   var filterPrice = document.querySelector('select[name="housing-price"]');
-  var filters = document.querySelector('.map__filters');
 
-  var resetFilters = function () {
+  var onFiltersReset = function () {
     filterType.value = window.const.defaultInputValue;
     filterRoom.value = window.const.defaultInputValue;
     filterGuest.value = window.const.defaultInputValue;
@@ -62,9 +61,9 @@
     });
   };
 
-  var getFilteringOffers = function () {
+  var getFilteredOffers = function () {
     var arrayForFilters = window.offers.slice();
-    window.pins.removePins(window.map.mapPins.querySelectorAll('.map__pin'));
+    window.pins.remove(window.map.pins.querySelectorAll('.map__pin'));
     var filteredPins = arrayForFilters.filter(offerFilter.types)
       .filter(getOffersForPrice)
       .filter(offerFilter.rooms)
@@ -72,14 +71,13 @@
       .filter(getOffersForFeatures);
     window.map.renderOffers(filteredPins);
     window.map.makePinsActive();
-    window.cards.closeCardOffer();
+    window.cards.closeOffer();
   };
 
-  filters.addEventListener('change', window.debounce(getFilteringOffers));
+  window.map.filter.addEventListener('change', window.debounce(getFilteredOffers));
 
   window.filters = {
-    resetFilters: resetFilters,
-    filters: filters,
-    filteringOffers: getFilteringOffers
+    onReset: onFiltersReset,
+    offers: getFilteredOffers
   };
 })();

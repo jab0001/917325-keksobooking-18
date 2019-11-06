@@ -36,7 +36,7 @@
   photoFileChooser.addEventListener('change', onPhotoChange);
 
   window.avatar = {
-    avatarPreview: avatarPreview,
+    userPreview: avatarPreview,
     photoPreview: photoPreview
   };
 })();

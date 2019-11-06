@@ -33,7 +33,7 @@
   };
 
   window.backend = {
-    load: load,
-    save: save,
+    fromServer: load,
+    toServer: save,
   };
 })();

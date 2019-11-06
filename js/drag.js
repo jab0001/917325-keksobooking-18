@@ -2,7 +2,7 @@
 
 
 (function () {
-  window.map.mapPinMain.addEventListener('mousedown', function (evt) {
+  window.map.pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var StartCoord = {
@@ -27,15 +27,15 @@
       };
 
       var Mark = {
-        coordinateX: window.map.mapPinMain.offsetLeft - Shift.X,
-        coordinateY: window.map.mapPinMain.offsetTop - Shift.Y
+        coordinateX: window.map.pinMain.offsetLeft - Shift.X,
+        coordinateY: window.map.pinMain.offsetTop - Shift.Y
       };
 
-      if (Mark.coordinateX >= window.const.limit.Xmin && Mark.coordinateX <= window.const.limit.Xmax - window.map.mapPinMain.offsetWidth) {
-        window.map.mapPinMain.style.left = Mark.coordinateX + 'px';
+      if (Mark.coordinateX >= window.const.limit.Xmin && Mark.coordinateX <= window.const.limit.Xmax - window.map.pinMain.offsetWidth) {
+        window.map.pinMain.style.left = Mark.coordinateX + 'px';
       }
-      if (Mark.coordinateY >= window.const.limit.Ymin - (window.map.mapPinMain.offsetHeight + window.const.pinHeight) && Mark.coordinateY <= window.const.limit.Ymax - (window.map.mapPinMain.offsetHeight + window.const.pinHeight)) {
-        window.map.mapPinMain.style.top = Mark.coordinateY + 'px';
+      if (Mark.coordinateY >= window.const.limit.Ymin - (window.map.pinMain.offsetHeight + window.const.pinHeight) && Mark.coordinateY <= window.const.limit.Ymax - (window.map.pinMain.offsetHeight + window.const.pinHeight)) {
+        window.map.pinMain.style.top = Mark.coordinateY + 'px';
       }
 
       window.map.adressOfMark();
@@ -50,9 +50,9 @@
       if (dragged) {
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
-          window.map.mapPinMain.removeEventListener('click', onClickPreventDefault);
+          window.map.pinMain.removeEventListener('click', onClickPreventDefault);
         };
-        window.map.mapPinMain.addEventListener('click', onClickPreventDefault);
+        window.map.pinMain.addEventListener('click', onClickPreventDefault);
       }
     };
 
