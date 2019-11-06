@@ -215,7 +215,7 @@
     evt.preventDefault();
     window.map.addressCoordinate.removeAttribute('disabled');
     var formData = new FormData(window.map.form);
-    window.backend.toServer(formData, onSubmitSuccess, onSubmitError);
+    window.backend.save(formData, onSubmitSuccess, onSubmitError);
   };
 
   window.form = {

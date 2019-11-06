@@ -86,11 +86,11 @@
 
   var onSuccess = function (data) {
     window.offers = data;
-    window.filters.offers();
+    window.filters.getOffers();
     window.pins.remove(mapPins.querySelectorAll('.map__pin'));
   };
 
-  window.backend.fromServer(onSuccess, onError);
+  window.backend.load(onSuccess, onError);
 
   window.map = {
     pinsArea: map,

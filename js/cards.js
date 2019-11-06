@@ -82,7 +82,7 @@
       target = img;
     }
     var card = window.objects.find(function (object) {
-      return window.utils.photoName(object.author.avatar) === window.utils.photoName(target.src);
+      return window.utils.getPhotoName(object.author.avatar) === window.utils.getPhotoName(target.src);
     });
     window.map.pinsArea.insertBefore(getOfferCardPopup(card), filtersContainer);
     if (offerCards.length) {

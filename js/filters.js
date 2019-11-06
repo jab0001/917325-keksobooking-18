@@ -78,6 +78,6 @@
 
   window.filters = {
     onReset: onFiltersReset,
-    offers: getFilteredOffers
+    getOffers: getFilteredOffers
   };
 })();
