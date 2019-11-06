@@ -105,8 +105,8 @@
   };
 
   window.cards = {
-    onMousedownOfferSearch: onMousedownMapOffer,
-    onKeydownOfferSearch: onKeydownMapOffer,
+    onMousedownOffer: onMousedownMapOffer,
+    onKeydownOffer: onKeydownMapOffer,
     closeOffer: closeOfferCard
   };
 })();

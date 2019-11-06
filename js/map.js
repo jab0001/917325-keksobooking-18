@@ -42,8 +42,8 @@
     mapPins.appendChild(window.pins.render(window.objects));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinButtons.forEach(function (elem) {
-      elem.addEventListener('mousedown', window.cards.onMousedownOfferSearch);
-      elem.addEventListener('keydown', window.cards.onKeydownOfferSearch);
+      elem.addEventListener('mousedown', window.cards.onMousedownOffer);
+      elem.addEventListener('keydown', window.cards.onKeydownOffer);
     });
   };
 
