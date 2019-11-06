@@ -4,115 +4,150 @@
   var roomsNumber = document.querySelector('select[name="rooms"]');
   var capacityNumber = document.querySelector('select[name="capacity"]');
   var placeType = document.querySelector('select[name="type"]');
-  var inputPrice = document.querySelector('input[name="price"]');
-  var timeIn = document.querySelector('select[name="timein"]');
-  var timeOut = document.querySelector('select[name="timeout"]');
+  var placePrice = document.querySelector('input[name="price"]');
+  var placeTimeIn = document.querySelector('select[name="timein"]');
+  var placeTimeOut = document.querySelector('select[name="timeout"]');
+  var offerTitle = document.querySelector('input[name="title"]');
   var cardTemplateSuccess = document.querySelector('#success')
     .content
     .querySelector('.success');
+  var formInputs = document.querySelectorAll('.ad-form input');
 
-  var checkCapacityAndRooms = function () {
+  var onTitleIntroduce = function () {
+    if (offerTitle.value.length > window.const.titleLength) {
+      offerTitle.style = '';
+    }
+  };
+
+  var onCapacityAndRoomsChange = function () {
     var rooms = +roomsNumber.value;
     var capacity = +capacityNumber.value;
-    if (rooms < capacity) {
+    if (rooms < capacity || rooms > capacity) {
       roomsNumber.setCustomValidity('для гостей нужно больше комнат');
     } else if (rooms === 100 && capacity !== 0) {
       roomsNumber.setCustomValidity('для комерческого помещения нужно выбрать 0 гостей');
     } else if (rooms !== 100 && capacity === 0) {
       roomsNumber.setCustomValidity('для 0 гостей нужно выбрать комерческое помещение');
     } else if (rooms === 100 && capacity === 0) {
-      roomsNumber.setCustomValidity('');
+      onCapacityAndRoomsSuccess();
     } else {
-      roomsNumber.setCustomValidity('');
+      onCapacityAndRoomsSuccess();
     }
   };
 
-  var checkPriceForPlaces = function () {
-    if (placeType.value === 'bungalo') {
-      inputPrice.placeholder = '0';
-      inputPrice.min = 0;
-    } else if (placeType.value === 'flat') {
-      inputPrice.placeholder = '1000';
-      inputPrice.min = 1000;
-    } else if (placeType.value === 'house') {
-      inputPrice.placeholder = '5000';
-      inputPrice.min = 5000;
-    } else if (placeType.value === 'palace') {
-      inputPrice.placeholder = '10000';
-      inputPrice.min = 10000;
+  var onCapacityAndRoomsSuccess = function () {
+    roomsNumber.setCustomValidity('');
+    roomsNumber.style = '';
+    capacityNumber.style = '';
+  };
+
+  var onCapacityAndRoomsError = function () {
+    roomsNumber.style = window.const.errorBorder;
+    capacityNumber.style = window.const.errorBorder;
+  };
+
+  var onPriceForPlacesSynchronize = function () {
+    placePrice.setAttribute('min', window.const.minPriceForPlace[placeType.value.toUpperCase()]);
+    placePrice.setAttribute('placeholder', window.const.minPriceForPlace[placeType.value.toUpperCase()]);
+  };
+
+  var onPriceChange = function () {
+    if (placePrice.value < window.const.minPlacePrice) {
+      placePrice.style = window.const.errorBorder;
+    } else if (placePrice.value > window.const.maxPlacePrice) {
+      placePrice.style = window.const.errorBorder;
+    } else {
+      placePrice.style = '';
     }
   };
 
-  var checkInTime = function () {
-    if (timeIn.value === '14:00') {
-      timeOut.value = timeIn.value;
-    } else if (timeIn.value === '12:00') {
-      timeOut.value = timeIn.value;
-    } else if (timeIn.value === '13:00') {
-      timeOut.value = timeIn.value;
-    }
+  var onTimeInChange = function () {
+    placeTimeOut.value = placeTimeIn.value;
   };
 
-  var checkOutTime = function () {
-    if (timeOut.value === '14:00') {
-      timeIn.value = timeOut.value;
-    } else if (timeOut.value === '12:00') {
-      timeIn.value = timeOut.value;
-    } else if (timeOut.value === '13:00') {
-      timeIn.value = timeOut.value;
-    }
+  var onTimeOutChange = function () {
+    placeTimeIn.value = placeTimeOut.value;
   };
 
-  checkInTime();
-  checkOutTime();
-  checkCapacityAndRooms();
-  checkPriceForPlaces();
+  onCapacityAndRoomsChange();
+  onPriceForPlacesSynchronize();
 
-  window.startValidityListeners = function () {
-    timeIn.addEventListener('change', checkInTime);
-    timeOut.addEventListener('change', checkOutTime);
-    capacityNumber.addEventListener('change', checkCapacityAndRooms);
-    roomsNumber.addEventListener('change', checkCapacityAndRooms);
-    placeType.addEventListener('change', checkPriceForPlaces);
+  var startListeners = function () {
+    capacityNumber.addEventListener('change', onCapacityAndRoomsChange);
+    roomsNumber.addEventListener('change', onCapacityAndRoomsChange);
+    placeTimeOut.addEventListener('change', onTimeOutChange);
+    placeTimeIn.addEventListener('change', onTimeInChange);
+    capacityNumber.addEventListener('invalid', onCapacityAndRoomsError);
+    roomsNumber.addEventListener('invalid', onCapacityAndRoomsError);
+    placeType.addEventListener('change', onPriceForPlacesSynchronize);
+    placePrice.addEventListener('input', onPriceChange);
+    window.map.form.addEventListener('reset', onPageDeactiveted);
+    window.map.form.addEventListener('submit', onFormSubmit);
+    offerTitle.addEventListener('input', onTitleIntroduce);
+    onPriceForPlacesSynchronize();
+    window.map.form.addEventListener('invalid', function (evt) {
+      evt.target.style = window.const.errorBorder;
+    }, true);
   };
 
-  var endValidityListeners = function () {
-    timeIn.removeEventListener('change', checkInTime);
-    timeOut.removeEventListener('change', checkOutTime);
-    capacityNumber.removeEventListener('change', checkCapacityAndRooms);
-    roomsNumber.removeEventListener('change', checkCapacityAndRooms);
-    placeType.removeEventListener('change', checkPriceForPlaces);
+  var endListeners = function () {
+    capacityNumber.removeEventListener('change', onCapacityAndRoomsChange);
+    roomsNumber.removeEventListener('change', onCapacityAndRoomsChange);
+    placeTimeOut.removeEventListener('change', onTimeOutChange);
+    placeTimeIn.removeEventListener('change', onTimeInChange);
+    capacityNumber.removeEventListener('invalid', onCapacityAndRoomsError);
+    roomsNumber.removeEventListener('invalid', onCapacityAndRoomsError);
+    placeType.removeEventListener('change', onPriceForPlacesSynchronize);
+    placePrice.removeEventListener('input', onPriceChange);
+    window.map.form.removeEventListener('reset', onPageDeactiveted);
+    window.map.form.removeEventListener('submit', onFormSubmit);
+    offerTitle.removeEventListener('input', onTitleIntroduce);
+    window.map.form.removeEventListener('invalid', function (evt) {
+      evt.target.style = window.const.errorBorder;
+    }, true);
   };
 
-  var deactivateSelects = function (select) {
+  var deactivateFields = function (select) {
     for (var k = 0; k < select.length; k++) {
       select[k].setAttribute('disabled', true);
     }
   };
 
-  var deactivateFieldsets = function (fieldset) {
-    for (var k = 0; k < fieldset.length; k++) {
-      fieldset[k].setAttribute('disabled', true);
-    }
-  };
-
-  var makePageDeactiveted = function () {
-    window.mapItem.classList.add('map--faded');
-    window.formItem.classList.add('ad-form--disabled');
-    deactivateFieldsets(window.mapSelects);
-    deactivateSelects(window.mapFieldsets);
-    window.formItem.reset();
-    window.removePins(window.pinContainerElem.querySelectorAll('.map__pin'));
+  var onPageDeactiveted = function () {
+    window.map.pinsArea.classList.add('map--faded');
+    window.map.form.classList.add('ad-form--disabled');
+    window.map.filter.classList.add('map__filters--disabled');
+    window.map.formAvatarUpload.setAttribute('disabled', true);
+    deactivateFields(window.map.filterFields);
+    deactivateFields(window.map.formInputs);
+    formInputs.forEach(function (elem) {
+      elem.style = '';
+    });
+    roomsNumber.style = '';
+    capacityNumber.style = '';
+    window.map.features.setAttribute('disabled', true);
+    window.pins.remove(window.map.pins.querySelectorAll('.map__pin'));
     if (document.querySelector('.popup')) {
       document.querySelector('.popup').remove();
     }
-    endValidityListeners();
-    window.mapPin.style.left = window.Coordinate.X + 'px';
-    window.mapPin.style.top = window.Coordinate.Y + 'px';
-    window.avatarPreview.src = window.DEFAULT_PHOTO;
-    window.photoPreview.style = '';
-    window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
-    window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
+    window.map.form.reset();
+    window.filters.onReset();
+    resetMainPin();
+    resetPhotoPreview();
+    endListeners();
+
+    window.map.pinMain.addEventListener('mousedown', window.map.onMousedownPinActive);
+    window.map.pinMain.addEventListener('keydown', window.map.onKeydownPinActive);
+  };
+
+  var resetMainPin = function () {
+    window.map.pinMain.style.left = window.const.coordinate.X + 'px';
+    window.map.pinMain.style.top = window.const.coordinate.Y + 'px';
+  };
+
+  var resetPhotoPreview = function () {
+    window.avatar.userPreview.src = window.const.defaultPhoto;
+    window.avatar.photoPreview.style = '';
   };
 
   var openSuccessMessage = function () {
@@ -121,14 +156,14 @@
   };
 
   var openErrorMessage = function (message) {
-    var error = window.cardTemplateError.cloneNode(true);
+    var error = window.map.cardTemplateError.cloneNode(true);
     error.querySelector('.error__message').textContent = message;
     document.body.insertAdjacentElement('afterbegin', error);
   };
 
   var onSubmitSuccess = function () {
     openSuccessMessage();
-    makePageDeactiveted();
+    onPageDeactiveted();
     document.addEventListener('keydown', onSuccessEscDown);
     document.addEventListener('click', onSuccessClick);
   };
@@ -147,7 +182,7 @@
 
   var onSuccessEscDown = function (evt) {
     evt.preventDefault();
-    if (evt.keyCode === window.key.ESC) {
+    if (evt.keyCode === window.const.key.ESC) {
       closeSuccessMessage();
     }
   };
@@ -159,7 +194,7 @@
 
   var onErrorEscDown = function (evt) {
     evt.preventDefault();
-    if (evt.keyCode === window.key.ESC) {
+    if (evt.keyCode === window.const.key.ESC) {
       closeErrorMessage();
     }
   };
@@ -173,16 +208,17 @@
   var closeErrorMessage = function () {
     document.querySelector('.error').remove();
     document.removeEventListener('keydown', onErrorEscDown);
-    document.removeEventListener('click', onSuccessClick);
+    document.removeEventListener('click', onErrorClick);
   };
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.addressCoordinate.removeAttribute('disabled');
-    var formData = new FormData(window.formItem);
-    window.save(formData, onSubmitSuccess, onSubmitError);
+    window.map.addressCoordinate.removeAttribute('disabled');
+    var formData = new FormData(window.map.form);
+    window.backend.save(formData, onSubmitSuccess, onSubmitError);
   };
 
-  window.formItem.addEventListener('submit', onFormSubmit);
-
+  window.form = {
+    startListeners: startListeners
+  };
 })();

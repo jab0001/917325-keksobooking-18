@@ -1,40 +1,36 @@
 'use strict';
 
 (function () {
-  window.mapSelects = document.getElementsByTagName('select');
-  window.mapFieldsets = document.getElementsByTagName('fieldset');
-  window.mapItem = document.querySelector('.map');
-  window.formItem = document.querySelector('.ad-form');
-  window.pinContainerElem = window.mapItem.querySelector('.map__pins');
-  window.mapPin = window.pinContainerElem.querySelector('.map__pin--main');
-  window.addressCoordinate = document.querySelector('input[name="address"]');
-  window.cardTemplateError = document.querySelector('#error')
+  var mapFilters = document.querySelectorAll('.map__filter');
+  var filters = document.querySelector('.map__filters');
+  var mapFeatures = document.querySelector('.map__features');
+  var mapFormInputs = document.querySelectorAll('.ad-form__element');
+  var mapFormAvatarUpload = document.querySelector('.ad-form-header');
+  var map = document.querySelector('.map');
+  var form = document.querySelector('.ad-form');
+  var mapPins = map.querySelector('.map__pins');
+  var mapPinMain = mapPins.querySelector('.map__pin--main');
+  var addressCoordinate = document.querySelector('input[name="address"]');
+  var cardTemplateError = document.querySelector('#error')
     .content
     .querySelector('.error');
-  window.removeDupedOffer = window.mapItem.getElementsByTagName('article');
 
-  window.getAdressOfMark = function () {
-    var mapPinLeft = +(window.mapPin.style.left.replace('px', ''));
-    var mapPinTop = +(window.mapPin.style.top.replace('px', ''));
-    var mapPinX = Math.round(mapPinLeft + window.mapPin.offsetWidth / 2);
-    var mapPinY = Math.round(mapPinTop + (window.mapPin.offsetHeight + window.PIN_HEIGHT));
-    window.addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
-    window.addressCoordinate.setAttribute('disabled', true);
+  var getAdressOfMark = function () {
+    var mapPinLeft = +(mapPinMain.style.left.replace('px', ''));
+    var mapPinTop = +(mapPinMain.style.top.replace('px', ''));
+    var mapPinX = Math.round(mapPinLeft + mapPinMain.offsetWidth / 2);
+    var mapPinY = Math.round(mapPinTop + (mapPinMain.offsetHeight + window.const.pinHeight));
+    addressCoordinate.value = mapPinX + 'px, ' + mapPinY + 'px';
+    addressCoordinate.setAttribute('disabled', true);
   };
 
-  var activateSelects = function (select) {
+  var activateFields = function (select) {
     for (var k = 0; k < select.length; k++) {
       select[k].removeAttribute('disabled');
     }
   };
 
-  var activateFieldsets = function (fieldset) {
-    for (var k = 0; k < fieldset.length; k++) {
-      fieldset[k].removeAttribute('disabled');
-    }
-  };
-
-  window.renderOffers = function (data) {
+  var renderOffers = function (data) {
     window.objects = [];
     for (var i = 0; i < data.length; i++) {
       window.objects.push(data[i]);
@@ -42,40 +38,76 @@
     return window.objects;
   };
 
-  window.makePinsActive = function () {
-    window.pinContainerElem.appendChild(window.renderPins(window.objects));
+  var makePinsActive = function () {
+    mapPins.appendChild(window.pins.render(window.objects));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinButtons.forEach(function (elem) {
-      elem.addEventListener('mousedown', window.mapOfferSearchForMousedown);
-      elem.addEventListener('keydown', window.mapOfferSearchForKeydown);
+      elem.addEventListener('mousedown', window.cards.onMousedownOffer);
+      elem.addEventListener('keydown', window.cards.onKeydownOffer);
     });
   };
 
   var makePageActive = function () {
-    window.mapItem.classList.remove('map--faded');
-    window.formItem.classList.remove('ad-form--disabled');
-    activateFieldsets(window.mapSelects);
-    activateSelects(window.mapFieldsets);
-    window.makePinsActive();
-    window.mapPin.removeEventListener('mousedown', window.mapPinActiveOnMousedown);
-    window.mapPin.removeEventListener('keydown', window.mapPinActiveOnKeydown);
-    window.startValidityListeners();
+    renderOffers(window.offers);
+    map.classList.remove('map--faded');
+    form.classList.remove('ad-form--disabled');
+    filters.classList.remove('map__filters--disabled');
+    mapFormAvatarUpload.removeAttribute('disabled');
+    activateFields(mapFilters);
+    activateFields(mapFormInputs);
+    mapFeatures.removeAttribute('disabled');
+    makePinsActive();
+    mapPinMain.removeEventListener('mousedown', onMapPinMousedown);
+    mapPinMain.removeEventListener('keydown', onMapPinKeydown);
+    window.form.startListeners();
   };
 
-  window.mapPinActiveOnMousedown = function (evt) {
+  var onMapPinMousedown = function (evt) {
     evt.preventDefault();
     makePageActive();
-    window.getAdressOfMark();
+    getAdressOfMark();
   };
 
-  window.mapPinActiveOnKeydown = function (evt) {
-    if (evt.keyCode === window.Key.ENTER) {
+  var onMapPinKeydown = function (evt) {
+    if (evt.keyCode === window.const.key.ENTER) {
       makePageActive();
-      window.getAdressOfMark();
+      getAdressOfMark();
     }
   };
 
-  window.mapPin.addEventListener('mousedown', window.mapPinActiveOnMousedown);
-  window.mapPin.addEventListener('keydown', window.mapPinActiveOnKeydown);
+  mapPinMain.addEventListener('mousedown', onMapPinMousedown);
+  mapPinMain.addEventListener('keydown', onMapPinKeydown);
 
+  var onError = function (message) {
+    var error = cardTemplateError.cloneNode(true);
+    error.querySelector('.error__message').textContent = message;
+    document.body.insertAdjacentElement('afterbegin', error);
+  };
+
+  var onSuccess = function (data) {
+    window.offers = data;
+    window.filters.getOffers();
+    window.pins.remove(mapPins.querySelectorAll('.map__pin'));
+  };
+
+  window.backend.load(onSuccess, onError);
+
+  window.map = {
+    pinsArea: map,
+    form: form,
+    filter: filters,
+    onMousedownPinActive: onMapPinMousedown,
+    onKeydownPinActive: onMapPinKeydown,
+    pinMain: mapPinMain,
+    adressOfMark: getAdressOfMark,
+    makePinsActive: makePinsActive,
+    pins: mapPins,
+    renderOffers: renderOffers,
+    formAvatarUpload: mapFormAvatarUpload,
+    filterFields: mapFilters,
+    formInputs: mapFormInputs,
+    features: mapFeatures,
+    addressCoordinate: addressCoordinate,
+    cardTemplateError: cardTemplateError
+  };
 })();
