@@ -23,21 +23,21 @@
 
   var getPhotos = function (photosArray) {
     var result = document.createDocumentFragment();
-    for (var i = 0; i < photosArray.length; i++) {
+    photosArray.forEach(function (elem) {
       var photo = offerPhotoTemplate.cloneNode(true);
-      photo.src = photosArray[i];
+      photo.src = elem;
       result.appendChild(photo);
-    }
+    });
     return result;
   };
 
   var getFeatures = function (featuresArray) {
     var result = document.createDocumentFragment();
-    for (var i = 0; i < featuresArray.length; i++) {
+    featuresArray.forEach(function (elem) {
       var feature = document.createElement('li');
-      feature.className = 'popup__feature popup__feature--' + featuresArray[i];
+      feature.className = 'popup__feature popup__feature--' + elem;
       result.appendChild(feature);
-    }
+    });
     return result;
   };
 

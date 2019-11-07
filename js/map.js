@@ -24,22 +24,22 @@
     addressCoordinate.setAttribute('disabled', true);
   };
 
-  var activateFields = function (select) {
-    for (var k = 0; k < select.length; k++) {
-      select[k].removeAttribute('disabled');
-    }
+  var activateFields = function (selects) {
+    selects.forEach(function (elem) {
+      elem.removeAttribute('disabled');
+    });
   };
 
   var renderOffers = function (data) {
     window.objects = [];
-    for (var i = 0; i < data.length; i++) {
-      window.objects.push(data[i]);
-    }
+    data.forEach(function (elem) {
+      window.objects.push(elem);
+    });
     return window.objects;
   };
 
   var makePinsActive = function () {
-    mapPins.appendChild(window.pins.render(window.objects));
+    mapPins.appendChild(window.pins.render(window.objects.slice(0, window.const.offerAmounts)));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinButtons.forEach(function (elem) {
       elem.addEventListener('mousedown', window.cards.onMousedownOffer);
@@ -87,7 +87,7 @@
   var onSuccess = function (data) {
     window.offers = data;
     window.filters.getOffers();
-    window.pins.remove(mapPins.querySelectorAll('.map__pin'));
+    window.pins.remove(mapPins.querySelectorAll('.map__pin:not(.map__pin--main)'));
   };
 
   window.backend.load(onSuccess, onError);

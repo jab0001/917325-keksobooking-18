@@ -63,13 +63,13 @@
 
   var getFilteredOffers = function () {
     var arrayForFilters = window.offers.slice();
-    window.pins.remove(window.map.pins.querySelectorAll('.map__pin'));
+    window.pins.remove(window.map.pins.querySelectorAll('.map__pin:not(.map__pin--main)'));
     var filteredPins = arrayForFilters.filter(offerFilter.types)
       .filter(getOffersForPrice)
       .filter(offerFilter.rooms)
       .filter(offerFilter.guests)
       .filter(getOffersForFeatures);
-    window.map.renderOffers(filteredPins);
+    window.map.renderOffers(filteredPins.slice(0, window.const.offerAmounts));
     window.map.makePinsActive();
     window.cards.closeOffer();
   };

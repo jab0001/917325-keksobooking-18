@@ -29,18 +29,17 @@
   };
 
   var renderPins = function (arr) {
-    var dataLength = arr.length > window.const.offerAmounts ? window.const.offerAmounts : arr.length;
     var result = document.createDocumentFragment();
-    for (var j = 0; j < dataLength; j++) {
-      result.appendChild(renderPinFromTemplate(arr[j]));
-    }
+    arr.forEach(function (elem) {
+      result.appendChild(renderPinFromTemplate(elem));
+    });
     return result;
   };
 
   var removePins = function (arr) {
-    for (var i = 1; i < arr.length; i++) {
-      arr[i].remove();
-    }
+    arr.forEach(function (elem) {
+      elem.remove();
+    });
   };
 
   window.pins = {
