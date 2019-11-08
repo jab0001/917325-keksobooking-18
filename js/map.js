@@ -24,26 +24,26 @@
     addressCoordinate.setAttribute('disabled', true);
   };
 
-  var activateFields = function (select) {
-    for (var k = 0; k < select.length; k++) {
-      select[k].removeAttribute('disabled');
-    }
+  var activateFields = function (selects) {
+    selects.forEach(function (select) {
+      select.removeAttribute('disabled');
+    });
   };
 
-  var renderOffers = function (data) {
+  var renderOffers = function (offers) {
     window.objects = [];
-    for (var i = 0; i < data.length; i++) {
-      window.objects.push(data[i]);
-    }
+    offers.forEach(function (offer) {
+      window.objects.push(offer);
+    });
     return window.objects;
   };
 
   var makePinsActive = function () {
-    mapPins.appendChild(window.pins.render(window.objects));
+    mapPins.appendChild(window.pins.render(window.objects.slice(0, window.const.offerAmounts)));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    pinButtons.forEach(function (elem) {
-      elem.addEventListener('mousedown', window.cards.onMousedownOffer);
-      elem.addEventListener('keydown', window.cards.onKeydownOffer);
+    pinButtons.forEach(function (pinButton) {
+      pinButton.addEventListener('mousedown', window.cards.onMousedownOffer);
+      pinButton.addEventListener('keydown', window.cards.onKeydownOffer);
     });
   };
 
@@ -87,7 +87,7 @@
   var onSuccess = function (data) {
     window.offers = data;
     window.filters.getOffers();
-    window.pins.remove(mapPins.querySelectorAll('.map__pin'));
+    window.pins.remove(mapPins.querySelectorAll('.map__pin:not(.map__pin--main)'));
   };
 
   window.backend.load(onSuccess, onError);

@@ -21,23 +21,23 @@
     }
   };
 
-  var getPhotos = function (photosArray) {
+  var getPhotos = function (photos) {
     var result = document.createDocumentFragment();
-    for (var i = 0; i < photosArray.length; i++) {
-      var photo = offerPhotoTemplate.cloneNode(true);
-      photo.src = photosArray[i];
-      result.appendChild(photo);
-    }
+    photos.forEach(function (photo) {
+      var photoNode = offerPhotoTemplate.cloneNode(true);
+      photoNode.src = photo;
+      result.appendChild(photoNode);
+    });
     return result;
   };
 
-  var getFeatures = function (featuresArray) {
+  var getFeatures = function (features) {
     var result = document.createDocumentFragment();
-    for (var i = 0; i < featuresArray.length; i++) {
-      var feature = document.createElement('li');
-      feature.className = 'popup__feature popup__feature--' + featuresArray[i];
-      result.appendChild(feature);
-    }
+    features.forEach(function (feature) {
+      var featureNode = document.createElement('li');
+      featureNode.className = 'popup__feature popup__feature--' + feature;
+      result.appendChild(featureNode);
+    });
     return result;
   };
 

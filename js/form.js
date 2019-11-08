@@ -22,13 +22,13 @@
   var onCapacityAndRoomsChange = function () {
     var rooms = +roomsNumber.value;
     var capacity = +capacityNumber.value;
-    if (rooms < capacity || rooms > capacity) {
+    if (rooms < capacity) {
       roomsNumber.setCustomValidity('для гостей нужно больше комнат');
-    } else if (rooms === 100 && capacity !== 0) {
+    } else if (rooms === window.const.maxRooms && capacity !== window.const.minCapacity) {
       roomsNumber.setCustomValidity('для комерческого помещения нужно выбрать 0 гостей');
-    } else if (rooms !== 100 && capacity === 0) {
+    } else if (rooms !== window.const.maxRooms && capacity === window.const.minCapacity) {
       roomsNumber.setCustomValidity('для 0 гостей нужно выбрать комерческое помещение');
-    } else if (rooms === 100 && capacity === 0) {
+    } else if (rooms === window.const.maxRooms && capacity === window.const.minCapacity) {
       onCapacityAndRoomsSuccess();
     } else {
       onCapacityAndRoomsSuccess();
@@ -69,9 +69,6 @@
     placeTimeIn.value = placeTimeOut.value;
   };
 
-  onCapacityAndRoomsChange();
-  onPriceForPlacesSynchronize();
-
   var startListeners = function () {
     capacityNumber.addEventListener('change', onCapacityAndRoomsChange);
     roomsNumber.addEventListener('change', onCapacityAndRoomsChange);
@@ -84,6 +81,7 @@
     window.map.form.addEventListener('reset', onPageDeactiveted);
     window.map.form.addEventListener('submit', onFormSubmit);
     offerTitle.addEventListener('input', onTitleIntroduce);
+    onCapacityAndRoomsChange();
     onPriceForPlacesSynchronize();
     window.map.form.addEventListener('invalid', function (evt) {
       evt.target.style = window.const.errorBorder;
@@ -107,10 +105,10 @@
     }, true);
   };
 
-  var deactivateFields = function (select) {
-    for (var k = 0; k < select.length; k++) {
-      select[k].setAttribute('disabled', true);
-    }
+  var deactivateFields = function (selects) {
+    selects.forEach(function (select) {
+      select.setAttribute('disabled', true);
+    });
   };
 
   var onPageDeactiveted = function () {
@@ -126,7 +124,7 @@
     roomsNumber.style = '';
     capacityNumber.style = '';
     window.map.features.setAttribute('disabled', true);
-    window.pins.remove(window.map.pins.querySelectorAll('.map__pin'));
+    window.pins.remove(window.map.pins.querySelectorAll('.map__pin:not(.map__pin--main)'));
     if (document.querySelector('.popup')) {
       document.querySelector('.popup').remove();
     }

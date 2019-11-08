@@ -28,19 +28,18 @@
     });
   };
 
-  var renderPins = function (arr) {
-    var dataLength = arr.length > window.const.offerAmounts ? window.const.offerAmounts : arr.length;
+  var renderPins = function (pins) {
     var result = document.createDocumentFragment();
-    for (var j = 0; j < dataLength; j++) {
-      result.appendChild(renderPinFromTemplate(arr[j]));
-    }
+    pins.forEach(function (pin) {
+      result.appendChild(renderPinFromTemplate(pin));
+    });
     return result;
   };
 
-  var removePins = function (arr) {
-    for (var i = 1; i < arr.length; i++) {
-      arr[i].remove();
-    }
+  var removePins = function (pins) {
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
   };
 
   window.pins = {
