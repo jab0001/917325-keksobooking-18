@@ -25,15 +25,15 @@
   };
 
   var activateFields = function (selects) {
-    selects.forEach(function (elem) {
-      elem.removeAttribute('disabled');
+    selects.forEach(function (select) {
+      select.removeAttribute('disabled');
     });
   };
 
-  var renderOffers = function (data) {
+  var renderOffers = function (datas) {
     window.objects = [];
-    data.forEach(function (elem) {
-      window.objects.push(elem);
+    datas.forEach(function (data) {
+      window.objects.push(data);
     });
     return window.objects;
   };

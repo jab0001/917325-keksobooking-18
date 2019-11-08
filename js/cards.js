@@ -21,22 +21,22 @@
     }
   };
 
-  var getPhotos = function (photosArray) {
+  var getPhotos = function (photos) {
     var result = document.createDocumentFragment();
-    photosArray.forEach(function (elem) {
-      var photo = offerPhotoTemplate.cloneNode(true);
-      photo.src = elem;
-      result.appendChild(photo);
+    photos.forEach(function (photo) {
+      var photoNode = offerPhotoTemplate.cloneNode(true);
+      photoNode.src = photo;
+      result.appendChild(photoNode);
     });
     return result;
   };
 
-  var getFeatures = function (featuresArray) {
+  var getFeatures = function (features) {
     var result = document.createDocumentFragment();
-    featuresArray.forEach(function (elem) {
-      var feature = document.createElement('li');
-      feature.className = 'popup__feature popup__feature--' + elem;
-      result.appendChild(feature);
+    features.forEach(function (feature) {
+      var featureNode = document.createElement('li');
+      featureNode.className = 'popup__feature popup__feature--' + feature;
+      result.appendChild(featureNode);
     });
     return result;
   };

@@ -28,17 +28,17 @@
     });
   };
 
-  var renderPins = function (arr) {
+  var renderPins = function (pins) {
     var result = document.createDocumentFragment();
-    arr.forEach(function (elem) {
-      result.appendChild(renderPinFromTemplate(elem));
+    pins.forEach(function (pin) {
+      result.appendChild(renderPinFromTemplate(pin));
     });
     return result;
   };
 
-  var removePins = function (arr) {
-    arr.forEach(function (elem) {
-      elem.remove();
+  var removePins = function (pins) {
+    pins.forEach(function (pin) {
+      pin.remove();
     });
   };
 

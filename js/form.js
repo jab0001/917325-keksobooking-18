@@ -106,8 +106,8 @@
   };
 
   var deactivateFields = function (selects) {
-    selects.forEach(function (elem) {
-      elem.setAttribute('disabled', true);
+    selects.forEach(function (select) {
+      select.setAttribute('disabled', true);
     });
   };
 
