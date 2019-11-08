@@ -12,8 +12,8 @@
     filterGuest.value = window.const.defaultInputValue;
     filterPrice.value = window.const.defaultInputValue;
     var checkedFeatures = document.querySelectorAll('.map__checkbox:checked');
-    checkedFeatures.forEach(function (elem) {
-      elem.checked = false;
+    checkedFeatures.forEach(function (checkedFeature) {
+      checkedFeature.checked = false;
     });
   };
 

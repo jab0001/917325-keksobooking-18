@@ -30,10 +30,10 @@
     });
   };
 
-  var renderOffers = function (datas) {
+  var renderOffers = function (offers) {
     window.objects = [];
-    datas.forEach(function (data) {
-      window.objects.push(data);
+    offers.forEach(function (offer) {
+      window.objects.push(offer);
     });
     return window.objects;
   };
@@ -41,9 +41,9 @@
   var makePinsActive = function () {
     mapPins.appendChild(window.pins.render(window.objects.slice(0, window.const.offerAmounts)));
     var pinButtons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    pinButtons.forEach(function (elem) {
-      elem.addEventListener('mousedown', window.cards.onMousedownOffer);
-      elem.addEventListener('keydown', window.cards.onKeydownOffer);
+    pinButtons.forEach(function (pinButton) {
+      pinButton.addEventListener('mousedown', window.cards.onMousedownOffer);
+      pinButton.addEventListener('keydown', window.cards.onKeydownOffer);
     });
   };
 
