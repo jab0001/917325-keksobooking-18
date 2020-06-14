@@ -46,7 +46,7 @@
     BUNGALO: 'бунгало'
   };
   var Url = {
-    LOAD: 'https://js.dump.academy/keksobooking/data',
+    LOAD: 'https://javascript.pages.academy/keksobooking',
     UPLOAD: 'https://js.dump.academy/keksobooking'
   };
 
