@@ -30,7 +30,7 @@
 
   var save = function (data, onLoad, onError) {
     var xhr = createXhr(onLoad, onError);
-    xhr.open("POST", window.const.url.UPLOAD);
+    xhr.open("POST", window.const.url.LOAD);
     xhr.send(data);
   };
 
